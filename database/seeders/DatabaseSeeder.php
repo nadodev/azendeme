@@ -38,6 +38,7 @@ class DatabaseSeeder extends Seeder
             'business_name' => 'Studio Beleza da Ana',
             'bio' => 'Especializada em design de sobrancelhas, micropigmentação e cílios. Mais de 10 anos de experiência transformando a beleza natural das minhas clientes.',
             'brand_color' => '#E91E63',
+            'template' => 'salon',
             'active' => true,
         ]);
 

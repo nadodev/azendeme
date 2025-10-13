@@ -14,6 +14,7 @@ class Professional extends Model
         'phone',
         'logo',
         'brand_color',
+        'template',
         'business_name',
         'bio',
         'subdomain',
@@ -52,5 +53,10 @@ class Professional extends Model
     public function galleries(): HasMany
     {
         return $this->hasMany(Gallery::class);
+    }
+
+    public function templateSetting()
+    {
+        return $this->hasOne(TemplateSetting::class);
     }
 }

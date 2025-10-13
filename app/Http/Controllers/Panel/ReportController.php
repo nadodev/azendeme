@@ -59,9 +59,9 @@ class ReportController extends Controller
             ->get();
 
         // Receita estimada (baseado no preço dos serviços)
-        $estimatedRevenue = Appointment::where('professional_id', $professionalId)
-            ->whereBetween('start_time', [$startDate, $endDate])
-            ->whereIn('status', ['confirmed', 'completed'])
+        $estimatedRevenue = Appointment::where('appointments.professional_id', $professionalId)
+            ->whereBetween('appointments.start_time', [$startDate, $endDate])
+            ->whereIn('appointments.status', ['confirmed', 'completed'])
             ->join('services', 'appointments.service_id', '=', 'services.id')
             ->sum('services.price');
 
