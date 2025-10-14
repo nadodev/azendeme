@@ -328,18 +328,6 @@
             </div>
         </div>
     </header>
-
-    <!-- Breadcrumbs -->
-    <nav class="fixed top-20 left-0 right-0 z-40 bg-white/90 backdrop-blur-sm border-b border-gray-100 py-2" aria-label="Breadcrumb">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <ol class="flex items-center space-x-2 text-sm text-gray-600">
-                <li><a href="/" class="hover:text-purple-600">Início</a></li>
-                <li class="text-gray-400">/</li>
-                <li class="text-purple-600 font-medium">Sistema de Agendamentos</li>
-            </ol>
-        </div>
-    </nav>
-
     <!-- Hero Section -->
     <main>
         <section id="inicio" class="relative pt-40 pb-20 overflow-hidden" role="main" aria-labelledby="hero-title">
