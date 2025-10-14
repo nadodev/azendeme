@@ -329,7 +329,7 @@
         </div>
     </header>
     <!-- Hero Section -->
-    <main>
+    <main class="mt-20">
         <section id="inicio" class="relative pt-40 pb-20 overflow-hidden" role="main" aria-labelledby="hero-title">
             <!-- Background -->
             <div class="absolute inset-0 bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50" aria-hidden="true"></div>
