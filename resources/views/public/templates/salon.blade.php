@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $professional->business_name }} — {{ $professional->name }}</title>
+    @include('partials.favicon')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         :root {

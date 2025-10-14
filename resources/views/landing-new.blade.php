@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>aZendeme — Sistema Completo de Agendamentos para Profissionais</title>
     <meta name="description" content="Sistema profissional de agendamentos com sua marca. Fidelidade, promoções, feedbacks, redes sociais e muito mais. Solicite uma demonstração!">
+    @include('partials.favicon')
     @vite(['resources/css/app.css','resources/js/app.js'])
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800,900" rel="stylesheet" />
     <style>

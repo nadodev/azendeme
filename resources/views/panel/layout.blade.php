@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Painel') - AzendaMe</title>
+    @include('partials.favicon')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
@@ -129,9 +130,9 @@
                             <a href="{{ route('panel.feedbacks.index') }}" class="block px-4 py-2 text-sm {{ request()->routeIs('panel.feedbacks.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
                                 Feedbacks
                             </a>
-                            <a href="{{ route('panel.email-marketing.index') }}" class="block px-4 py-2 text-sm {{ request()->routeIs('panel.email-marketing.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
+                            {{-- <a href="{{ route('panel.email-marketing.index') }}" class="block px-4 py-2 text-sm {{ request()->routeIs('panel.email-marketing.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
                               Email Marketing
-                            </a>
+                            </a> --}}
                         </div>
                     </div>
 
