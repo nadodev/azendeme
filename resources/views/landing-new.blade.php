@@ -560,50 +560,6 @@
     @if($showFooter)
         @include('landing.sections.footer')
     @endif
-    
-    <!-- Footer SEO -->
-    <footer class="bg-gray-900 text-gray-300 py-12" role="contentinfo">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-8">
-                <div>
-                    <h3 class="text-white font-bold mb-4">aZendeMe</h3>
-                    <p class="text-sm mb-4">Sistema completo de agendamentos online para profissionais.</p>
-                    <div class="flex items-center gap-2">
-                        <img src="{{ asset('logo.png') }}" alt="aZendeMe" class="w-6 h-6">
-                        <span class="text-white font-semibold">aZendeMe</span>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="text-white font-semibold mb-4">Produto</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#funcionalidades" class="hover:text-white">Funcionalidades</a></li>
-                        <li><a href="#templates" class="hover:text-white">Templates</a></li>
-                        <li><a href="#precos" class="hover:text-white">Preços</a></li>
-                        <li><a href="/sobre" class="hover:text-white">Sobre</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-white font-semibold mb-4">Suporte</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="/help" class="hover:text-white">Central de Ajuda</a></li>
-                        <li><a href="https://wa.me/5549999195407" class="hover:text-white">WhatsApp</a></li>
-                        <li><a href="#demo" class="hover:text-white">Demonstração</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-white font-semibold mb-4">Legal</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="/termos" class="hover:text-white">Termos de Uso</a></li>
-                        <li><a href="/privacidade" class="hover:text-white">Privacidade</a></li>
-                        <li><a href="/cookies" class="hover:text-white">Cookies</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
-                <p>&copy; 2025 aZendeMe. Todos os direitos reservados.</p>
-            </div>
-        </div>
-    </footer>
 
     <!-- Sitemap Interno para SEO -->
     <nav class="hidden" aria-label="Sitemap interno">
