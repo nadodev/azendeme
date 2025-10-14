@@ -2,7 +2,6 @@
 <section id="demo" class="py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
-            <!-- Texto -->
             <div>
                 <div class="inline-block px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-semibold mb-4">
                     🚀 Teste Grátis
@@ -47,7 +46,6 @@
                     </div>
                 </div>
 
-                <!-- WhatsApp Direto -->
                 <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-8 border-2 border-green-200">
                     <div class="flex items-center gap-3 mb-4">
                         <div class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center text-white text-2xl">
@@ -141,21 +139,11 @@
 <script>
 document.getElementById('demoForm')?.addEventListener('submit', function(e) {
     e.preventDefault();
-    
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
-    
-    // Aqui você pode integrar com sua API/Backend
-    console.log('Demo request:', data);
-    
-    // Mostrar mensagem de sucesso
     e.target.classList.add('hidden');
     document.getElementById('successMessage').classList.remove('hidden');
-    
-    // Opcional: Enviar para o WhatsApp também
     const message = `🚀 Nova solicitação de demo!\n\nNome: ${data.name}\nWhatsApp: ${data.phone}\nEmail: ${data.email}\nNegócio: ${data.business_type}\n${data.business_name ? 'Nome: ' + data.business_name : ''}\n${data.message ? 'Mensagem: ' + data.message : ''}`;
-    
-    // Redirecionar após 2 segundos (opcional)
     setTimeout(() => {
         window.location.href = `https://wa.me/554999195407?text=${encodeURIComponent(message)}`;
     }, 2000);

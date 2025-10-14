@@ -321,7 +321,6 @@
         </div>
     </section>
 
-    <!-- Botão para ver funcionalidades completas -->
     <section class="py-16 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600">
         <div class="max-w-4xl mx-auto text-center px-4">
             <h3 class="text-3xl md:text-4xl font-black text-white mb-4">
@@ -359,7 +358,6 @@
     @endif
     
     <script>
-        // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -370,7 +368,6 @@
             });
         });
 
-        // Mobile menu toggle
         const toggle = document.getElementById('mobile-menu-toggle');
         const menu = document.getElementById('mobile-menu');
         const iconOpen = document.getElementById('icon-open');
@@ -383,7 +380,6 @@
                 iconClose.classList.toggle('hidden');
             });
 
-            // Close menu when clicking a link
             menu.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', () => {
                     if (!menu.classList.contains('hidden')) {
