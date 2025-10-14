@@ -102,7 +102,7 @@
                 </div>
                 
                 <div class="flex items-center gap-2">
-                    <a href="#demo" class="lg:flex hidden sm:text-sm px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition">
+                    <a href="#demo" class="lg:inline-flex hidden sm:text-sm px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition">
                         Solicitar Demonstração
                     </a>
                     <button id="mobile-menu-toggle" aria-label="Abrir menu" class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition">
@@ -112,20 +112,7 @@
                 </div>
             </div>
         </nav>
-
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="lg:hidden sm:flex border-t border-gray-200 bg-white/95 backdrop-blur-xl">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                <div class="flex flex-col gap-2">
-                    <a href="#funcionalidades" class="px-3 py-2 rounded-lg text-gray-800 hover:bg-gray-100 font-medium">Funcionalidades</a>
-                    <a href="#como-funciona" class="px-3 py-2 rounded-lg text-gray-800 hover:bg-gray-100 font-medium">Como Funciona</a>
-                    <a href="#templates" class="px-3 py-2 rounded-lg text-gray-800 hover:bg-gray-100 font-medium">Templates</a>
-                    <a href="#precos" class="px-3 py-2 rounded-lg text-gray-800 hover:bg-gray-100 font-medium">Preços</a>
-                    <a href="/sobre" class="px-3 py-2 rounded-lg text-gray-800 hover:bg-gray-100 font-medium">Sobre</a>
-                    <a href="#demo" class="mt-2 px-4 py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl font-semibold text-center">Solicitar Demonstração</a>
-                </div>
-            </div>
-        </div>
+        
     </header>
 
     <!-- Hero Section -->
