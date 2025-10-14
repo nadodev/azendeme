@@ -22,7 +22,6 @@
                 @endphp
                     <a href="{{ $publicUrl }}" class="text-gray-700 hover:text-purple-600 transition">Início</a>
                     <a href="/blog" class="text-purple-600 font-medium">Blog</a>
-                    <a href="/funcionalidades" class="text-gray-700 hover:text-purple-600 transition">Funcionalidades</a>
                 </nav>
             </div>
         </div>
