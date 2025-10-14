@@ -16,6 +16,10 @@
                     <a href="/" class="text-2xl font-bold text-purple-600">AzendaMe</a>
                 </div>
                 <nav class="hidden md:flex space-x-8">
+                    @php
+                    $professional = \App\Models\Professional::find(1);
+                    $publicUrl = $professional ? url('/' . $professional->slug) : url('/');
+                @endphp
                     <a href="{{ $publicUrl }}" class="text-gray-700 hover:text-purple-600 transition">Início</a>
                     <a href="/blog" class="text-purple-600 font-medium">Blog</a>
                     <a href="/funcionalidades" class="text-gray-700 hover:text-purple-600 transition">Funcionalidades</a>
