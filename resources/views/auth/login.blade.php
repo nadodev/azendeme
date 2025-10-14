@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - AzendaMe</title>
+    <title>Login - AzendeMe</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 min-h-screen">
@@ -19,7 +19,7 @@
                             <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center">
                                 <span class="text-2xl">📅</span>
                             </div>
-                            <span class="text-3xl font-black">AzendaMe</span>
+                            <span class="text-3xl font-black">AzendeMe</span>
                         </div>
                     </a>
                     
@@ -61,7 +61,7 @@
                     <div class="mt-12 pt-8 border-t border-white/20">
                         <p class="text-sm text-purple-100">
                             Ainda não tem acesso? 
-                            <a href="#demo" class="font-bold text-white hover:underline">Solicite uma demonstração</a>
+                            <a href="/#demo" class="font-bold text-white hover:underline">Solicite uma demonstração</a>
                         </p>
                     </div>
                 </div>
