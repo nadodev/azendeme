@@ -8,17 +8,34 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         :root {
-            --brand: {{ $settings->primary_color ?? '#8B5CF6' }};
-            --brand-light: {{ $settings->secondary_color ?? '#A78BFA' }};
-            --brand-dark: {{ $settings->accent_color ?? '#7C3AED' }};
-            --brand-glow: {{ $settings->primary_color ?? '#8B5CF6' }}40;
-            --bg-color: {{ $settings->background_color ?? '#0F0F10' }};
-            --text-color: {{ $settings->text_color ?? '#F5F5F5' }};
+            /* Cores globais */
+            --brand: {{ $professional->templateSetting->primary_color ?? $professional->brand_color ?? '#8B5CF6' }};
+            --brand-light: {{ $professional->templateSetting->secondary_color ?? '#A78BFA' }};
+            --brand-dark: {{ $professional->templateSetting->accent_color ?? '#7C3AED' }};
+            --brand-glow: {{ $professional->templateSetting->primary_color ?? $professional->brand_color ?? '#8B5CF6' }}40;
+            --secondary: {{ $professional->templateSetting->secondary_color ?? '#A78BFA' }};
+            --accent: {{ $professional->templateSetting->accent_color ?? '#7C3AED' }};
+            --background: {{ $professional->templateSetting->background_color ?? '#0F0F10' }};
+            --text: {{ $professional->templateSetting->text_color ?? '#F5F5F5' }};
+            
+            /* Cores por seção */
+            --hero-primary: {{ $professional->templateSetting->hero_primary_color ?? $professional->templateSetting->primary_color ?? '#8B5CF6' }};
+            --hero-bg: {{ $professional->templateSetting->hero_background_color ?? '#0F0F10' }};
+            --services-primary: {{ $professional->templateSetting->services_primary_color ?? '#8B5CF6' }};
+            --services-bg: {{ $professional->templateSetting->services_background_color ?? '#1A1520' }};
+            --gallery-primary: {{ $professional->templateSetting->gallery_primary_color ?? '#8B5CF6' }};
+            --gallery-bg: {{ $professional->templateSetting->gallery_background_color ?? '#0F0F10' }};
+            --booking-primary: {{ $professional->templateSetting->booking_primary_color ?? '#8B5CF6' }};
+            --booking-bg: {{ $professional->templateSetting->booking_background_color ?? '#1A1520' }};
+            
+            /* Compatibilidade com variáveis antigas */
+            --bg-color: var(--background);
+            --text-color: var(--text);
         }
         
         body {
-            background: linear-gradient(135deg, var(--bg-color) 0%, #1A1520 50%, var(--bg-color) 100%);
-            color: var(--text-color);
+            background: linear-gradient(135deg, var(--background) 0%, #1A1520 50%, var(--background) 100%);
+            color: var(--text);
             font-family: 'Inter', -apple-system, sans-serif;
         }
         
@@ -313,6 +330,7 @@
                         <a href="#inicio" class="nav-link-tattoo text-gray-300 hover:text-white font-bold uppercase text-sm tracking-widest transition active">Início</a>
                         <a href="#servicos" class="nav-link-tattoo text-gray-300 hover:text-white font-bold uppercase text-sm tracking-widest transition">Trabalhos</a>
                         <a href="#galeria" class="nav-link-tattoo text-gray-300 hover:text-white font-bold uppercase text-sm tracking-widest transition">Portfolio</a>
+                        <a href="{{ route('blog.index', $professional->slug) }}" class="nav-link-tattoo text-gray-300 hover:text-white font-bold uppercase text-sm tracking-widest transition">Blog</a>
                         <a href="#agendar" class="nav-link-tattoo text-gray-300 hover:text-white font-bold uppercase text-sm tracking-widest transition">Agendar</a>
                     </nav>
                 </div>
@@ -409,7 +427,7 @@
         </section>
 
         <!-- Serviços -->
-        <section id="servicos" class="py-32 relative" style="background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);">
+        <section id="servicos" class="py-32 relative" style="background: var(--services-bg, #1A1520)">
             <div class="absolute inset-0 opacity-5" style="background-image: url('data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 0L50 50L100 0\' stroke=\'%23fff\' fill=\'none\'/%3E%3C/svg%3E'); background-size: 100px 100px;"></div>
             
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -454,7 +472,7 @@
         </section>
 
         <!-- Galeria -->
-        <section id="galeria" class="py-32" style="background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 50%, #0a0a0a 100%);">
+        <section id="galeria" class="py-32" style="background: var(--gallery-bg, #0F0F10)">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-20">
                     <span class="inline-flex items-center gap-3 px-8 py-3 bg-[var(--brand)]/10 border border-[var(--brand)]/30 text-[var(--brand)] font-black uppercase tracking-widest text-sm mb-8 backdrop-blur-sm" style="clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);">
@@ -502,19 +520,30 @@
         </section>
 
         @include('public.sections.booking', ['services' => $services, 'professional' => $professional])
+        @include('public.sections.feedbacks', ['feedbacks' => $feedbacks])
         @include('public.sections.contact', ['professional' => $professional])
         @include('public.sections.footer', ['professional' => $professional])
     </div>
     
     <!-- Gallery Modal -->
-    <div id="gallery-modal" class="hidden fixed inset-0 bg-black/98 z-50 items-center justify-center p-4 backdrop-blur-xl">
-        <div class="max-w-6xl w-full relative">
-            <button id="gallery-close-btn" class="absolute -top-16 right-0 text-white text-5xl hover:text-[var(--brand)] transition-colors font-black" style="text-shadow: 0 0 10px var(--brand);">&times;</button>
-            <div class="bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] p-8 border-2 border-[var(--brand)]/30" style="clip-path: polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px);">
-                <img id="gallery-modal-img" src="" alt="" class="w-full h-auto max-h-[70vh] object-contain mb-6">
-                <div class="text-center text-white">
-                    <h4 id="gallery-modal-title" class="text-4xl font-black mb-4 neon-title uppercase tracking-wider"></h4>
-                    <p id="gallery-modal-description" class="text-gray-300 text-lg leading-relaxed"></p>
+    <div id="gallery-modal" class="hidden fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="relative max-w-6xl w-full max-h-[90vh] flex flex-col">
+            <!-- Close Button -->
+            <button id="gallery-close-btn" class="absolute -top-12 right-0 text-white text-4xl hover:text-[var(--brand)] transition-colors font-light z-10" style="text-shadow: 0 0 10px var(--brand);">&times;</button>
+            
+            <!-- Modal Content -->
+            <div class="bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-full border-2 border-[var(--brand)]/30" style="clip-path: polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px);">
+                <!-- Image Container -->
+                <div class="flex-1 flex items-center justify-center bg-gray-900 p-8">
+                    <img id="gallery-modal-img" src="" alt="" class="max-w-full max-h-[60vh] object-contain rounded-lg shadow-2xl">
+                </div>
+                
+                <!-- Content -->
+                <div class="p-8 bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] border-t border-[var(--brand)]/20">
+                    <div class="text-center">
+                        <h4 id="gallery-modal-title" class="text-3xl font-black mb-3 neon-title uppercase tracking-wider"></h4>
+                        <p id="gallery-modal-description" class="text-gray-300 text-lg leading-relaxed"></p>
+                    </div>
                 </div>
             </div>
         </div>

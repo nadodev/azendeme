@@ -46,9 +46,29 @@
                 </div>
 
                 <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Profissional Responsável</label>
+                    <select name="assigned_professional_id" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                        <option value="">Qualquer profissional disponível</option>
+                        @foreach($professionals as $professional)
+                            <option value="{{ $professional->id }}" {{ old('assigned_professional_id', $servico->assigned_professional_id) == $professional->id ? 'selected' : '' }}>
+                                {{ $professional->name }}@if($professional->specialty) - {{ $professional->specialty }}@endif
+                            </option>
+                        @endforeach
+                    </select>
+                    <p class="text-xs text-gray-500 mt-1">Deixe vazio para permitir que qualquer profissional realize este serviço</p>
+                </div>
+
+                <div>
                     <label class="flex items-center">
                         <input type="checkbox" name="active" value="1" {{ old('active', $servico->active) ? 'checked' : '' }} class="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500">
                         <span class="ml-2 text-sm text-gray-700">Serviço ativo (disponível para agendamento)</span>
+                    </label>
+                </div>
+
+                <div>
+                    <label class="flex items-center">
+                        <input type="checkbox" name="allows_multiple" value="1" {{ old('allows_multiple', $servico->allows_multiple) ? 'checked' : '' }} class="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500">
+                        <span class="ml-2 text-sm text-gray-700">Permitir adicionar múltiplos deste serviço no agendamento</span>
                     </label>
                 </div>
             </div>

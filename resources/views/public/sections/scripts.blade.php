@@ -2,14 +2,15 @@
     const professionalSlug = '{{ $professional->slug }}';
     let currentMonth = new Date();
     let selectedDate = null;
-    let selectedServiceId = null;
+    let selectedServiceIds = []; // Array para múltiplos serviços
+    let totalDuration = 0; // Duração total
+    let totalPrice = 0; // Preço total
     let selectedTime = null;
 
     const calendarMonth = document.getElementById('calendar-month');
     const calendarDays = document.getElementById('calendar-days');
     const prevMonthBtn = document.getElementById('prev-month');
     const nextMonthBtn = document.getElementById('next-month');
-    const serviceSelect = document.getElementById('service-select');
     const selectedDateDisplay = document.getElementById('selected-date-display');
     const selectedDateText = document.getElementById('selected-date-text');
     const timeSlotsContainer = document.getElementById('time-slots-container');
@@ -131,16 +132,61 @@
         await fetchTimeSlots();
     }
 
+    // Atualiza seleção de serviços
+    window.updateServiceSelection = function() {
+        const checkboxes = document.querySelectorAll('.service-checkbox:checked');
+        selectedServiceIds = Array.from(checkboxes).map(cb => cb.value);
+        
+        totalDuration = 0;
+        totalPrice = 0;
+        
+        const summaryContent = document.getElementById('services-summary-content');
+        const servicesSummary = document.getElementById('services-summary');
+        
+        if (selectedServiceIds.length === 0) {
+            servicesSummary.classList.add('hidden');
+            if (selectedDate) {
+                timeSlotsContainer.classList.add('hidden');
+            }
+            return;
+        }
+        
+        summaryContent.innerHTML = '';
+        checkboxes.forEach(cb => {
+            const duration = parseInt(cb.dataset.duration);
+            const price = parseFloat(cb.dataset.price);
+            const label = cb.parentElement.querySelector('.font-bold').textContent;
+            
+            totalDuration += duration;
+            totalPrice += price;
+            
+            const div = document.createElement('div');
+            div.innerHTML = `✓ ${label}`;
+            summaryContent.appendChild(div);
+        });
+        
+        document.getElementById('total-duration').textContent = totalDuration;
+        document.getElementById('total-price').textContent = totalPrice.toFixed(2).replace('.', ',');
+        servicesSummary.classList.remove('hidden');
+        
+        // Recarrega os horários se já tiver data selecionada
+        if (selectedDate) {
+            fetchTimeSlots();
+        }
+    };
+
     async function fetchTimeSlots() {
-        if (!selectedDate || !selectedServiceId) {
+        if (!selectedDate || selectedServiceIds.length === 0) {
             timeSlotsContainer.classList.add('hidden');
             return;
         }
 
         const dateStr = selectedDate.toISOString().split('T')[0];
         
+        // Usa o primeiro serviço selecionado para buscar slots
+        // A duração total será considerada no backend
         try {
-            const response = await fetch(`/${professionalSlug}/available-slots?date=${dateStr}&service_id=${selectedServiceId}`);
+            const response = await fetch(`/${professionalSlug}/available-slots?date=${dateStr}&service_id=${selectedServiceIds[0]}`);
             const slots = await response.json();
 
             timeSlotsDiv.innerHTML = '';
@@ -155,7 +201,7 @@
                 });
                 timeSlotsContainer.classList.remove('hidden');
             } else {
-                timeSlotsDiv.innerHTML = '<p class="col-span-full text-center text-gray-500 py-4">Nenhum horário disponível para este dia e serviço.</p>';
+                timeSlotsDiv.innerHTML = '<p class="col-span-full text-center text-gray-500 py-4">Nenhum horário disponível para este dia e serviço(s).</p>';
                 timeSlotsContainer.classList.remove('hidden');
             }
         } catch (error) {
@@ -187,19 +233,61 @@
         renderCalendar();
     });
 
-    serviceSelect.addEventListener('change', async (e) => {
-        selectedServiceId = e.target.value;
-        if (selectedDate) {
-            await fetchTimeSlots();
-        }
-    });
-
     // Function to select service from service card button
     window.selectService = function(serviceId) {
-        serviceSelect.value = serviceId;
-        selectedServiceId = serviceId;
-        if (selectedDate) {
-            fetchTimeSlots();
+        const checkbox = document.querySelector(`.service-checkbox[value="${serviceId}"]`);
+        if (checkbox) {
+            checkbox.checked = true;
+            updateServiceSelection();
+        }
+    };
+
+    // Function to apply promo code
+    window.applyPromoCode = async function() {
+        const promoCodeInput = document.getElementById('promo-code');
+        const promoMessage = document.getElementById('promo-message');
+        const appliedPromoId = document.getElementById('applied-promo-id');
+        const discountAmount = document.getElementById('discount-amount');
+        const code = promoCodeInput.value.trim().toUpperCase();
+
+        // Reset
+        promoMessage.classList.add('hidden');
+        promoMessage.classList.remove('text-green-700', 'bg-green-50', 'border-green-200', 'text-red-700', 'bg-red-50', 'border-red-200');
+        appliedPromoId.value = '';
+        discountAmount.value = '';
+
+        if (!code) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`/${professionalSlug}/validate-promo`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ code: code })
+            });
+
+            const result = await response.json();
+
+            promoMessage.classList.remove('hidden');
+            promoMessage.classList.add('p-3', 'rounded-xl', 'border-2');
+
+            if (result.valid) {
+                promoMessage.textContent = '✅ Cupom aplicado! ' + result.discount;
+                promoMessage.classList.add('text-green-700', 'bg-green-50', 'border-green-200');
+                appliedPromoId.value = result.promotion_id;
+                discountAmount.value = result.discount_percentage || result.discount_fixed || 0;
+            } else {
+                promoMessage.textContent = '❌ ' + result.message;
+                promoMessage.classList.add('text-red-700', 'bg-red-50', 'border-red-200');
+            }
+        } catch (error) {
+            promoMessage.classList.remove('hidden');
+            promoMessage.classList.add('p-3', 'rounded-xl', 'border-2', 'text-red-700', 'bg-red-50', 'border-red-200');
+            promoMessage.textContent = '❌ Erro ao validar cupom. Tente novamente.';
         }
     };
 
@@ -209,20 +297,24 @@
         bookingMessage.classList.add('hidden');
         bookingMessage.classList.remove('text-red-700', 'bg-red-50', 'border-red-200', 'text-green-700', 'bg-green-50', 'border-green-200');
 
-        if (!selectedServiceId || !selectedDate || !selectedTime || !customerNameInput.value || !customerPhoneInput.value) {
-            bookingMessage.textContent = 'Por favor, preencha todos os campos obrigatórios e selecione uma data e horário.';
+        if (selectedServiceIds.length === 0 || !selectedDate || !selectedTime || !customerNameInput.value || !customerPhoneInput.value) {
+            bookingMessage.textContent = 'Por favor, preencha todos os campos obrigatórios e selecione pelo menos um serviço, data e horário.';
             bookingMessage.classList.remove('hidden');
             bookingMessage.classList.add('text-red-700', 'bg-red-50', 'border-red-200', 'p-4', 'rounded-xl', 'border-2');
             return;
         }
 
+        const professionalSelect = document.getElementById('professional-select');
+        const appliedPromoId = document.getElementById('applied-promo-id');
         const formData = {
-            service_id: selectedServiceId,
+            service_ids: selectedServiceIds,
             date: selectedDateValueInput.value,
             time: selectedTime,
             name: customerNameInput.value,
             phone: customerPhoneInput.value,
             email: customerEmailInput.value || null,
+            professional_id: professionalSelect?.value || null,
+            promotion_id: appliedPromoId?.value || null,
         };
 
         try {
@@ -238,13 +330,14 @@
             const result = await response.json();
 
             if (response.ok && result.success) {
-                const serviceName = serviceSelect.options[serviceSelect.selectedIndex].text;
-                const date = new Date(formData.start_time);
-                const dateStr = date.toLocaleDateString('pt-BR');
-                const timeStr = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                const servicesText = selectedServiceIds.length > 1 
+                    ? `${selectedServiceIds.length} serviços`
+                    : document.querySelector('.service-checkbox:checked').parentElement.querySelector('.font-bold').textContent;
+                
+                const dateStr = selectedDate.toLocaleDateString('pt-BR');
                 
                 document.getElementById('success-details').textContent = 
-                    `${serviceName} agendado para ${dateStr} às ${timeStr}`;
+                    `${servicesText} agendado(s) para ${dateStr} às ${selectedTime}. Total: R$ ${totalPrice.toFixed(2).replace('.', ',')} (${totalDuration} min)`;
                 
                 document.getElementById('success-modal').classList.remove('hidden');
                 setTimeout(() => {
@@ -254,11 +347,15 @@
                 
                 // Clear form and selections
                 bookingForm.reset();
+                document.querySelectorAll('.service-checkbox').forEach(cb => cb.checked = false);
                 selectedDate = null;
-                selectedServiceId = null;
+                selectedServiceIds = [];
+                totalDuration = 0;
+                totalPrice = 0;
                 selectedTime = null;
                 selectedDateDisplay.classList.add('hidden');
                 timeSlotsContainer.classList.add('hidden');
+                document.getElementById('services-summary').classList.add('hidden');
                 renderCalendar();
             } else {
                 bookingMessage.textContent = result.message || 'Erro ao realizar agendamento. Tente novamente.';

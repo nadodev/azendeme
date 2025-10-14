@@ -8,8 +8,23 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         :root {
-            --brand: {{ $professional->brand_color ?? '#E91E63' }};
-            --brand-light: {{ $professional->brand_color ?? '#E91E63' }}33;
+            /* Cores globais */
+            --brand: {{ $professional->templateSetting->primary_color ?? $professional->brand_color ?? '#E91E63' }};
+            --brand-light: {{ $professional->templateSetting->primary_color ?? $professional->brand_color ?? '#E91E63' }}33;
+            --secondary: {{ $professional->templateSetting->secondary_color ?? '#F8BBD9' }};
+            --accent: {{ $professional->templateSetting->accent_color ?? '#E91E63' }};
+            --background: {{ $professional->templateSetting->background_color ?? '#FDF2F8' }};
+            --text: {{ $professional->templateSetting->text_color ?? '#1F2937' }};
+            
+            /* Cores por seção */
+            --hero-primary: {{ $professional->templateSetting->hero_primary_color ?? $professional->templateSetting->primary_color ?? '#E91E63' }};
+            --hero-bg: {{ $professional->templateSetting->hero_background_color ?? '#FDF2F8' }};
+            --services-primary: {{ $professional->templateSetting->services_primary_color ?? '#E91E63' }};
+            --services-bg: {{ $professional->templateSetting->services_background_color ?? '#FFFFFF' }};
+            --gallery-primary: {{ $professional->templateSetting->gallery_primary_color ?? '#E91E63' }};
+            --gallery-bg: {{ $professional->templateSetting->gallery_background_color ?? '#FDF2F8' }};
+            --booking-primary: {{ $professional->templateSetting->booking_primary_color ?? '#E91E63' }};
+            --booking-bg: {{ $professional->templateSetting->booking_background_color ?? '#FCE7F3' }};
         }
         
         /* Template Salão - Design elegante, luxuoso, vibrante */
@@ -24,7 +39,7 @@
         }
         
         .salon-gradient {
-            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #f3e8ff 100%);
+            background: linear-gradient(135deg, var(--background) 0%, var(--hero-bg) 50%, var(--gallery-bg) 100%);
             position: relative;
             overflow: hidden;
         }
@@ -161,6 +176,7 @@
                     <a href="#inicio" class="nav-link active">Início</a>
                     <a href="#servicos" class="nav-link">Serviços</a>
                     <a href="#galeria" class="nav-link">Galeria</a>
+                    <a href="{{ route('blog.index', $professional->slug) }}" class="nav-link">Blog</a>
                     <a href="#agendar" class="nav-link">Agendar</a>
                     <a href="#contato" class="nav-link">Contato</a>
                 </nav>
@@ -169,7 +185,7 @@
     </header>
 
     <!-- Hero Section -->
-    <section id="inicio" class="salon-gradient py-24 relative">
+    <section id="inicio" class="py-24 relative" style="background: var(--hero-bg, #FDF2F8)">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-16 items-center relative z-10">
                 <div class="text-center lg:text-left">
@@ -226,8 +242,35 @@
     @include('public.sections.services', ['services' => $services, 'professional' => $professional])
     @include('public.sections.gallery', ['gallery' => $gallery, 'professional' => $professional])
     @include('public.sections.booking', ['services' => $services, 'professional' => $professional])
+    @include('public.sections.feedbacks', ['feedbacks' => $feedbacks])
     @include('public.sections.contact', ['professional' => $professional])
     @include('public.sections.footer', ['professional' => $professional])
+    
+    <!-- Gallery Modal -->
+    <div id="gallery-modal" class="hidden fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="relative max-w-6xl w-full max-h-[90vh] flex flex-col">
+            <!-- Close Button -->
+            <button id="gallery-close-btn" class="absolute -top-12 right-0 text-white text-4xl hover:text-pink-400 transition-colors font-light z-10">&times;</button>
+            
+            <!-- Modal Content -->
+            <div class="bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-full">
+                <!-- Image Container -->
+                <div class="flex-1 flex items-center justify-center bg-gradient-to-br from-pink-50 to-rose-50 p-8">
+                    <img id="gallery-modal-img" src="" alt="" class="max-w-full max-h-[60vh] object-contain rounded-lg shadow-lg">
+                </div>
+                
+                <!-- Content -->
+                <div class="p-8 bg-white border-t border-pink-100">
+                    <div class="text-center">
+                        <h4 id="gallery-modal-title" class="text-3xl font-bold mb-3 text-gray-900"></h4>
+                        <p id="gallery-modal-description" class="text-lg text-gray-600 leading-relaxed"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     @include('public.sections.scripts', ['professional' => $professional])
 </body>
 </html>

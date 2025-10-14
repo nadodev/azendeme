@@ -13,6 +13,10 @@ class Professional extends Model
         'email',
         'phone',
         'logo',
+        'photo',
+        'specialty',
+        'commission_percentage',
+        'is_main',
         'brand_color',
         'template',
         'business_name',
@@ -58,5 +62,35 @@ class Professional extends Model
     public function templateSetting()
     {
         return $this->hasOne(TemplateSetting::class);
+    }
+
+    public function paymentMethods(): HasMany
+    {
+        return $this->hasMany(PaymentMethod::class);
+    }
+
+    public function transactionCategories(): HasMany
+    {
+        return $this->hasMany(TransactionCategory::class);
+    }
+
+    public function cashRegisters(): HasMany
+    {
+        return $this->hasMany(CashRegister::class);
+    }
+
+    public function financialTransactions(): HasMany
+    {
+        return $this->hasMany(FinancialTransaction::class);
+    }
+
+    public function commissions(): HasMany
+    {
+        return $this->hasMany(Commission::class);
+    }
+
+    public function assignedServices(): HasMany
+    {
+        return $this->hasMany(Service::class, 'assigned_professional_id');
     }
 }

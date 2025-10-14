@@ -10,6 +10,10 @@ use App\Models\Gallery;
 use App\Models\Professional;
 use App\Models\Service;
 use App\Models\User;
+use App\Models\PaymentMethod;
+use App\Models\TransactionCategory;
+use App\Models\FinancialTransaction;
+use App\Models\CashRegister;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
@@ -24,7 +28,7 @@ class DatabaseSeeder extends Seeder
         // Criar usuário administrador
         $user = User::create([
             'name' => 'Admin Demo',
-            'email' => 'admin@agende.me',
+            'email' => 'admin@AzendaMe',
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
         ]);
@@ -202,9 +206,88 @@ class DatabaseSeeder extends Seeder
             }
         }
 
+        // Criar métodos de pagamento
+        $paymentMethods = [
+            ['name' => 'Dinheiro', 'icon' => 'cash', 'active' => true, 'order' => 1],
+            ['name' => 'PIX', 'icon' => 'pix', 'active' => true, 'order' => 2],
+            ['name' => 'Cartão de Crédito', 'icon' => 'credit-card', 'active' => true, 'order' => 3],
+            ['name' => 'Cartão de Débito', 'icon' => 'debit-card', 'active' => true, 'order' => 4],
+            ['name' => 'Transferência Bancária', 'icon' => 'bank', 'active' => true, 'order' => 5],
+        ];
+
+        $createdPaymentMethods = [];
+        foreach ($paymentMethods as $method) {
+            $createdPaymentMethods[] = PaymentMethod::create(array_merge($method, [
+                'professional_id' => $professional->id,
+            ]));
+        }
+
+        // Criar categorias de transação
+        $categories = [
+            // Receitas
+            ['name' => 'Serviços Prestados', 'type' => 'income', 'color' => '#10B981', 'icon' => 'service', 'active' => true],
+            ['name' => 'Venda de Produtos', 'type' => 'income', 'color' => '#3B82F6', 'icon' => 'product', 'active' => true],
+            ['name' => 'Outras Receitas', 'type' => 'income', 'color' => '#8B5CF6', 'icon' => 'money', 'active' => true],
+            
+            // Despesas
+            ['name' => 'Aluguel', 'type' => 'expense', 'color' => '#EF4444', 'icon' => 'home', 'active' => true],
+            ['name' => 'Insumos e Produtos', 'type' => 'expense', 'color' => '#F59E0B', 'icon' => 'box', 'active' => true],
+            ['name' => 'Energia e Água', 'type' => 'expense', 'color' => '#EC4899', 'icon' => 'bolt', 'active' => true],
+            ['name' => 'Marketing', 'type' => 'expense', 'color' => '#6366F1', 'icon' => 'megaphone', 'active' => true],
+            ['name' => 'Outras Despesas', 'type' => 'expense', 'color' => '#64748B', 'icon' => 'receipt', 'active' => true],
+        ];
+
+        $createdCategories = [];
+        foreach ($categories as $category) {
+            $createdCategories[] = TransactionCategory::create(array_merge($category, [
+                'professional_id' => $professional->id,
+            ]));
+        }
+
+        // Criar algumas transações demo
+        $serviceCategory = collect($createdCategories)->firstWhere('name', 'Serviços Prestados');
+        $productCategory = collect($createdCategories)->firstWhere('name', 'Venda de Produtos');
+        $rentCategory = collect($createdCategories)->firstWhere('name', 'Aluguel');
+        $supplyCategory = collect($createdCategories)->firstWhere('name', 'Insumos e Produtos');
+
+        // Transações do mês atual
+        for ($i = 1; $i <= 20; $i++) {
+            $date = now()->startOfMonth()->addDays(rand(0, now()->day - 1));
+            
+            // 70% receitas, 30% despesas
+            if (rand(1, 10) <= 7) {
+                FinancialTransaction::create([
+                    'professional_id' => $professional->id,
+                    'type' => 'income',
+                    'category_id' => $serviceCategory->id,
+                    'amount' => [80, 120, 180, 450][rand(0, 3)],
+                    'description' => 'Pagamento de serviço',
+                    'payment_method_id' => $createdPaymentMethods[rand(0, count($createdPaymentMethods) - 1)]->id,
+                    'status' => 'completed',
+                    'transaction_date' => $date,
+                    'paid_at' => $date,
+                    'created_by' => $user->id,
+                ]);
+            } else {
+                FinancialTransaction::create([
+                    'professional_id' => $professional->id,
+                    'type' => 'expense',
+                    'category_id' => [$rentCategory->id, $supplyCategory->id][rand(0, 1)],
+                    'amount' => rand(50, 300),
+                    'description' => ['Compra de materiais', 'Pagamento de fornecedor'][rand(0, 1)],
+                    'payment_method_id' => $createdPaymentMethods[rand(0, count($createdPaymentMethods) - 1)]->id,
+                    'status' => 'completed',
+                    'transaction_date' => $date,
+                    'paid_at' => $date,
+                    'created_by' => $user->id,
+                ]);
+            }
+        }
+
         $this->command->info('✅ Database seeded successfully!');
-        $this->command->info('📧 Email: admin@agende.me');
+        $this->command->info('📧 Email: admin@AzendaMe');
         $this->command->info('🔑 Password: password');
         $this->command->info('🔗 Professional URL: /beleza-da-ana');
+        $this->command->info('💰 Financial Module: Métodos de pagamento e categorias criados!');
     }
 }

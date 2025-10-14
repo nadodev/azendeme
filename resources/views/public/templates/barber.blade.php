@@ -8,18 +8,34 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         :root {
-            --brand: {{ $professional->brand_color ?? '#C9A050' }};
-            --brand-light: #E5C576;
-            --brand-dark: #8B6F3E;
+            /* Cores globais */
+            --brand: {{ $professional->templateSetting->primary_color ?? $professional->brand_color ?? '#C9A050' }};
+            --brand-light: {{ $professional->templateSetting->primary_color ?? $professional->brand_color ?? '#C9A050' }}40;
+            --brand-dark: {{ $professional->templateSetting->primary_color ?? $professional->brand_color ?? '#C9A050' }}CC;
+            --secondary: {{ $professional->templateSetting->secondary_color ?? '#E5C576' }};
+            --accent: {{ $professional->templateSetting->accent_color ?? '#C9A050' }};
+            --background: {{ $professional->templateSetting->background_color ?? '#0F0F10' }};
+            --text: {{ $professional->templateSetting->text_color ?? '#F8F8F8' }};
+            
+            /* Cores por seção */
+            --hero-primary: {{ $professional->templateSetting->hero_primary_color ?? $professional->templateSetting->primary_color ?? '#C9A050' }};
+            --hero-bg: {{ $professional->templateSetting->hero_background_color ?? '#0F0F10' }};
+            --services-primary: {{ $professional->templateSetting->services_primary_color ?? '#C9A050' }};
+            --services-bg: {{ $professional->templateSetting->services_background_color ?? '#1A1A1D' }};
+            --gallery-primary: {{ $professional->templateSetting->gallery_primary_color ?? '#C9A050' }};
+            --gallery-bg: {{ $professional->templateSetting->gallery_background_color ?? '#0F0F10' }};
+            --booking-primary: {{ $professional->templateSetting->booking_primary_color ?? '#C9A050' }};
+            --booking-bg: {{ $professional->templateSetting->booking_background_color ?? '#1A1A1D' }};
+            
+            /* Cores específicas do template barber */
             --dark: #1A1A1D;
             --darker: #0F0F10;
             --light: #F8F8F8;
-            --accent: #C9A050;
         }
         
         body {
-            background: linear-gradient(135deg, #0F0F10 0%, #1A1A1D 50%, #0F0F10 100%);
-            color: #F8F8F8;
+            background: linear-gradient(135deg, var(--background) 0%, var(--dark) 50%, var(--background) 100%);
+            color: var(--text);
             font-family: 'Inter', -apple-system, sans-serif;
         }
         
@@ -341,6 +357,7 @@
                         <a href="#inicio" class="nav-link text-gray-300 hover:text-white font-semibold text-sm tracking-wide transition active">Início</a>
                         <a href="#servicos" class="nav-link text-gray-300 hover:text-white font-semibold text-sm tracking-wide transition">Serviços</a>
                         <a href="#galeria" class="nav-link text-gray-300 hover:text-white font-semibold text-sm tracking-wide transition">Galeria</a>
+                        <a href="{{ route('blog.index', $professional->slug) }}" class="nav-link text-gray-300 hover:text-white font-semibold text-sm tracking-wide transition">Blog</a>
                         <a href="#agendar" class="nav-link text-gray-300 hover:text-white font-semibold text-sm tracking-wide transition">Agendar</a>
                     </nav>
                 </div>
@@ -348,7 +365,7 @@
         </header>
 
         <!-- Hero -->
-        <section id="inicio" class="min-h-screen flex items-center relative overflow-hidden py-20">
+        <section id="inicio" class="min-h-screen flex items-center relative overflow-hidden py-20" style="background: var(--hero-bg, #0F0F10)">
             <!-- Efeitos de fundo -->
             <div class="absolute inset-0 opacity-10">
                 <div class="absolute top-1/4 right-1/4 w-96 h-96 bg-[var(--brand)] rounded-full filter blur-3xl" style="animation: float-gentle 8s ease-in-out infinite;"></div>
@@ -426,7 +443,7 @@
         </section>
 
         <!-- Serviços -->
-        <section id="servicos" class="py-24 relative">
+        <section id="servicos" class="py-24 relative" style="background: var(--services-bg, #1A1A1D)">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div class="text-center mb-16">
                     <div class="modern-badge inline-flex items-center gap-2 mb-6">
@@ -472,7 +489,7 @@
         </section>
 
         <!-- Galeria -->
-        <section id="galeria" class="py-24">
+        <section id="galeria" class="py-24" style="background: var(--gallery-bg, #0F0F10)">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-16">
                     <div class="modern-badge inline-flex items-center gap-2 mb-6">
@@ -520,19 +537,30 @@
         </section>
 
         @include('public.sections.booking', ['services' => $services, 'professional' => $professional])
+        @include('public.sections.feedbacks', ['feedbacks' => $feedbacks])
         @include('public.sections.contact', ['professional' => $professional])
         @include('public.sections.footer', ['professional' => $professional])
     </div>
     
     <!-- Gallery Modal -->
-    <div id="gallery-modal" class="hidden fixed inset-0 bg-black/95 z-50 items-center justify-center p-4 backdrop-blur-xl">
-        <div class="max-w-5xl w-full relative">
-            <button id="gallery-close-btn" class="absolute -top-16 right-0 text-white text-5xl hover:text-[var(--brand)] transition-colors font-black">&times;</button>
-            <div class="modern-card rounded-3xl p-8">
-                <img id="gallery-modal-img" src="" alt="" class="w-full h-auto max-h-[70vh] object-contain rounded-2xl mb-6">
-                <div class="text-center text-white">
-                    <h4 id="gallery-modal-title" class="text-4xl font-black mb-4 gradient-title"></h4>
-                    <p id="gallery-modal-description" class="text-gray-300 text-lg"></p>
+    <div id="gallery-modal" class="hidden fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="relative max-w-6xl w-full max-h-[90vh] flex flex-col">
+            <!-- Close Button -->
+            <button id="gallery-close-btn" class="absolute -top-12 right-0 text-white text-4xl hover:text-[var(--brand)] transition-colors font-light z-10">&times;</button>
+            
+            <!-- Modal Content -->
+            <div class="bg-gray-900 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-full border border-gray-700">
+                <!-- Image Container -->
+                <div class="flex-1 flex items-center justify-center bg-gray-800 p-8">
+                    <img id="gallery-modal-img" src="" alt="" class="max-w-full max-h-[60vh] object-contain rounded-lg shadow-2xl">
+                </div>
+                
+                <!-- Content -->
+                <div class="p-8 bg-gray-900 border-t border-gray-700">
+                    <div class="text-center">
+                        <h4 id="gallery-modal-title" class="text-3xl font-black mb-3 gradient-title"></h4>
+                        <p id="gallery-modal-description" class="text-gray-300 text-lg leading-relaxed"></p>
+                    </div>
                 </div>
             </div>
         </div>

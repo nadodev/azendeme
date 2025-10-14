@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Página do Profissional — Demonstração • Agende.Me</title>
+        <title>Página do Profissional — Demonstração • AzendaMe</title>
         @vite(['resources/css/app.css','resources/js/app.js'])
     </head>
     <body class="antialiased text-slate-900">
@@ -11,7 +11,7 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
                 <a href="/" class="flex items-center gap-2">
                     <div class="w-8 h-8 rounded-lg bg-[var(--brand,#6C63FF)] text-white grid place-content-center font-bold">A</div>
-                    <span class="font-semibold">Agende<span class="text-[var(--brand,#6C63FF)]">.Me</span></span>
+                    <span class="font-semibold">Azenda<span class="text-[var(--brand,#6C63FF)]">Me</span></span>
                 </a>
                 <nav class="hidden md:flex items-center gap-6 text-sm">
                     <a href="#inicio" class="hover:text-[var(--brand,#6C63FF)]">Início</a>

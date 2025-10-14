@@ -29,7 +29,7 @@
         </div>
         <div class="pt-8 border-t border-white/20 text-center text-white/80 text-sm">
             <p>&copy; {{ date('Y') }} {{ $professional->business_name ?? $professional->name }}. Todos os direitos reservados.</p>
-            <p class="mt-2">Desenvolvido com ❤️ por <a href="https://agende.me" class="text-white hover:underline">Agende.Me</a></p>
+            <p class="mt-2">Desenvolvido com ❤️ por <a href="https://AzendaMe" class="text-white hover:underline">AzendaMe</a></p>
         </div>
     </div>
 </footer>

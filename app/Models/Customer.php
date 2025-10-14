@@ -25,4 +25,24 @@ class Customer extends Model
     {
         return $this->hasMany(Appointment::class);
     }
+
+    public function loyaltyPoints(): HasMany
+    {
+        return $this->hasMany(LoyaltyPoint::class);
+    }
+
+    public function loyaltyTransactions(): HasMany
+    {
+        return $this->hasMany(LoyaltyTransaction::class);
+    }
+
+    public function loyaltyRedemptions(): HasMany
+    {
+        return $this->hasMany(LoyaltyRedemption::class);
+    }
+
+    public function waitlistEntries(): HasMany
+    {
+        return $this->hasMany(Waitlist::class);
+    }
 }

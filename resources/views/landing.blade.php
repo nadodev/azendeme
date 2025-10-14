@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Agende.Me — Seu negócio, sua agenda, seu tempo</title>
+        <title>AzendaMe — Seu negócio, sua agenda, seu tempo</title>
         <meta name="description" content="Agendamentos online simples e profissionais. Crie sua conta grátis e organize sua agenda com a sua marca.">
         @vite(['resources/css/app.css','resources/js/app.js'])
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -35,7 +35,7 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
                 <a href="#inicio" class="flex items-center gap-2">
                     <div class="w-8 h-8 rounded-lg bg-[var(--brand)] text-white grid place-content-center font-bold">A</div>
-                    <span class="font-semibold text-slate-900">Agende<span class="text-[var(--brand)]">.Me</span></span>
+                    <span class="font-semibold text-slate-900">Azenda<span class="text-[var(--brand)]">Me</span></span>
                 </a>
                 <nav class="hidden md:flex items-center gap-6 text-sm">
                     <a href="#inicio" class="hover:text-[var(--brand)] u-underline">Início</a>
@@ -79,7 +79,7 @@
                                         <h3 class="font-semibold">Calendário</h3>
                                         <span class="px-2 py-0.5 rounded-full text-[10px] font-medium bg-[var(--brand)]/10 text-[var(--brand)] ring-1 ring-[var(--brand)]/20">Demonstração</span>
                                     </div>
-                                    <span class="text-xs text-slate-500">Agende.Me</span>
+                                    <span class="text-xs text-slate-500">AzendaMe</span>
                                 </div>
                                 <div class="grid grid-cols-7 gap-1 text-center text-xs text-slate-500 mb-2">
                                     <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
@@ -157,7 +157,7 @@
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="text-center max-w-3xl mx-auto mb-16 reveal">
                         <span class="inline-block mb-3 px-3 py-1 text-xs font-medium rounded-full bg-[var(--brand)]/10 text-[var(--brand)] ring-1 ring-[var(--brand)]/20">Demonstração interativa</span>
-                        <h2 class="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand)] via-indigo-500 to-emerald-500 mb-2" style="background-size:200% 200%; animation:gradientShift 8s ease infinite">Veja como é fácil agendar com o Agende.Me</h2>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand)] via-indigo-500 to-emerald-500 mb-2" style="background-size:200% 200%; animation:gradientShift 8s ease infinite">Veja como é fácil agendar com o AzendaMe</h2>
                         <p class="text-slate-600">Escolha o dia, selecione o horário, preencha e receba confirmação. Simples e rápido.</p>
                         <div class="h-1 w-24 mx-auto mt-4 rounded-full bg-gradient-to-r from-[var(--brand)] to-emerald-500"></div>
                     </div>
@@ -294,7 +294,7 @@
 
             <section id="para-quem" class="py-24 bg-white">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <h2 class="text-3xl font-bold text-center mb-14 reveal">Para quem é o Agende.Me</h2>
+                    <h2 class="text-3xl font-bold text-center mb-14 reveal">Para quem é o AzendaMe</h2>
                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-slate-700">
                         @php
                         $targets = [
@@ -323,7 +323,7 @@
                 <div class="absolute inset-x-0 -top-16 h-32 bg-gradient-to-b from-white/0 to-white/60 pointer-events-none"></div>
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <h2 class="text-3xl sm:text-4xl font-extrabold text-center mb-3 text-slate-900 reveal">O que nossos clientes dizem</h2>
-                    <p class="text-center text-slate-600 mb-12 reveal">Histórias reais de quem já organiza a agenda com o Agende.Me</p>
+                    <p class="text-center text-slate-600 mb-12 reveal">Histórias reais de quem já organiza a agenda com o AzendaMe</p>
                     <div class="max-w-4xl mx-auto reveal">
                         <div class="overflow-hidden rounded-3xl border border-white/60 bg-white/90 backdrop-blur shadow-[0_30px_80px_-28px_rgba(15,23,42,0.25)]">
                             <div class="t-track flex transition-transform duration-500" style="transform:translateX(0%)">
@@ -336,7 +336,7 @@
                                         </div>
                                     </div>
                                     <div class="text-amber-400 mb-2">★★★★★</div>
-                                    <p class="text-slate-700">“Desde que comecei a usar o Agende.Me, parei de perder horários e clientes!”</p>
+                                    <p class="text-slate-700">“Desde que comecei a usar o AzendaMe, parei de perder horários e clientes!”</p>
                                 </div>
                                 <div class="t-card shrink-0 w-full p-8">
                                     <div class="flex items-center gap-3 mb-2">
@@ -374,7 +374,7 @@
             <section class="py-20 bg-gradient-to-br from-[var(--brand)] to-indigo-500 text-white text-center">
                 <div class="max-w-3xl mx-auto px-4">
                     <h2 class="text-3xl sm:text-4xl font-bold mb-4">Transforme sua agenda em um sistema inteligente.</h2>
-                    <p class="text-white/90 mb-8">Experimente o Agende.Me gratuitamente e veja a diferença.</p>
+                    <p class="text-white/90 mb-8">Experimente o AzendaMe gratuitamente e veja a diferença.</p>
                     <a href="{{ url('/register') }}" class="inline-flex items-center gap-2 rounded-md px-6 py-3 bg-white text-[var(--brand)] font-semibold shadow hover:shadow-md">Crie sua conta agora — é grátis!</a>
                 </div>
             </section>
@@ -385,9 +385,9 @@
                 <div>
                     <div class="flex items-center gap-2 mb-3">
                         <div class="w-7 h-7 rounded-lg bg-[var(--brand)] text-white grid place-content-center font-bold">A</div>
-                        <span class="font-semibold text-slate-900">Agende<span class="text-[var(--brand)]">.Me</span></span>
+                        <span class="font-semibold text-slate-900">Azenda<span class="text-[var(--brand)]">Me</span></span>
                     </div>
-                    <p class="text-slate-600">© 2025 Agende.Me — Todos os direitos reservados.</p>
+                    <p class="text-slate-600">© 2025 AzendaMe — Todos os direitos reservados.</p>
                     <p class="text-slate-600">Desenvolvido para facilitar a vida de quem vive de agendamentos.</p>
                 </div>
                 <div>
@@ -404,7 +404,7 @@
                     <ul class="space-y-1 text-slate-600">
                         <li><a href="#" class="hover:text-[var(--brand)]">Termos de uso</a></li>
                         <li><a href="#" class="hover:text-[var(--brand)]">Política de privacidade</a></li>
-                        <li><a href="mailto:suporte@agende.me" class="hover:text-[var(--brand)]">suporte@agende.me</a></li>
+                        <li><a href="mailto:suporte@AzendaMe" class="hover:text-[var(--brand)]">suporte@AzendaMe</a></li>
                     </ul>
                 </div>
             </div>

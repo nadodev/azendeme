@@ -456,7 +456,7 @@
             </div>
             <div class="border-t border-white/20 pt-6 text-center text-white/60 text-sm">
                 <p>© {{ date('Y') }} {{ $professional->business_name ?? $professional->name }}. Todos os direitos reservados.</p>
-                <p class="mt-1">Powered by <a href="/" class="text-white hover:underline">Agende.Me</a></p>
+                <p class="mt-1">Powered by <a href="/" class="text-white hover:underline">AzendaMe</a></p>
             </div>
         </div>
     </footer>

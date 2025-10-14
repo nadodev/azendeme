@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
 use App\Models\Service;
+use App\Models\Professional;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
@@ -12,6 +13,7 @@ class ServiceController extends Controller
     {
         $professionalId = 1;
         $services = Service::where('professional_id', $professionalId)
+            ->with('assignedProfessional')
             ->orderBy('name')
             ->get();
 
@@ -20,7 +22,12 @@ class ServiceController extends Controller
 
     public function create()
     {
-        return view('panel.servicos-create');
+        // Busca todos os profissionais disponíveis
+        $professionals = Professional::orderBy('is_main', 'desc')
+            ->orderBy('name')
+            ->get();
+        
+        return view('panel.servicos-create', compact('professionals'));
     }
 
     public function store(Request $request)
@@ -33,6 +40,8 @@ class ServiceController extends Controller
             'duration' => 'required|integer|min:1',
             'price' => 'nullable|numeric|min:0',
             'active' => 'boolean',
+            'assigned_professional_id' => 'nullable|exists:professionals,id',
+            'allows_multiple' => 'boolean',
         ]);
 
         Service::create([
@@ -42,6 +51,8 @@ class ServiceController extends Controller
             'duration' => $validated['duration'],
             'price' => $validated['price'] ?? null,
             'active' => $validated['active'] ?? true,
+            'assigned_professional_id' => $validated['assigned_professional_id'] ?? null,
+            'allows_multiple' => $validated['allows_multiple'] ?? false,
         ]);
 
         return redirect()->route('panel.servicos.index')
@@ -55,7 +66,12 @@ class ServiceController extends Controller
 
     public function edit(Service $servico)
     {
-        return view('panel.servicos-edit', compact('servico'));
+        // Busca todos os profissionais disponíveis
+        $professionals = Professional::orderBy('is_main', 'desc')
+            ->orderBy('name')
+            ->get();
+        
+        return view('panel.servicos-edit', compact('servico', 'professionals'));
     }
 
     public function update(Request $request, Service $servico)
@@ -66,6 +82,8 @@ class ServiceController extends Controller
             'duration' => 'required|integer|min:1',
             'price' => 'nullable|numeric|min:0',
             'active' => 'boolean',
+            'assigned_professional_id' => 'nullable|exists:professionals,id',
+            'allows_multiple' => 'boolean',
         ]);
 
         $servico->update([
@@ -74,6 +92,8 @@ class ServiceController extends Controller
             'duration' => $validated['duration'],
             'price' => $validated['price'] ?? null,
             'active' => $validated['active'] ?? $servico->active,
+            'assigned_professional_id' => $validated['assigned_professional_id'] ?? null,
+            'allows_multiple' => $validated['allows_multiple'] ?? false,
         ]);
 
         return redirect()->route('panel.servicos.index')

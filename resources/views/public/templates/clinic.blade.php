@@ -8,13 +8,28 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         :root {
-
-            --brand: {{ $professional->brand_color ?? '#3B82F6' }};
-            --brand-light: {{ $professional->brand_color ?? '#3B82F6' }}20;
+            /* Cores globais */
+            --brand: {{ $professional->templateSetting->primary_color ?? $professional->brand_color ?? '#3B82F6' }};
+            --brand-light: {{ $professional->templateSetting->primary_color ?? $professional->brand_color ?? '#3B82F6' }}20;
+            --secondary: {{ $professional->templateSetting->secondary_color ?? '#A78BFA' }};
+            --accent: {{ $professional->templateSetting->accent_color ?? '#7C3AED' }};
+            --background: {{ $professional->templateSetting->background_color ?? '#FFFFFF' }};
+            --text: {{ $professional->templateSetting->text_color ?? '#1F2937' }};
+            
+            /* Cores por seção */
+            --hero-primary: {{ $professional->templateSetting->hero_primary_color ?? $professional->templateSetting->primary_color ?? '#8B5CF6' }};
+            --hero-bg: {{ $professional->templateSetting->hero_background_color ?? '#FAFBFC' }};
+            --services-primary: {{ $professional->templateSetting->services_primary_color ?? '#10B981' }};
+            --services-bg: {{ $professional->templateSetting->services_background_color ?? '#FFFFFF' }};
+            --gallery-primary: {{ $professional->templateSetting->gallery_primary_color ?? '#EC4899' }};
+            --gallery-bg: {{ $professional->templateSetting->gallery_background_color ?? '#F9FAFB' }};
+            --booking-primary: {{ $professional->templateSetting->booking_primary_color ?? '#7C3AED' }};
+            --booking-bg: {{ $professional->templateSetting->booking_background_color ?? '#F3F4F6' }};
         }
         
         body {
-            background: #FAFBFC;
+            background: var(--background);
+            color: var(--text);
         }
         
         /* Animações */
@@ -59,9 +74,16 @@
         
         /* Botão com efeito */
         .btn-clinic {
-            background: linear-gradient(135deg, var(--brand) 0%, #2563EB 100%);
+            background: linear-gradient(135deg, var(--brand) 0%, var(--accent) 100%);
             box-shadow: 0 4px 15px var(--brand-light);
             transition: all 0.3s;
+            @if($professional->templateSetting->button_style == 'square')
+                border-radius: 0;
+            @elseif($professional->templateSetting->button_style == 'pill')
+                border-radius: 9999px;
+            @else
+                border-radius: 0.75rem;
+            @endif
         }
         
         .btn-clinic:hover {
@@ -109,55 +131,79 @@
     <!-- Header -->
     <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <div class="flex items-center gap-4">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+                <div class="flex items-center gap-3 sm:gap-4">
                     @if($professional->logo)
-                        <img src="{{ asset('storage/' . $professional->logo) }}" alt="Logo" class="w-14 h-14 rounded-xl object-cover shadow-md">
+                        <img src="{{ asset('storage/' . $professional->logo) }}" alt="Logo" class="w-10 h-10 sm:w-14 sm:h-14 rounded-xl object-cover shadow-md">
                     @else
-                        <div class="w-14 h-14 rounded-xl grid place-content-center font-bold text-xl text-white shadow-lg" style="background: linear-gradient(135deg, var(--brand) 0%, #2563EB 100%);">
+                        <div class="w-10 h-10 sm:w-14 sm:h-14 rounded-xl grid place-content-center font-bold text-lg sm:text-xl text-white shadow-lg" style="background: linear-gradient(135deg, var(--brand) 0%, #2563EB 100%);">
                             {{ substr($professional->business_name, 0, 1) }}
                         </div>
                     @endif
                     <div>
-                        <h1 class="font-bold text-xl text-gray-900">{{ $professional->business_name }}</h1>
+                        <h1 class="font-bold text-lg sm:text-xl text-gray-900">{{ $professional->business_name }}</h1>
                         @if($professional->phone)
-                            <a href="tel:{{ $professional->phone }}" class="text-sm text-gray-600 hover:text-[var(--brand)] transition-colors flex items-center gap-1">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                            <a href="tel:{{ $professional->phone }}" class="text-xs sm:text-sm text-gray-600 hover:text-[var(--brand)] transition-colors flex items-center gap-1">
+                                <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                                 {{ $professional->phone }}
                             </a>
                         @endif
                     </div>
                 </div>
                 
+                <!-- Desktop Navigation -->
                 <nav class="hidden md:flex items-center gap-8">
                     <a href="#inicio" class="text-gray-700 hover:text-[var(--brand)] font-semibold transition nav-link active">Início</a>
                     <a href="#servicos" class="text-gray-700 hover:text-[var(--brand)] font-semibold transition nav-link">Serviços</a>
                     <a href="#galeria" class="text-gray-700 hover:text-[var(--brand)] font-semibold transition nav-link">Galeria</a>
+                    <a href="{{ route('blog.index', $professional->slug) }}" class="text-gray-700 hover:text-[var(--brand)] font-semibold transition nav-link">Blog</a>
                     <a href="#agendar" class="text-gray-700 hover:text-[var(--brand)] font-semibold transition nav-link">Agendar</a>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-gray-700 hover:text-[var(--brand)] hover:bg-gray-100 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 bg-white/95 backdrop-blur-md">
+                <nav class="py-4 space-y-2">
+                    <a href="#inicio" class="block px-4 py-3 text-gray-700 hover:text-[var(--brand)] hover:bg-gray-50 font-semibold transition nav-link active">Início</a>
+                    <a href="#servicos" class="block px-4 py-3 text-gray-700 hover:text-[var(--brand)] hover:bg-gray-50 font-semibold transition nav-link">Serviços</a>
+                    <a href="#galeria" class="block px-4 py-3 text-gray-700 hover:text-[var(--brand)] hover:bg-gray-50 font-semibold transition nav-link">Galeria</a>
+                    <a href="{{ route('blog.index', $professional->slug) }}" class="block px-4 py-3 text-gray-700 hover:text-[var(--brand)] hover:bg-gray-50 font-semibold transition nav-link">Blog</a>
+                    <a href="#agendar" class="block px-4 py-3 text-gray-700 hover:text-[var(--brand)] hover:bg-gray-50 font-semibold transition nav-link">Agendar</a>
                 </nav>
             </div>
         </div>
     </header>
 
     <!-- Hero -->
-    <section id="inicio" class="clinic-hero py-24 lg:py-32">
+    <section id="inicio" class="py-24 lg:py-32" style="background: var(--hero-bg, #FAFBFC)">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-16 items-center">
                 <div>
-                    <div class="inline-flex items-center px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-sm font-semibold text-blue-600 mb-6">
-                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                        Profissional e Confiável
-                    </div>
+                    @if($professional->templateSetting->show_hero_badge && $professional->templateSetting->hero_badge)
+                        <div class="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold mb-6" style="background: var(--hero-primary, #8B5CF6)20; color: var(--hero-primary, #8B5CF6); border: 1px solid var(--hero-primary, #8B5CF6)40">
+                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                            {{ $professional->templateSetting->hero_badge }}
+                        </div>
+                    @endif
                     <h2 class="text-5xl lg:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
-                        {{ $professional->business_name }}
+                        {{ $professional->templateSetting->hero_title ?? $professional->business_name }}
                     </h2>
-                    @if($professional->bio)
+                    @if($professional->templateSetting->hero_subtitle)
+                        <p class="text-xl text-gray-600 mb-8 leading-relaxed">{{ $professional->templateSetting->hero_subtitle }}</p>
+                    @elseif($professional->bio)
                         <p class="text-xl text-gray-600 mb-8 leading-relaxed">{{ $professional->bio }}</p>
                     @else
                         <p class="text-xl text-gray-600 mb-8 leading-relaxed">Cuidado profissional e atendimento de excelência para sua saúde e bem-estar.</p>
                     @endif
                     <div class="flex flex-wrap gap-4">
-                        <a href="#agendar" class="btn-clinic inline-flex items-center px-8 py-4 rounded-xl text-white font-bold text-lg">
+                        <a href="#agendar" class="inline-flex items-center px-8 py-4 rounded-xl text-white font-bold text-lg shadow-lg hover:shadow-xl transition-all hover:scale-105" style="background: linear-gradient(135deg, var(--hero-primary, #8B5CF6) 0%, var(--accent, #7C3AED) 100%)">
                             Agendar Consulta
                             <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                         </a>
@@ -205,14 +251,18 @@
     </section>
 
     <!-- Serviços -->
-    <section id="servicos" class="py-24 bg-white">
+    <section id="servicos" class="py-24" style="background: var(--services-bg, #FFFFFF)">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <div class="inline-flex items-center px-4 py-2 rounded-full bg-blue-50 text-sm font-semibold text-blue-600 mb-4">
                     O que oferecemos
                 </div>
-                <h3 class="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">Nossos Serviços</h3>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Atendimento especializado com foco no seu bem-estar</p>
+                <h3 class="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
+                    {{ $professional->templateSetting->services_title ?? 'Nossos Serviços' }}
+                </h3>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    {{ $professional->templateSetting->services_subtitle ?? 'Atendimento especializado com foco no seu bem-estar' }}
+                </p>
             </div>
             
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -252,8 +302,12 @@
                 <div class="inline-flex items-center px-4 py-2 rounded-full bg-blue-50 text-sm font-semibold text-blue-600 mb-4">
                     Conheça nosso trabalho
                 </div>
-                <h3 class="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">Galeria</h3>
-                <p class="text-xl text-gray-600">Resultados que transformam vidas</p>
+                <h3 class="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
+                    {{ $professional->templateSetting->gallery_title ?? 'Galeria' }}
+                </h3>
+                <p class="text-xl text-gray-600">
+                    {{ $professional->templateSetting->gallery_subtitle ?? 'Resultados que transformam vidas' }}
+                </p>
             </div>
             
             <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
@@ -270,34 +324,68 @@
                         </div>
                     </div>
                 @empty
-                    @for($i = 1; $i <= 6; $i++)
+                    @php
+                        $galleryItems = [
+                            ['title' => 'Design de Sobrancelhas', 'description' => 'Técnicas avançadas para realçar sua beleza natural'],
+                            ['title' => 'Micropigmentação', 'description' => 'Resultados duradouros e naturais'],
+                            ['title' => 'Cílios Fio a Fio', 'description' => 'Olhar marcante e expressivo'],
+                            ['title' => 'Limpeza de Pele', 'description' => 'Cuidados especializados para sua pele'],
+                            ['title' => 'Depilação', 'description' => 'Técnicas modernas e eficazes'],
+                            ['title' => 'Antes e Depois', 'description' => 'Transformações incríveis']
+                        ];
+                    @endphp
+                    @foreach($galleryItems as $index => $item)
                         <div class="gallery-item clinic-card rounded-2xl overflow-hidden group cursor-pointer">
-                            <img src="https://picsum.photos/400/500?random={{ $i }}" alt="Galeria {{ $i }}" class="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="w-full h-80 bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100 flex items-center justify-center relative overflow-hidden">
+                                <div class="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20"></div>
+                                <div class="text-center z-10">
+                                    <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center text-white shadow-lg" style="background: linear-gradient(135deg, var(--gallery-primary, #EC4899) 0%, var(--accent, #7C3AED) 100%)">
+                                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </div>
+                                    <h5 class="font-bold text-lg text-gray-700 mb-2">{{ $item['title'] }}</h5>
+                                    <p class="text-sm text-gray-500">{{ $item['description'] }}</p>
+                                </div>
+                            </div>
                             <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                                 <div class="text-white">
-                                    <h5 class="font-bold text-lg">Nosso Trabalho</h5>
-                                    <p class="text-sm text-blue-100">Qualidade e profissionalismo</p>
+                                    <h5 class="font-bold text-lg mb-1">{{ $item['title'] }}</h5>
+                                    <p class="text-sm text-blue-100">{{ $item['description'] }}</p>
                                 </div>
                             </div>
                         </div>
-                    @endfor
+                    @endforeach
                 @endforelse
             </div>
         </div>
     </section>
 
     @include('public.sections.booking', ['services' => $services, 'professional' => $professional])
+    @include('public.sections.feedbacks', ['feedbacks' => $feedbacks])
     @include('public.sections.contact', ['professional' => $professional])
     @include('public.sections.footer', ['professional' => $professional])
     
     <!-- Gallery Modal -->
-    <div id="gallery-modal" class="hidden fixed inset-0 bg-black/90 z-50 items-center justify-center p-4">
-        <div class="max-w-5xl w-full">
-            <button id="gallery-close-btn" class="absolute top-4 right-4 text-white text-4xl hover:text-gray-300 transition-colors">&times;</button>
-            <img id="gallery-modal-img" src="" alt="" class="w-full h-auto max-h-[80vh] object-contain rounded-lg">
-            <div class="mt-4 text-center text-white">
-                <h4 id="gallery-modal-title" class="text-2xl font-bold mb-2"></h4>
-                <p id="gallery-modal-description" class="text-gray-300"></p>
+    <div id="gallery-modal" class="hidden fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="relative max-w-6xl w-full max-h-[90vh] flex flex-col">
+            <!-- Close Button -->
+            <button id="gallery-close-btn" class="absolute -top-12 right-0 text-white text-4xl hover:text-gray-300 transition-colors font-light z-10">&times;</button>
+            
+            <!-- Modal Content -->
+            <div class="bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-full">
+                <!-- Image Container -->
+                <div class="flex-1 flex items-center justify-center bg-gray-50 p-8">
+                    <img id="gallery-modal-img" src="" alt="" class="max-w-full max-h-[60vh] object-contain rounded-lg shadow-lg">
+                </div>
+                
+                <!-- Content -->
+                <div class="p-8 bg-white border-t border-gray-100">
+                    <div class="text-center">
+                        <h4 id="gallery-modal-title" class="text-3xl font-bold text-gray-900 mb-3"></h4>
+                        <p id="gallery-modal-description" class="text-gray-600 text-lg leading-relaxed"></p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

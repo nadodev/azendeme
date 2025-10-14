@@ -60,16 +60,60 @@
                 <div class="p-8">
                     <form id="booking-form" class="space-y-6">
                         <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-2">Serviço *</label>
-                            <select id="service-select" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[var(--brand)] focus:ring-2 focus:ring-[var(--brand)]/20 transition-all">
-                                <option value="">Escolha um serviço...</option>
+                            <label class="block text-sm font-bold text-gray-700 mb-3">Selecione o(s) Serviço(s) *</label>
+                            <div class="space-y-3 max-h-80 overflow-y-auto pr-2">
                                 @foreach($services as $service)
-                                    <option value="{{ $service->id }}" data-duration="{{ $service->duration }}">
-                                        {{ $service->name }} ({{ $service->duration }}min)
-                                        @if($service->price) - R$ {{ number_format($service->price, 2, ',', '.') }} @endif
+                                    <label class="flex items-start p-4 border-2 border-gray-200 rounded-xl hover:border-[var(--brand)] transition-all cursor-pointer group">
+                                        <input 
+                                            type="checkbox" 
+                                            name="service_ids[]" 
+                                            value="{{ $service->id }}" 
+                                            data-duration="{{ $service->duration }}"
+                                            data-price="{{ $service->price }}"
+                                            class="service-checkbox mt-1 w-5 h-5 rounded border-gray-300 text-[var(--brand)] focus:ring-[var(--brand)] focus:ring-offset-0"
+                                            onchange="updateServiceSelection()"
+                                        >
+                                        <div class="ml-3 flex-1">
+                                            <div class="font-bold text-gray-900 group-hover:text-[var(--brand)] transition-colors">{{ $service->name }}</div>
+                                            <div class="text-sm text-gray-600 mt-1">
+                                                <span class="inline-flex items-center mr-3">
+                                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                                    {{ $service->duration }}min
+                                                </span>
+                                                <span class="font-bold text-[var(--brand)]">R$ {{ number_format($service->price, 2, ',', '.') }}</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                @endforeach
+                            </div>
+                            <div id="services-summary" class="hidden mt-4 p-4 bg-green-50 border-2 border-green-200 rounded-xl">
+                                <div class="text-sm font-semibold text-green-800 mb-2">Resumo:</div>
+                                <div id="services-summary-content" class="text-sm text-green-700 space-y-1"></div>
+                                <div class="mt-3 pt-3 border-t border-green-300 flex justify-between items-center">
+                                    <span class="font-bold text-green-900">Total:</span>
+                                    <div class="text-right">
+                                        <div class="text-sm text-green-700">
+                                            <span id="total-duration">0</span> minutos
+                                        </div>
+                                        <div class="text-lg font-bold text-green-900">
+                                            R$ <span id="total-price">0,00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-3">Profissional (Opcional)</label>
+                            <select id="professional-select" name="professional_id" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[var(--brand)] focus:ring-2 focus:ring-[var(--brand)]/20 transition-all">
+                                <option value="">Qualquer profissional disponível</option>
+                                @foreach($professionals as $prof)
+                                    <option value="{{ $prof->id }}">
+                                        {{ $prof->name }}@if($prof->specialty) - {{ $prof->specialty }}@endif
                                     </option>
                                 @endforeach
                             </select>
+                            <p class="text-xs text-gray-500 mt-2">Se não selecionar, o agendamento será feito com qualquer profissional disponível</p>
                         </div>
 
                         <div id="selected-date-display" class="hidden p-4 bg-[var(--brand)]/10 rounded-xl border-2 border-[var(--brand)]/20">
@@ -98,6 +142,27 @@
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-2">E-mail</label>
                             <input type="email" id="customer-email" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[var(--brand)] focus:ring-2 focus:ring-[var(--brand)]/20 transition-all">
+                        </div>
+
+                        <!-- Cupom de Desconto -->
+                        <div class="border-t border-gray-200 pt-6">
+                            <label class="block text-sm font-bold text-gray-700 mb-2">
+                                🎫 Cupom de Desconto (Opcional)
+                            </label>
+                            <div class="flex gap-2">
+                                <input type="text" 
+                                       id="promo-code" 
+                                       placeholder="Digite o código do cupom"
+                                       class="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[var(--brand)] focus:ring-2 focus:ring-[var(--brand)]/20 transition-all uppercase">
+                                <button type="button" 
+                                        onclick="applyPromoCode()"
+                                        class="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all">
+                                    Aplicar
+                                </button>
+                            </div>
+                            <div id="promo-message" class="mt-2 text-sm hidden"></div>
+                            <input type="hidden" id="applied-promo-id">
+                            <input type="hidden" id="discount-amount">
                         </div>
 
                         <div id="booking-message" class="hidden"></div>

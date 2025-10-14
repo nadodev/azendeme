@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Panel;
 use App\Http\Controllers\Controller;
 use App\Models\Professional;
 use App\Models\TemplateSetting;
+use App\Helpers\TemplateColors;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -66,19 +67,21 @@ class SettingsController extends Controller
         $professionalId = 1;
         $professional = Professional::with('templateSetting')->findOrFail($professionalId);
         
-        // Se não existir configuração, criar uma padrão
+        // Se não existir configuração, criar uma padrão baseada no template
         if (!$professional->templateSetting) {
-            $professional->templateSetting()->create([
-                'primary_color' => $professional->brand_color ?? '#8B5CF6',
-                'secondary_color' => '#A78BFA',
-                'accent_color' => '#7C3AED',
-                'background_color' => '#0F0F10',
-                'text_color' => '#F5F5F5',
-            ]);
+            $template = $professional->template ?? 'clinic';
+            $defaultColors = TemplateColors::getDefaults($template, $professional->brand_color);
+            $professional->templateSetting()->create($defaultColors);
             $professional->load('templateSetting');
         }
 
-        return view('panel.template-customize', compact('professional'));
+        $templateInfo = [
+            'name' => $professional->template ?? 'clinic',
+            'description' => TemplateColors::getTemplateDescription($professional->template ?? 'clinic'),
+            'colorNames' => TemplateColors::getColorNames()
+        ];
+
+        return view('panel.template-customize', compact('professional', 'templateInfo'));
     }
 
     public function updateTemplate(Request $request)
@@ -87,11 +90,28 @@ class SettingsController extends Controller
         $professional = Professional::findOrFail($professionalId);
 
         $validated = $request->validate([
-            'primary_color' => 'required|string|max:7',
-            'secondary_color' => 'required|string|max:7',
+            // Cores globais (opcionais para compatibilidade)
+            'primary_color' => 'nullable|string|max:7',
+            'secondary_color' => 'nullable|string|max:7',
             'accent_color' => 'required|string|max:7',
             'background_color' => 'required|string|max:7',
             'text_color' => 'required|string|max:7',
+            
+            // Cores por seção
+            'hero_primary_color' => 'required|string|max:7',
+            'hero_background_color' => 'required|string|max:7',
+            'services_primary_color' => 'required|string|max:7',
+            'services_background_color' => 'required|string|max:7',
+            'gallery_primary_color' => 'required|string|max:7',
+            'gallery_background_color' => 'required|string|max:7',
+            'booking_primary_color' => 'required|string|max:7',
+            'booking_background_color' => 'required|string|max:7',
+            
+            // Imagens
+            'about_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
+            'remove_about_image' => 'nullable|boolean',
+            
+            // Textos
             'hero_title' => 'nullable|string|max:255',
             'hero_subtitle' => 'nullable|string',
             'hero_badge' => 'nullable|string|max:255',
@@ -107,9 +127,39 @@ class SettingsController extends Controller
         // Adicionar checkboxes manualmente (eles não vêm no request quando desmarcados)
         $validated['show_hero_badge'] = $request->has('show_hero_badge');
         $validated['show_dividers'] = $request->has('show_dividers');
+        
+        // Definir valores padrão para campos opcionais
+        $validated['primary_color'] = $validated['primary_color'] ?? $validated['hero_primary_color'];
+        $validated['secondary_color'] = $validated['secondary_color'] ?? $validated['services_primary_color'];
 
-        // DEBUG: Ver o que está sendo salvo (REMOVER DEPOIS)
-        // dd($validated);
+        // Processar upload da imagem da seção Sobre Nós
+        if ($request->hasFile('about_image')) {
+            // Remove imagem anterior se existir
+            $currentSetting = $professional->templateSetting;
+            if ($currentSetting && $currentSetting->about_image) {
+                $oldImagePath = storage_path('app/public/' . $currentSetting->about_image);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+            
+            // Salva nova imagem
+            $imagePath = $request->file('about_image')->store('about-images', 'public');
+            $validated['about_image'] = $imagePath;
+        } elseif ($request->has('remove_about_image')) {
+            // Remove imagem atual
+            $currentSetting = $professional->templateSetting;
+            if ($currentSetting && $currentSetting->about_image) {
+                $oldImagePath = storage_path('app/public/' . $currentSetting->about_image);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+            $validated['about_image'] = null;
+        } else {
+            // Mantém imagem existente se não houver upload nem remoção
+            unset($validated['about_image']);
+        }
 
         $professional->templateSetting()->updateOrCreate(
             ['professional_id' => $professionalId],

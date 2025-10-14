@@ -1,4 +1,4 @@
-# 📋 DOCUMENTAÇÃO COMPLETA - SISTEMA AGENDE.ME
+# 📋 DOCUMENTAÇÃO COMPLETA - SISTEMA AzendaMe
 
 ## 📌 ÍNDICE
 1. [Visão Geral](#visão-geral)
@@ -16,7 +16,7 @@
 
 ## 🎯 VISÃO GERAL
 
-O **Agende.Me** é um sistema completo de agendamento online para profissionais e pequenas empresas de serviços. Ele centraliza:
+O **AzendaMe** é um sistema completo de agendamento online para profissionais e pequenas empresas de serviços. Ele centraliza:
 - ✅ Agenda de atendimentos
 - ✅ Cadastro de clientes
 - ✅ Gerenciamento de serviços
@@ -162,7 +162,7 @@ Usuários do sistema (Laravel Breeze).
 ## 📱 PÁGINAS E FUNCIONALIDADES
 
 ### 1. **Landing Page** (`/`)
-- **Descrição**: Página institucional do Agende.Me
+- **Descrição**: Página institucional do AzendaMe
 - **Funcionalidades**:
   - Hero com demonstração de calendário interativo
   - Recursos e benefícios
@@ -342,7 +342,7 @@ php artisan serve
 ## 🔐 CREDENCIAIS DE ACESSO
 
 ### Usuário Demo (criado pelo seeder)
-- **Email**: admin@agende.me
+- **Email**: admin@AzendaMe
 - **Senha**: password
 
 ### Profissional Demo
@@ -563,7 +563,7 @@ $blockedDate->professional()   // BelongsTo - Profissional
 ### 🔶 Fluxo do Cliente
 
 1. **Acesso à Página Pública**
-   - Cliente recebe link (ex: `agende.me/beleza-da-ana`)
+   - Cliente recebe link (ex: `AzendaMe/beleza-da-ana`)
    - Acessa a página
 
 2. **Escolha do Serviço**
@@ -677,7 +677,7 @@ whitelabel/
 ## 📞 SUPORTE
 
 Para dúvidas ou sugestões sobre o sistema, entre em contato através de:
-- Email: suporte@agende.me
+- Email: suporte@AzendaMe
 - Documentação: Este arquivo
 
 ---
