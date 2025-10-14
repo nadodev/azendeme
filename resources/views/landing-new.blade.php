@@ -329,8 +329,8 @@
         </div>
     </header>
     <!-- Hero Section -->
-    <main class="mt-[30px]">
-        <section id="inicio" class="relative pt-40 pb-20 overflow-hidden" role="main" aria-labelledby="hero-title">
+    <main>
+        <section id="inicio" class="relative pt-20 pb-20 overflow-hidden" role="main" aria-labelledby="hero-title">
             <!-- Background -->
             <div class="absolute inset-0 bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50" aria-hidden="true"></div>
             <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(139,92,246,0.1),transparent_50%),radial-gradient(circle_at_70%_60%,rgba(236,72,153,0.1),transparent_50%)]" aria-hidden="true"></div>
