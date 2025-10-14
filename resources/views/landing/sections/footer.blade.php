@@ -9,13 +9,13 @@
                         <span class="text-white font-bold text-xl">A</span>
                     </div>
                     <span class="text-2xl font-bold text-white">
-                        Azenda<span class="text-purple-400">Me</span>
+                        Azende<span class="text-purple-400">Me</span>
                     </span>
                 </div>
                 <p class="text-gray-400 mb-6">
                     Sistema completo de agendamentos profissionais. Transforme seu negócio com tecnologia.
                 </p>
-                <div class="flex gap-4">
+                {{-- <div class="flex gap-4">
                     <a href="#" class="w-10 h-10 bg-gray-800 hover:bg-purple-600 rounded-lg flex items-center justify-center transition">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                     </a>
@@ -25,23 +25,23 @@
                     <a href="#" class="w-10 h-10 bg-gray-800 hover:bg-blue-600 rounded-lg flex items-center justify-center transition">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
                     </a>
-                </div>
+                </div> --}}
             </div>
 
             <!-- Produto -->
             <div>
                 <h4 class="text-white font-bold text-lg mb-4">Produto</h4>
                 <ul class="space-y-3">
-                    <li><a href="#funcionalidades" class="hover:text-purple-400 transition">Funcionalidades</a></li>
+                    <li><a href="/#funcionalidades" class="hover:text-purple-400 transition">Funcionalidades</a></li>
                     <li><a href="{{ url('/funcionalidades') }}" class="hover:text-purple-400 transition">Lista Completa</a></li>
-                    <li><a href="#templates" class="hover:text-purple-400 transition">Templates</a></li>
-                    <li><a href="#precos" class="hover:text-purple-400 transition">Preços</a></li>
-                    <li><a href="#demo" class="hover:text-purple-400 transition">Solicitar Demo</a></li>
+                    <li><a href="/#templates" class="hover:text-purple-400 transition">Templates</a></li>
+                    <li><a href="/#precos" class="hover:text-purple-400 transition">Preços</a></li>
+                    <li><a href="/#demo" class="hover:text-purple-400 transition">Solicitar Demo</a></li>
                 </ul>
             </div>
 
             <!-- Empresa -->
-            <div>
+            {{-- <div>
                 <h4 class="text-white font-bold text-lg mb-4">Empresa</h4>
                 <ul class="space-y-3">
                     <li><a href="#" class="hover:text-purple-400 transition">Sobre Nós</a></li>
@@ -49,17 +49,15 @@
                     <li><a href="#" class="hover:text-purple-400 transition">Parceiros</a></li>
                     <li><a href="#" class="hover:text-purple-400 transition">Trabalhe Conosco</a></li>
                 </ul>
-            </div>
+            </div> --}}
 
             <!-- Suporte -->
             <div>
                 <h4 class="text-white font-bold text-lg mb-4">Suporte</h4>
                 <ul class="space-y-3">
-                    <li><a href="#" class="hover:text-purple-400 transition">Central de Ajuda</a></li>
-                    <li><a href="#" class="hover:text-purple-400 transition">Documentação</a></li>
-                    <li><a href="#" class="hover:text-purple-400 transition">Vídeo-Aulas</a></li>
-                    <li><a href="mailto:suporte@AzendaMe" class="hover:text-purple-400 transition">Contato</a></li>
-                    <li><a href="https://wa.me/5511999999999" target="_blank" class="hover:text-purple-400 transition">WhatsApp</a></li>
+                    <li><a href="{{ route('help.center') }}" class="hover:text-purple-400 transition">Central de Ajuda</a></li>
+                    <li><a href="mailto:suporte@azendeme.com.br" class="hover:text-purple-400 transition">Contato</a></li>
+                    <li><a href="https://wa.me/5549999195407" target="_blank" class="hover:text-purple-400 transition">WhatsApp</a></li>
                 </ul>
             </div>
         </div>
@@ -77,7 +75,7 @@
                     <a href="#demo" class="px-10 py-4 bg-white text-purple-600 rounded-xl font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition">
                         Solicitar Demonstração
                     </a>
-                    <a href="https://wa.me/5511999999999?text=Olá!%20Gostaria%20de%20conhecer%20o%20AzendaMe" target="_blank" class="px-10 py-4 bg-green-600 text-white rounded-xl font-bold text-lg border-2 border-white/30 hover:bg-green-700 transition">
+                    <a href="https://wa.me/5549999195407?text=Olá!%20Gostaria%20de%20conhecer%20o%20AzendaMe" target="_blank" class="px-10 py-4 bg-green-600 text-white rounded-xl font-bold text-lg border-2 border-white/30 hover:bg-green-700 transition">
                         💬 Falar no WhatsApp
                     </a>
                 </div>
@@ -87,12 +85,12 @@
         <!-- Copyright -->
         <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <p class="text-gray-400 text-sm">
-                © 2025 AzendaMe. Todos os direitos reservados.
+                © 2025 AzendeMe. Todos os direitos reservados.
             </p>
             <div class="flex gap-6 text-sm">
-                <a href="#" class="hover:text-purple-400 transition">Termos de Uso</a>
-                <a href="#" class="hover:text-purple-400 transition">Política de Privacidade</a>
-                <a href="#" class="hover:text-purple-400 transition">Cookies</a>
+                <a href="{{ route('legal.terms') }}" class="hover:text-purple-400 transition">Termos de Uso</a>
+                <a href="{{ route('legal.privacy') }}" class="hover:text-purple-400 transition">Política de Privacidade</a>
+                <a href="{{ route('legal.cookies') }}" class="hover:text-purple-400 transition">Cookies</a>
             </div>
         </div>
     </div>

@@ -15,16 +15,17 @@
         </div>
 
         <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <!-- Plano Básico -->
+            <!-- Plano Iniciante -->
             <div class="bg-white rounded-3xl p-8 border-2 border-gray-200 hover:border-purple-300 hover:shadow-xl transition-all">
                 <div class="text-center mb-8">
                     <div class="inline-block p-4 bg-gray-100 rounded-2xl mb-4">
                         <span class="text-4xl">🚀</span>
                     </div>
-                    <h3 class="text-2xl font-black mb-2">Básico</h3>
-                    <p class="text-gray-600 mb-6">Para quem está começando</p>
+                    <h3 class="text-2xl font-black mb-2">Iniciante</h3>
+                    <p class="text-gray-600 mb-6">Até 50 agendamentos/mês</p>
                     <div class="mb-6">
-                        <span class="text-5xl font-black text-gray-900">Grátis</span>
+                        <span class="text-5xl font-black text-gray-900">R$ 79</span>
+                        <span class="text-lg text-gray-600">/mês</span>
                     </div>
                     <a href="#demo" class="block w-full px-6 py-4 bg-gray-900 text-white rounded-xl font-bold hover:bg-gray-800 transition">
                         Solicitar Demonstração
@@ -42,7 +43,7 @@
                     </div>
                     <div class="flex items-start gap-3">
                         <svg class="w-6 h-6 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span class="text-gray-700">1 template</span>
+                        <span class="text-gray-700">2 templates</span>
                     </div>
                     <div class="flex items-start gap-3">
                         <svg class="w-6 h-6 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
@@ -53,12 +54,8 @@
                         <span class="text-gray-700">Galeria de fotos</span>
                     </div>
                     <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-gray-300 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                        <span class="text-gray-400 line-through">Lembretes WhatsApp</span>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-gray-300 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                        <span class="text-gray-400 line-through">Fidelidade & Promoções</span>
+                        <svg class="w-6 h-6 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        <span class="text-gray-700">subdominio (azendeme.com.br/seu_nome)</span>
                     </div>
                 </div>
             </div>
@@ -75,11 +72,8 @@
                     </div>
                     <h3 class="text-2xl font-black mb-2">Profissional</h3>
                     <p class="text-purple-100 mb-6">Para negócios em crescimento</p>
-                    <div class="mb-2">
-                        <span class="text-2xl font-bold line-through opacity-75">R$ 99</span>
-                    </div>
                     <div class="mb-6">
-                        <span class="text-5xl font-black">R$ 79</span>
+                        <span class="text-5xl font-black">R$ 129</span>
                         <span class="text-lg">/mês</span>
                     </div>
                     <a href="#demo" class="block w-full px-6 py-4 bg-white text-purple-600 rounded-xl font-bold hover:bg-gray-100 transition">
@@ -94,7 +88,7 @@
                     </div>
                     <div class="flex items-start gap-3">
                         <svg class="w-6 h-6 text-yellow-300 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span>Até 3 profissionais</span>
+                        <span>Até 4 profissionais</span>
                     </div>
                     <div class="flex items-start gap-3">
                         <svg class="w-6 h-6 text-yellow-300 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
@@ -102,7 +96,11 @@
                     </div>
                     <div class="flex items-start gap-3">
                         <svg class="w-6 h-6 text-yellow-300 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span>Lembretes E-mail + WhatsApp</span>
+                        <span>Lembretes E-mail</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <svg class="w-6 h-6 text-yellow-300 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        <span>subdominio (azendeme.com.br/seu_nome)</span>
                     </div>
                     <div class="flex items-start gap-3">
                         <svg class="w-6 h-6 text-yellow-300 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
@@ -159,6 +157,10 @@
                     </div>
                     <div class="flex items-start gap-3">
                         <svg class="w-6 h-6 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        <span class="text-gray-700">domínio proprio (www.seunome.com.br)</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <svg class="w-6 h-6 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                         <span class="text-gray-700">Subdomínio personalizado</span>
                     </div>
                     <div class="flex items-start gap-3">
@@ -169,12 +171,16 @@
                         <svg class="w-6 h-6 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                         <span class="text-gray-700">Treinamento personalizado</span>
                     </div>
+                    <div class="flex items-start gap-3">
+                        <svg class="w-6 h-6 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        <span class="text-gray-700">Templates personalizados</span>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- FAQ de Preços -->
-        <div class="mt-20 max-w-4xl mx-auto">
+        {{-- <div class="mt-20 max-w-4xl mx-auto">
             <h3 class="text-3xl font-black text-center mb-12">Perguntas Frequentes sobre Preços</h3>
             
             <div class="space-y-6">
@@ -198,7 +204,7 @@
                     <p class="text-gray-600">Sim, sem multas ou taxas. Você pode cancelar quando quiser e manter o acesso até o fim do período pago.</p>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 </section>
 

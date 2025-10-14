@@ -67,6 +67,16 @@ Route::get('/templates/barber', function () {
 require __DIR__.'/auth.php';
 
 // Dashboard (redireciona para panel)
+// Central de Ajuda (pública)
+Route::get('/ajuda', function () {
+    // Dados básicos para a página (categorias e FAQs podem ser carregados no futuro do BD)
+    return view('help.center');
+})->name('help.center');
+
+// Páginas legais (públicas)
+Route::view('/termos', 'legal.terms')->name('legal.terms');
+Route::view('/privacidade', 'legal.privacy')->name('legal.privacy');
+Route::view('/cookies', 'legal.cookies')->name('legal.cookies');
 Route::get('/dashboard', function () {
     return redirect()->route('panel.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

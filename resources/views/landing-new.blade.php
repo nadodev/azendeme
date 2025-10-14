@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>aZendame — Sistema Completo de Agendamentos para Profissionais</title>
+    <title>aZendeme — Sistema Completo de Agendamentos para Profissionais</title>
     <meta name="description" content="Sistema profissional de agendamentos com sua marca. Fidelidade, promoções, feedbacks, redes sociais e muito mais. Solicite uma demonstração!">
     @vite(['resources/css/app.css','resources/js/app.js'])
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800,900" rel="stylesheet" />
@@ -67,6 +67,16 @@
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900 antialiased">
+    @php
+        // Flags para mostrar/ocultar seções da Landing
+        $showHowItWorks = $showHowItWorks ?? true;
+        $showScreenshots = $showScreenshots ?? true;
+        $showTemplates = $showTemplates ?? true;
+        $showPricing = $showPricing ?? true;
+        $showTestimonials =  false; // "feedbacks"
+        $showDemoForm = $showDemoForm ?? true;
+        $showFooter = $showFooter ?? true;
+    @endphp
     
     <!-- Header Fixo -->
     <header class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200">
@@ -77,7 +87,7 @@
                         <span class="text-white font-black text-xl">aZ</span>
                     </div>
                     <span class="text-2xl font-black">
-                        <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">aZendame</span>
+                        <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">aZendeme</span>
                     </span>
                 </a>
                 
@@ -87,7 +97,7 @@
                     <a href="#templates" class="text-gray-700 hover:text-purple-600 font-medium transition">Templates</a>
                     <a href="#precos" class="text-gray-700 hover:text-purple-600 font-medium transition">Preços</a>
                     <a href="/sobre" class="text-gray-700 hover:text-purple-600 font-medium transition">Sobre</a>
-                    <a href="#depoimentos" class="text-gray-700 hover:text-purple-600 font-medium transition">Depoimentos</a>
+                    {{-- <a href="#depoimentos" class="text-gray-700 hover:text-purple-600 font-medium transition">Depoimentos</a> --}}
                 </div>
                 
                 <div class="flex items-center gap-4">
@@ -116,7 +126,7 @@
                     <h1 class="text-5xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight">
                         Transforme seu negócio com
                         <span class="block bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-gradient">
-                            aZendame
+                            aZendeme
                         </span>
                     </h1>
                     
@@ -163,7 +173,7 @@
                                     <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
                                     <div class="w-3 h-3 rounded-full bg-green-500"></div>
                                 </div>
-                                <div class="ml-4 text-sm text-gray-500 font-mono">azendame.com/seu-negocio</div>
+                                <div class="ml-4 text-sm text-gray-500 font-mono">azendeme.com/seu-negocio</div>
                             </div>
                             
                             <!-- Mini Screenshot -->
@@ -298,7 +308,7 @@
     <section class="py-16 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600">
         <div class="max-w-4xl mx-auto text-center px-4">
             <h3 class="text-3xl md:text-4xl font-black text-white mb-4">
-                Quer conhecer TODAS as funcionalidades do <span class="text-yellow-300">aZendame</span> em detalhes?
+                Quer conhecer TODAS as funcionalidades do <span class="text-yellow-300">aZendeme</span> em detalhes?
             </h3>
             <p class="text-xl text-blue-100 mb-8">
                 Veja a lista completa com exemplos práticos de como cada recurso funciona
@@ -309,13 +319,27 @@
         </div>
     </section>
 
-    @include('landing.sections.how-it-works')
-    @include('landing.sections.screenshots')
-    @include('landing.sections.templates')
-    @include('landing.sections.pricing')
-    @include('landing.sections.testimonials')
-    @include('landing.sections.demo-form')
-    @include('landing.sections.footer')
+    @if($showHowItWorks)
+        @include('landing.sections.how-it-works')
+    @endif
+    @if($showScreenshots)
+        @include('landing.sections.screenshots')
+    @endif
+    @if($showTemplates)
+        @include('landing.sections.templates')
+    @endif
+    @if($showPricing)
+        @include('landing.sections.pricing')
+    @endif
+    @if($showTestimonials)
+        @include('landing.sections.testimonials')
+    @endif
+    @if($showDemoForm)
+        @include('landing.sections.demo-form')
+    @endif
+    @if($showFooter)
+        @include('landing.sections.footer')
+    @endif
     
     <script>
         // Smooth scroll

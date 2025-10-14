@@ -73,7 +73,7 @@
                     <a href="{{ url('/#templates') }}" class="text-gray-700 hover:text-blue-600 font-medium transition">Templates</a>
                     <a href="{{ url('/#precos') }}" class="text-gray-700 hover:text-blue-600 font-medium transition">Preços</a>
                     <a href="{{ url('/sobre') }}" class="text-blue-600 font-medium">Sobre</a>
-                    <a href="{{ url('/#depoimentos') }}" class="text-gray-700 hover:text-blue-600 font-medium transition">Depoimentos</a>
+                    {{-- <a href="{{ url('/#depoimentos') }}" class="text-gray-700 hover:text-blue-600 font-medium transition">Depoimentos</a> --}}
                 </div>
                 
                 <div class="flex items-center gap-4">
@@ -100,7 +100,7 @@
                 <h1 class="text-5xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight">
                     Conheça o
                     <span class="block bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-gradient">
-                        aZendame
+                        aZendeme
                     </span>
                 </h1>
                 
@@ -118,10 +118,10 @@
             <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <div>
                     <h2 class="text-4xl md:text-5xl font-black mb-6">
-                        O que é o <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">aZendame</span>?
+                        O que é o <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">aZendeme</span>?
                     </h2>
                     <p class="text-lg text-gray-600 mb-6 leading-relaxed">
-                        O aZendame é uma plataforma completa de gestão de agendamentos desenvolvida especificamente 
+                        O aZendeme é uma plataforma completa de gestão de agendamentos desenvolvida especificamente 
                         para profissionais de beleza, saúde e serviços. Nossa missão é simplificar e otimizar 
                         todos os processos do seu negócio.
                     </p>
@@ -162,7 +162,7 @@
                             <div class="space-y-4">
                                 <!-- Header -->
                                 <div class="flex items-center justify-between p-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg text-white">
-                                    <h4 class="font-bold">aZendame Dashboard</h4>
+                                    <h4 class="font-bold">aZendeme Dashboard</h4>
                                     <div class="flex items-center gap-2">
                                         <div class="w-6 h-6 bg-white/20 rounded-full"></div>
                                         <span class="text-sm">Admin</span>
@@ -216,7 +216,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-4xl md:text-5xl font-black mb-4">
-                    Veja o <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">aZendame</span> em ação
+                    Veja o <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">aZendeme</span> em ação
                 </h2>
                 <p class="text-xl text-gray-600 max-w-3xl mx-auto">
                     Interface intuitiva, design moderno e funcionalidades poderosas em uma experiência única
@@ -382,7 +382,7 @@
                     Galeria de <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Screenshots</span>
                 </h2>
                 <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                    Explore todas as funcionalidades do aZendame através de imagens reais do sistema
+                    Explore todas as funcionalidades do aZendeme através de imagens reais do sistema
                 </p>
             </div>
 
@@ -536,7 +536,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-4xl md:text-5xl font-black mb-4">
-                    Por que escolher o <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">aZendame</span>?
+                    Por que escolher o <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">aZendeme</span>?
                 </h2>
                 <p class="text-xl text-gray-600 max-w-3xl mx-auto">
                     Desenvolvido pensando nas necessidades reais dos profissionais
@@ -599,7 +599,7 @@
                 Pronto para transformar seu negócio?
             </h2>
             <p class="text-xl text-blue-100 mb-8 leading-relaxed">
-                Junte-se a centenas de profissionais que já escolheram o aZendame para gerenciar seus agendamentos
+                Junte-se a centenas de profissionais que já escolheram o aZendeme para gerenciar seus agendamentos
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
                 <a href="{{ url('/#demo') }}" class="px-10 py-5 bg-white text-purple-600 rounded-xl font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition">

@@ -7,7 +7,7 @@
             </div>
             <h2 class="text-4xl md:text-5xl font-black mb-4">
                 Como funciona o
-                <span class="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">AzendaMe</span>
+                <span class="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">AzendeMe</span>
             </h2>
             <p class="text-xl text-gray-600 max-w-3xl mx-auto">
                 Em poucos passos, seu negócio estará online com agendamentos profissionais
@@ -18,39 +18,46 @@
             <!-- Timeline -->
             <div class="space-y-8">
                 @php
-                $steps = [
+$steps = [
                     [
                         'number' => '01',
-                        'title' => 'Cadastre-se Grátis',
-                        'desc' => 'Crie sua conta em menos de 2 minutos. Não precisa de cartão de crédito para começar.',
+                        'title' => 'Solicite uma Demonstração',
+                        'desc' => 'Preencha o formulário ou fale conosco pelo WhatsApp para conhecer o aZendame.',
                         'icon' => '👤',
                         'color' => 'purple'
                     ],
                     [
                         'number' => '02',
+                        'title' => 'Contratação pelo WhatsApp',
+                        'desc' => 'Fechamos o plano e ativamos sua conta rapidamente pelo WhatsApp.',
+                        'icon' => '💬',
+                        'color' => 'indigo'
+                    ],
+                    [
+                        'number' => '03',
                         'title' => 'Configure seu Negócio',
-                        'desc' => 'Adicione seus serviços, horários de atendimento, profissionais da equipe e personalize as cores da sua marca.',
+                        'desc' => 'Adicione serviços, horários, profissionais e personalize as cores da sua marca.',
                         'icon' => '⚙️',
                         'color' => 'blue'
                     ],
                     [
-                        'number' => '03',
+                        'number' => '04',
                         'title' => 'Escolha seu Template',
-                        'desc' => 'Selecione entre Clínica, Salão/Spa, Tatuagem ou Barbearia. Todos totalmente personalizáveis.',
+                        'desc' => 'Selecione entre Clínica, Salão/Spa, Tatuagem ou Barbearia. Todos personalizáveis.',
                         'icon' => '🎨',
                         'color' => 'pink'
                     ],
                     [
-                        'number' => '04',
+                        'number' => '05',
                         'title' => 'Compartilhe seu Link',
-                        'desc' => 'Receba seu link personalizado (AzendaMe/seu-negocio) e compartilhe no WhatsApp, Instagram, Facebook ou site.',
+                        'desc' => 'Receba seu link personalizado (aZendame/seu-negocio) e compartilhe nas redes.',
                         'icon' => '🔗',
                         'color' => 'green'
                     ],
                     [
-                        'number' => '05',
+                        'number' => '06',
                         'title' => 'Receba Agendamentos',
-                        'desc' => 'Seus clientes escolhem data e horário. Você recebe notificações e pode gerenciar tudo pelo painel.',
+                        'desc' => 'Clientes escolhem data e horário. Você recebe alertas e gerencia tudo no painel.',
                         'icon' => '📅',
                         'color' => 'orange'
                     ]
@@ -124,7 +131,7 @@
                 $examples = [
                     ['title' => 'Cliente agenda online', 'desc' => 'Escolhe serviço, data e horário disponível sem precisar ligar ou mandar mensagem'],
                     ['title' => 'Você confirma ou ajusta', 'desc' => 'Recebe notificação, confirma ou sugere outro horário pelo painel'],
-                    ['title' => 'Lembretes automáticos', 'desc' => 'Sistema envia e-mail/WhatsApp 24h e 3h antes para evitar faltas'],
+                    ['title' => 'Lembretes automáticos', 'desc' => 'Sistema envia e-mail 24h e 3h antes para evitar faltas'],
                     ['title' => 'Cliente chega', 'desc' => 'Marca como "Atendido" e registra pagamento no centro financeiro'],
                     ['title' => 'Gera feedback', 'desc' => 'Envia link de avaliação. Cliente responde e você aprova para mostrar publicamente'],
                     ['title' => 'Acumula pontos', 'desc' => 'Cliente ganha pontos de fidelidade automaticamente e pode trocar por descontos']

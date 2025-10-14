@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Funcionalidades Completas — AzendaMe</title>
-    <meta name="description" content="Veja todas as funcionalidades do AzendaMe em detalhes. Sistema completo de agendamentos com mais de 20 recursos profissionais.">
+    <title>Funcionalidades Completas — AzendeMe</title>
+    <meta name="description" content="Veja todas as funcionalidades do AzendeMe em detalhes. Sistema completo de agendamentos com mais de 20 recursos profissionais.">
     @vite(['resources/css/app.css','resources/js/app.js'])
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800,900" rel="stylesheet" />
     <style>
@@ -27,7 +27,7 @@
                         <span class="text-white font-bold text-xl">A</span>
                     </div>
                     <span class="text-2xl font-bold">
-                        Azenda<span class="text-purple-600">Me</span>
+                        Azende<span class="text-purple-600">Me</span>
                     </span>
                 </a>
                 
@@ -69,7 +69,7 @@
                 <a href="#promocoes" class="px-4 py-2 bg-red-100 text-red-700 rounded-lg font-semibold hover:bg-red-200 transition text-sm">Promoções</a>
                 <a href="#feedback" class="px-4 py-2 bg-amber-100 text-amber-700 rounded-lg font-semibold hover:bg-amber-200 transition text-sm">Feedbacks</a>
                 <a href="#financeiro" class="px-4 py-2 bg-green-100 text-green-700 rounded-lg font-semibold hover:bg-green-200 transition text-sm">Financeiro</a>
-                <a href="#social" class="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-lg font-semibold hover:bg-indigo-200 transition text-sm">Social</a>
+                {{-- <a href="#social" class="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-lg font-semibold hover:bg-indigo-200 transition text-sm">Social</a> --}}
                 <a href="#relatorios" class="px-4 py-2 bg-cyan-100 text-cyan-700 rounded-lg font-semibold hover:bg-cyan-200 transition text-sm">Relatórios</a>
             </div>
         </div>
@@ -224,13 +224,13 @@
                     <div class="text-sm text-pink-600 font-semibold">• Cliente escolhe o profissional preferido</div>
                 </div>
 
-                <div class="feature-detail bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-pink-200 hover:shadow-lg">
+                {{-- <div class="feature-detail bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-pink-200 hover:shadow-lg">
                     <h3 class="text-xl font-bold mb-3 flex items-center gap-2">
                         <span class="text-pink-600">✓</span> Sistema de Comissões
                     </h3>
                     <p class="text-gray-600 mb-3">Configure porcentagem de comissão para cada profissional. Cálculo automático.</p>
                     <div class="text-sm text-pink-600 font-semibold">• Relatórios de comissões por período</div>
-                </div>
+                </div> --}}
             </div>
         </section>
 
@@ -428,18 +428,18 @@
                     <div class="text-sm text-green-600 font-semibold">• Gráficos semanais e mensais</div>
                 </div>
 
-                <div class="feature-detail bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-green-200 hover:shadow-lg">
+                {{-- <div class="feature-detail bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-green-200 hover:shadow-lg">
                     <h3 class="text-xl font-bold mb-3 flex items-center gap-2">
                         <span class="text-green-600">✓</span> Comissões por Profissional
                     </h3>
                     <p class="text-gray-600 mb-3">Sistema calcula comissões automaticamente baseado na porcentagem configurada.</p>
                     <div class="text-sm text-green-600 font-semibold">• Relatório de comissões a pagar</div>
-                </div>
+                </div> --}}
             </div>
         </section>
 
         <!-- 8. REDES SOCIAIS -->
-        <section id="social" class="mb-20 scroll-mt-32">
+        {{-- <section id="social" class="mb-20 scroll-mt-32">
             <div class="flex items-center gap-4 mb-8">
                 <div class="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl flex items-center justify-center text-4xl shadow-lg">
                     📱
@@ -483,7 +483,7 @@
                     <div class="text-sm text-indigo-600 font-semibold">• Todos aparecem na página pública</div>
                 </div>
             </div>
-        </section>
+        </section> --}}
 
         <!-- 9. RELATÓRIOS E ANALYTICS -->
         <section id="relatorios" class="mb-20 scroll-mt-32">

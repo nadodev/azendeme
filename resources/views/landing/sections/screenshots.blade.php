@@ -3,7 +3,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
             <h2 class="text-4xl md:text-5xl font-black mb-4">
-                Veja o <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">aZendame</span> em ação
+                Veja o <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">aZendeme</span> em ação
             </h2>
             <p class="text-xl text-gray-600 max-w-3xl mx-auto">
                 Interface intuitiva, design moderno e funcionalidades poderosas em uma experiência única
@@ -22,7 +22,7 @@
                                 <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
                                 <div class="w-3 h-3 rounded-full bg-green-500"></div>
                             </div>
-                            <div class="ml-4 text-sm text-gray-500 font-mono">azendame.com/dashboard</div>
+                            <div class="ml-4 text-sm text-gray-500 font-mono">azendeme.com/dashboard</div>
                         </div>
                         
                         <!-- Mock Dashboard -->
@@ -123,7 +123,7 @@
         <!-- Mobile App Screenshot -->
         <div class="grid lg:grid-cols-2 gap-12 items-center">
             <!-- Content -->
-            <div>
+            {{-- <div>
                 <div class="space-y-6">
                     <div class="inline-flex items-center gap-2 px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold">
                         📱 App Mobile
@@ -164,10 +164,10 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div> --}}
 
             <!-- Mobile Screenshot -->
-            <div class="flex justify-center">
+            {{-- <div class="flex justify-center">
                 <div class="relative">
                     <div class="w-64 h-[500px] bg-gray-900 rounded-[3rem] p-2 shadow-2xl">
                         <div class="w-full h-full bg-white rounded-[2.5rem] overflow-hidden">
@@ -225,7 +225,7 @@
                     <div class="absolute -top-6 -right-6 w-20 h-20 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full blur-xl opacity-60"></div>
                     <div class="absolute -bottom-6 -left-6 w-24 h-24 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full blur-xl opacity-40"></div>
                 </div>
-            </div>
+            </div> --}}
         </div>
 
         <!-- CTA Section -->
@@ -234,7 +234,7 @@
                 Pronto para ver mais?
             </h3>
             <p class="text-lg text-gray-600 mb-8">
-                Explore todas as funcionalidades do aZendame em nossa página completa
+                Explore todas as funcionalidades do aZendeme em nossa página completa
             </p>
             <a href="{{ url('/sobre') }}" class="inline-block px-8 py-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition">
                 🚀 Conhecer o Sistema Completo

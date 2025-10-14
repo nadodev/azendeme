@@ -58,7 +58,7 @@
                             <p class="text-sm text-gray-600">Atendimento imediato</p>
                         </div>
                     </div>
-                    <a href="https://wa.me/5511999999999?text=Olá!%20Gostaria%20de%20solicitar%20uma%20demonstração%20do%20AzendaMe" target="_blank" class="block text-center px-8 py-4 bg-green-500 hover:bg-green-600 text-white rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition">
+                    <a href="https://wa.me/5549999195407?text=Olá!%20Gostaria%20de%20solicitar%20uma%20demonstração%20do%20AzendaMe" target="_blank" class="block text-center px-8 py-4 bg-green-500 hover:bg-green-600 text-white rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition">
                         💬 Falar no WhatsApp Agora
                     </a>
                     <p class="text-center text-sm text-gray-600 mt-3">Respondemos em poucos minutos!</p>
@@ -126,7 +126,7 @@
                     </button>
 
                     <p class="text-center text-sm text-purple-100">
-                        Ao enviar, você concorda com nossos <a href="#" class="underline">termos de uso</a>
+                        Ao enviar, você concorda com nossos <a href="{{ route('legal.terms') }}" class="underline">termos de uso</a>
                     </p>
                 </form>
 
@@ -157,7 +157,7 @@ document.getElementById('demoForm')?.addEventListener('submit', function(e) {
     
     // Redirecionar após 2 segundos (opcional)
     setTimeout(() => {
-        window.location.href = `https://wa.me/5511999999999?text=${encodeURIComponent(message)}`;
+        window.location.href = `https://wa.me/554999195407?text=${encodeURIComponent(message)}`;
     }, 2000);
 });
 </script>
