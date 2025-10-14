@@ -5,7 +5,7 @@
             <!-- Logo e Descrição -->
             <div class="lg:col-span-1">
                 <div class="flex items-center gap-3 mb-4">
-                    <img src="{{ asset('favicon-16x16.png') }}" alt="aZendeMe" class="w-8 h-8">
+                    <img src="{{ asset('logo.png') }}" alt="aZendeMe" class="w-8 h-8">
                     <span class="text-2xl font-black">
                         <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">aZendeMe</span>
                     </span>
