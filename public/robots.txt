@@ -1,2 +1,38 @@
 User-agent: *
-Disallow:
+Allow: /
+
+# Sitemap
+Sitemap: https://azendeme.com.br/sitemap.xml
+
+# Allow all search engines to crawl
+Crawl-delay: 1
+
+# Block access to admin areas
+Disallow: /panel/
+Disallow: /admin/
+Disallow: /storage/
+Disallow: /vendor/
+Disallow: /node_modules/
+
+# Allow important pages
+Allow: /
+Allow: /sobre
+Allow: /funcionalidades
+Allow: /marketing
+Allow: /help
+Allow: /termos
+Allow: /privacidade
+Allow: /cookies
+
+# Block duplicate content
+Disallow: /*?*
+Disallow: /*#
+
+# Allow CSS and JS files
+Allow: /css/
+Allow: /js/
+Allow: /images/
+Allow: /favicon.ico
+Allow: /favicon-16x16.png
+Allow: /favicon-32x32.png
+Allow: /apple-touch-icon.png
