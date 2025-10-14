@@ -291,6 +291,20 @@
     </style>
 </head>
 <body>
+    @php $isDemo = $isDemo ?? true; @endphp
+    @if($isDemo)
+        <div class="fixed top-0 left-0 right-0 z-50">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="mt-3 flex justify-center">
+                    <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-semibold bg-yellow-100 text-yellow-800 border border-yellow-200 shadow-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>
+                        Versão de Demonstração
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="h-10"></div>
+    @endif
     <div class="content-wrapper">
         <!-- SVG Filter para efeito de tinta -->
         <svg width="0" height="0" style="position: absolute;">
@@ -304,8 +318,17 @@
 
         <!-- Header -->
         <header class="tattoo-header sticky top-0 z-50">
+            @if(($isDemo ?? true))
+            <div class="absolute top-2 left-3 sm:top-6 sm:left-3">
+                <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-yellow-100 text-yellow-800 border border-yellow-200 shadow-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>
+                    Versão de Demonstração
+                </span>
+            </div>
+        @endif
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between h-24">
+                <div class="relative flex items-center justify-between h-24">
+                  
                     <div class="flex items-center gap-5">
                         @if($professional->logo)
                             <img src="{{ asset('storage/' . $professional->logo) }}" alt="Logo" class="w-16 h-16 object-cover" style="clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px); filter: drop-shadow(0 0 10px var(--brand));">

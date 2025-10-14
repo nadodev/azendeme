@@ -150,8 +150,17 @@
 <body class="antialiased bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 text-gray-900">
     <!-- Header -->
     <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-pink-100 shadow-lg">
+        @if(($isDemo ?? true))
+        <div class="absolute top-2 left-3 sm:top-6 sm:left-3">
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-yellow-100 text-yellow-800 border border-yellow-200 shadow-sm">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>
+                Versão de Demonstração
+            </span>
+        </div>
+    @endif
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-24">
+            <div class="relative flex items-center justify-between h-24">
+               
                 <div class="flex items-center gap-4">
                     @if($professional->logo)
                         <img src="{{ asset('storage/' . $professional->logo) }}" alt="Logo" class="w-16 h-16 rounded-full object-cover ring-4 ring-pink-100">
@@ -247,7 +256,7 @@
     @include('public.sections.footer', ['professional' => $professional])
     
     <!-- Gallery Modal -->
-    <div id="gallery-modal" class="hidden fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+    <div id="gallery-modal" class="hidden fixed inset-0 bg-black/95 z-50 grid place-items-center p-4 backdrop-blur-sm">
         <div class="relative max-w-6xl w-full max-h-[90vh] flex flex-col">
             <!-- Close Button -->
             <button id="gallery-close-btn" class="absolute -top-12 right-0 text-white text-4xl hover:text-pink-400 transition-colors font-light z-10">&times;</button>
@@ -255,7 +264,7 @@
             <!-- Modal Content -->
             <div class="bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-full">
                 <!-- Image Container -->
-                <div class="flex-1 flex items-center justify-center bg-gradient-to-br from-pink-50 to-rose-50 p-8">
+                <div class="flex-1 grid place-items-center bg-gradient-to-br from-pink-50 to-rose-50 p-8">
                     <img id="gallery-modal-img" src="" alt="" class="max-w-full max-h-[60vh] object-contain rounded-lg shadow-lg">
                 </div>
                 
