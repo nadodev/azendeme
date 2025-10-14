@@ -16,7 +16,7 @@
                 <div class="bg-gradient-to-br from-purple-600 to-pink-600 rounded-3xl p-12 text-white shadow-2xl">
                         <div class="flex items-center gap-4 mb-8">
                             <div class="relative">
-                                <img src="{{ asset('favicon-16x16.png') }}" alt="aZendeMe" class="w-16 h-16 drop-shadow-2xl">
+                                <img src="{{ asset('logo.png') }}" alt="aZendeMe" class="w-16 h-16 drop-shadow-2xl">
                                 <div class="absolute -inset-2 bg-white/20 rounded-full blur-xl"></div>
                             </div>
                             <div>
