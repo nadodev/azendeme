@@ -1,0 +1,31 @@
+INSTRUÇÕES PARA IMAGEM OPEN GRAPH
+
+Crie uma imagem de 1200x630px com as seguintes especificações:
+
+CONTEÚDO:
+- Logo do aZendeMe (favicon-16x16.png ampliado)
+- Texto: "aZendeMe - Sistema de Agendamentos Online"
+- Subtítulo: "Para Salões, Clínicas, Barbearias e Mais"
+- CTA: "Demonstração Gratuita"
+
+CORES:
+- Fundo: Gradiente roxo/rosa (#8B5CF6 para #EC4899)
+- Texto principal: Branco
+- Texto secundário: Branco com 80% opacidade
+
+FONTE:
+- Título: Inter Bold, 48px
+- Subtítulo: Inter Medium, 24px
+- CTA: Inter Semibold, 20px
+
+LAYOUT:
+- Logo no canto superior esquerdo
+- Texto centralizado
+- CTA no canto inferior direito
+- Espaçamento adequado entre elementos
+
+SALVAR COMO:
+- Nome: og-image.jpg
+- Formato: JPEG
+- Qualidade: 90%
+- Dimensões: 1200x630px

@@ -45,6 +45,27 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="aZendeMe">
     
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="BR">
+    <meta name="geo.country" content="Brasil">
+    <meta name="geo.placename" content="Brasil">
+    
+    <!-- Language -->
+    <meta name="language" content="pt-BR">
+    <meta name="content-language" content="pt-BR">
+    
+    <!-- Cache Control -->
+    <meta http-equiv="Cache-Control" content="public, max-age=31536000">
+    
+    <!-- Security -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    
+    <!-- Performance -->
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    
     <!-- Favicon -->
     @include('partials.favicon')
     
@@ -90,7 +111,7 @@
                 'name' => 'aZendeMe',
                 'logo' => [
                     '@type' => 'ImageObject',
-                    'url' => asset('favicon-16x16.png')
+                    'url' => asset('logo.png')
                 ]
             ],
             'featureList' => [
@@ -111,7 +132,7 @@
             '@type' => 'Organization',
             'name' => 'aZendeMe',
             'url' => url('/'),
-            'logo' => asset('favicon-16x16.png'),
+            'logo' => asset('logo.png'),
             'description' => 'Sistema completo de agendamentos online para profissionais',
             'foundingDate' => '2024',
             'contactPoint' => [
@@ -266,7 +287,7 @@
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" role="navigation" aria-label="Menu principal">
             <div class="flex justify-between items-center h-16 sm:h-20">
                 <a href="#inicio" class="flex items-center gap-1" aria-label="aZendeMe - Página inicial">
-                    <img src="{{ asset('favicon-16x16.png') }}" alt="Logo aZendeMe - Sistema de agendamentos online" class="w-8 h-8" width="32" height="32">
+                    <img src="{{ asset('logo.png') }}" alt="Logo aZendeMe - Sistema de agendamentos online" class="w-8 h-8" width="32" height="32">
                     <span class="text-2xl font-black">
                         <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">aZendeMe</span>
                     </span>
@@ -308,9 +329,20 @@
         </div>
     </header>
 
+    <!-- Breadcrumbs -->
+    <nav class="fixed top-20 left-0 right-0 z-40 bg-white/90 backdrop-blur-sm border-b border-gray-100 py-2" aria-label="Breadcrumb">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <ol class="flex items-center space-x-2 text-sm text-gray-600">
+                <li><a href="/" class="hover:text-purple-600">Início</a></li>
+                <li class="text-gray-400">/</li>
+                <li class="text-purple-600 font-medium">Sistema de Agendamentos</li>
+            </ol>
+        </div>
+    </nav>
+
     <!-- Hero Section -->
     <main>
-        <section id="inicio" class="relative pt-32 pb-20 overflow-hidden" role="main" aria-labelledby="hero-title">
+        <section id="inicio" class="relative pt-40 pb-20 overflow-hidden" role="main" aria-labelledby="hero-title">
             <!-- Background -->
             <div class="absolute inset-0 bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50" aria-hidden="true"></div>
             <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(139,92,246,0.1),transparent_50%),radial-gradient(circle_at_70%_60%,rgba(236,72,153,0.1),transparent_50%)]" aria-hidden="true"></div>
@@ -541,6 +573,50 @@
         @include('landing.sections.footer')
     @endif
     
+    <!-- Footer SEO -->
+    <footer class="bg-gray-900 text-gray-300 py-12" role="contentinfo">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-white font-bold mb-4">aZendeMe</h3>
+                    <p class="text-sm mb-4">Sistema completo de agendamentos online para profissionais.</p>
+                    <div class="flex items-center gap-2">
+                        <img src="{{ asset('logo.png') }}" alt="aZendeMe" class="w-6 h-6">
+                        <span class="text-white font-semibold">aZendeMe</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Produto</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#funcionalidades" class="hover:text-white">Funcionalidades</a></li>
+                        <li><a href="#templates" class="hover:text-white">Templates</a></li>
+                        <li><a href="#precos" class="hover:text-white">Preços</a></li>
+                        <li><a href="/sobre" class="hover:text-white">Sobre</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Suporte</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="/help" class="hover:text-white">Central de Ajuda</a></li>
+                        <li><a href="https://wa.me/5549999195407" class="hover:text-white">WhatsApp</a></li>
+                        <li><a href="#demo" class="hover:text-white">Demonstração</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="/termos" class="hover:text-white">Termos de Uso</a></li>
+                        <li><a href="/privacidade" class="hover:text-white">Privacidade</a></li>
+                        <li><a href="/cookies" class="hover:text-white">Cookies</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
+                <p>&copy; 2025 aZendeMe. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
     <!-- Sitemap Interno para SEO -->
     <nav class="hidden" aria-label="Sitemap interno">
         <ul>

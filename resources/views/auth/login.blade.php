@@ -77,7 +77,7 @@
                         <a href="{{ url('/') }}" class="inline-block">
                             <div class="flex items-center gap-4 justify-center">
                                 <div class="relative">
-                                    <img src="{{ asset('favicon-16x16.png') }}" alt="aZendeMe" class="w-12 h-12 drop-shadow-xl">
+                                    <img src="{{ asset('logo.png') }}" alt="aZendeMe" class="w-12 h-12 drop-shadow-xl">
                                     <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full blur-lg opacity-30"></div>
                                 </div>
                                 <div class="text-center">

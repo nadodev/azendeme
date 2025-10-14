@@ -3,38 +3,38 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>aZendame — Agendamento online em minutos | Sistema de agendamentos para profissionais</title>
+    <title>aZendeme — Agendamento online em minutos | Sistema de agendamentos para profissionais</title>
     <meta name="description" content="Agendamentos 24/7 para salões, maquiadores, tatuadores e barbearias. Páginas lindas, lembretes e relatórios. Demonstração gratuita.">
     <link rel="canonical" href="{{ url('/fase3/marketing') }}">
     <meta name="robots" content="index,follow,max-image-preview:large">
-    <meta name="author" content="aZendame">
+    <meta name="author" content="aZendeme">
     <meta name="theme-color" content="#2563EB">
     <meta name="keywords" content="agendamento online,sistema de agendamentos,salão de beleza,maquiagem,tatuagem,barbearia,agenda online,lembretes">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('partials.favicon')
     @vite(['resources/css/app.css','resources/js/app.js'])
     <meta property="og:type" content="website">
-    <meta property="og:title" content="aZendame — Agendamento online em minutos">
+    <meta property="og:title" content="aZendeme — Agendamento online em minutos">
     <meta property="og:description" content="Clientes marcando. Você lucrando. Converta mais com sua página de agendamentos.">
     <meta property="og:url" content="{{ url('/fase3/marketing') }}">
-    <meta property="og:site_name" content="aZendame">
+    <meta property="og:site_name" content="aZendeme">
     <meta property="og:image" content="{{ asset('og-image.jpg') }}">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="aZendame — Agendamento online em minutos">
+    <meta name="twitter:title" content="aZendeme — Agendamento online em minutos">
     <meta name="twitter:description" content="Clientes marcando. Você lucrando. Demonstração gratuita.">
     <meta name="twitter:image" content="{{ asset('og-image.jpg') }}">
     @php
         $ldOrg = [
             '@context' => 'https://schema.org',
             '@type' => 'Organization',
-            'name' => 'aZendame',
+            'name' => 'aZendeme',
             'url' => url('/'),
-            'logo' => asset('favicon-16x16.png'),
+            'logo' => asset('logo.png'),
         ];
         $ldSite = [
             '@context' => 'https://schema.org',
             '@type' => 'WebSite',
-            'name' => 'aZendame',
+            'name' => 'aZendeme',
             'url' => url('/'),
         ];
         $ldFaq = [
@@ -72,7 +72,7 @@
             <header class="flex items-center justify-between mb-10" role="banner">
                 <a href="/" class="flex items-center gap-3">
                     <div class="w-12 h-12 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 rounded-xl flex items-center justify-center shadow">
-                        <img src="{{ asset('favicon-16x16.png') }}" alt="aZendeMe" class="w-8 h-8">
+                        <img src="{{ asset('logo.png') }}" alt="aZendeMe" class="w-8 h-8">
                     </div>
                     <span class="text-xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">aZendeMe</span>
                 </a>
