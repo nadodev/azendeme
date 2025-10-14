@@ -391,74 +391,109 @@
                 @php
                 $screenshots = [
                     [
-                        'title' => 'Dashboard Principal',
-                        'desc' => 'Visão geral completa do seu negócio com métricas em tempo real',
-                        'image' => 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&crop=center',
+                        'title' => 'Painel Principal',
+                        'desc' => 'Dashboard com métricas em tempo real, agenda do dia e resumo financeiro',
+                        'image' => asset('telas/tela01.png'),
                         'gradient' => 'from-blue-500 to-cyan-500',
                         'icon' => '📊'
                     ],
                     [
-                        'title' => 'Agenda Inteligente',
-                        'desc' => 'Calendário visual com todos os agendamentos organizados',
-                        'image' => 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=600&fit=crop&crop=center',
+                        'title' => 'Agenda Completa',
+                        'desc' => 'Calendário visual com agendamentos, confirmações e gestão de horários',
+                        'image' => asset('telas/tela04.png'),
                         'gradient' => 'from-purple-500 to-pink-500',
                         'icon' => '📅'
                     ],
                     [
-                        'title' => 'Gestão de Clientes',
-                        'desc' => 'Cadastro completo com histórico e preferências',
-                        'image' => 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop&crop=center',
+                        'title' => 'Base de Clientes',
+                        'desc' => 'Cadastro completo com histórico, preferências e dados de contato',
+                        'image' => asset('telas/clientes.png'),
                         'gradient' => 'from-pink-500 to-rose-500',
                         'icon' => '👥'
                     ],
                     [
-                        'title' => 'Serviços & Preços',
-                        'desc' => 'Configure serviços, valores e profissionais',
-                        'image' => 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=800&h=600&fit=crop&crop=center',
+                        'title' => 'Serviços & Profissionais',
+                        'desc' => 'Configure serviços, preços, duração e gerencie sua equipe',
+                        'image' => asset('telas/servicos.png'),
                         'gradient' => 'from-yellow-500 to-orange-500',
                         'icon' => '✂️'
                     ],
                     [
                         'title' => 'Programa de Fidelidade',
-                        'desc' => 'Sistema de pontos e recompensas para clientes',
-                        'image' => 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop&crop=center',
+                        'desc' => 'Sistema de pontos, recompensas e descontos para clientes fiéis',
+                        'image' => asset('telas/fidelidade.png'),
                         'gradient' => 'from-red-500 to-pink-500',
                         'icon' => '🎁'
                     ],
                     [
                         'title' => 'Promoções & Cupons',
-                        'desc' => 'Crie campanhas e gerencie descontos',
-                        'image' => 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop&crop=center',
+                        'desc' => 'Crie campanhas promocionais e gerencie códigos de desconto',
+                        'image' => asset('telas/cupons.png'),
                         'gradient' => 'from-amber-500 to-yellow-500',
                         'icon' => '🎉'
                     ],
                     [
-                        'title' => 'Sistema de Feedbacks',
-                        'desc' => 'Colete e gerencie avaliações dos clientes',
-                        'image' => 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&crop=center',
+                        'title' => 'Avaliações & Feedbacks',
+                        'desc' => 'Colete e gerencie avaliações dos clientes sobre seus serviços',
+                        'image' => asset('telas/feedbacks.png'),
                         'gradient' => 'from-indigo-500 to-purple-500',
                         'icon' => '⭐'
                     ],
                     [
                         'title' => 'Centro Financeiro',
-                        'desc' => 'Controle receitas, despesas e relatórios',
-                        'image' => 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop&crop=center',
+                        'desc' => 'Controle de receitas, despesas, pagamentos e fluxo de caixa',
+                        'image' => asset('telas/tela02.png'),
                         'gradient' => 'from-green-500 to-emerald-500',
                         'icon' => '💰'
                     ],
                     [
-                        'title' => 'Relatórios & Analytics',
-                        'desc' => 'Métricas detalhadas e insights do negócio',
-                        'image' => 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&crop=center',
+                        'title' => 'Relatórios Detalhados',
+                        'desc' => 'Analytics avançados com métricas de vendas e performance',
+                        'image' => asset('telas/relatorio-financeiro.png'),
                         'gradient' => 'from-cyan-500 to-blue-500',
                         'icon' => '📈'
                     ],
                     [
-                        'title' => 'Configurações',
-                        'desc' => 'Personalize cores, textos e funcionalidades',
-                        'image' => 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&crop=center',
+                        'title' => 'Configurações Gerais',
+                        'desc' => 'Personalize cores, textos, horários e funcionalidades do sistema',
+                        'image' => asset('telas/configuracoes.png'),
                         'gradient' => 'from-violet-500 to-purple-500',
                         'icon' => '⚙️'
+                    ],
+                    [
+                        'title' => 'Templates & Personalização',
+                        'desc' => 'Escolha entre 4 templates e personalize cores e textos',
+                        'image' => asset('telas/templates.png'),
+                        'gradient' => 'from-emerald-500 to-teal-500',
+                        'icon' => '🎨'
+                    ],
+                    [
+                        'title' => 'Central de Alertas',
+                        'desc' => 'Notificações de novos agendamentos, cancelamentos e clientes',
+                        'image' => asset('telas/alertas.png'),
+                        'gradient' => 'from-orange-500 to-red-500',
+                        'icon' => '🔔'
+                    ],
+                    [
+                        'title' => 'Relatórios Financeiros',
+                        'desc' => 'Análise de receitas por método de pagamento e período',
+                        'image' => asset('telas/relatorio-financeiro.png'),
+                        'gradient' => 'from-green-500 to-lime-500',
+                        'icon' => '💹'
+                    ],
+                    [
+                        'title' => 'Analytics de Serviços',
+                        'desc' => 'Métricas de serviços mais agendados e performance por profissional',
+                        'image' => asset('telas/servicos-2.png'),
+                        'gradient' => 'from-purple-500 to-fuchsia-500',
+                        'icon' => '📊'
+                    ],
+                    [
+                        'title' => 'Dashboard de Performance',
+                        'desc' => 'Visão geral completa com métricas de crescimento e tendências',
+                        'image' => asset('telas/performance.png'),
+                        'gradient' => 'from-rose-500 to-pink-500',
+                        'icon' => '🚀'
                     ]
                 ];
                 @endphp

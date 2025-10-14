@@ -20,7 +20,7 @@
                         <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-pink-500 rounded-lg flex items-center justify-center">
                             <span class="text-white font-bold text-xl">A</span>
                         </div>
-                        <span class="text-xl font-bold text-gray-800">AzendaMe</span>
+                        <span class="text-xl font-bold text-gray-800">AzendeMe</span>
                     </a>
                 </div>
 

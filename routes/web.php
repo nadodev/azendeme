@@ -77,6 +77,33 @@ Route::get('/ajuda', function () {
 Route::view('/termos', 'legal.terms')->name('legal.terms');
 Route::view('/privacidade', 'legal.privacy')->name('legal.privacy');
 Route::view('/cookies', 'legal.cookies')->name('legal.cookies');
+
+// FASE 3 — Marketing e Aquisição de Leads (Landing de conversão)
+Route::view('/marketing', 'landing-leads')->name('marketing.leads');
+
+// Captura de email para marketing
+Route::post('/api/capture-email', function (\Illuminate\Http\Request $request) {
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'segment' => 'required|string|in:salon,makeup,tattoo,barber,other'
+    ]);
+    
+    // Aqui você pode salvar no banco de dados ou integrar com email marketing
+    \Log::info('Lead capturado para marketing', [
+        'name' => $request->name,
+        'email' => $request->email,
+        'segment' => $request->segment,
+        'ip' => $request->ip(),
+        'user_agent' => $request->userAgent(),
+        'created_at' => now()
+    ]);
+    
+    return response()->json([
+        'success' => true,
+        'message' => 'Cadastro realizado com sucesso!'
+    ]);
+})->name('api.capture-email');
 Route::get('/dashboard', function () {
     return redirect()->route('panel.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
