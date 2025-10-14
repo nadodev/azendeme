@@ -16,7 +16,7 @@
                     <a href="/" class="text-2xl font-bold text-purple-600">AzendaMe</a>
                 </div>
                 <nav class="hidden md:flex space-x-8">
-                    <a href="/" class="text-gray-700 hover:text-purple-600 transition">Início</a>
+                    <a href="{{ $publicUrl }}" class="text-gray-700 hover:text-purple-600 transition">Início</a>
                     <a href="/blog" class="text-purple-600 font-medium">Blog</a>
                     <a href="/funcionalidades" class="text-gray-700 hover:text-purple-600 transition">Funcionalidades</a>
                 </nav>
