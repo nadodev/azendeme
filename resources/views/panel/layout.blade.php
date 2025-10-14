@@ -316,11 +316,21 @@
                             <p class="text-sm text-gray-500 mt-1">@yield('page-subtitle')</p>
                         @endif
                     </div>
-                    @hasSection('header-actions')
-                        <div>
-                            @yield('header-actions')
-                        </div>
-                    @endif
+                    <div class="flex items-center gap-3">
+                        @php
+                            $professional = \App\Models\Professional::find(1);
+                            $publicUrl = $professional ? url('/' . $professional->slug) : url('/');
+                        @endphp
+                        <a href="{{ $publicUrl }}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-lg font-semibold hover:shadow-lg transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                            Ver meu site
+                        </a>
+                        @hasSection('header-actions')
+                            <div>
+                                @yield('header-actions')
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </header>
 
