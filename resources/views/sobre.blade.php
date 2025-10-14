@@ -657,7 +657,7 @@
                             <span class="text-white font-black text-xl">aZ</span>
                         </div>
                         <span class="text-2xl font-black">
-                            <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">aZendame</span>
+                            <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">aZendeme</span>
                         </span>
                     </div>
                     <p class="text-gray-400 mb-6 max-w-md">
