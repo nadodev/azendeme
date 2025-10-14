@@ -3,6 +3,14 @@
 @section('page-title', 'Agenda')
 @section('page-subtitle', 'Gerencie seus agendamentos')
 
+@php
+    // Breadcrumb customizado para a página de agenda
+    $customBreadcrumb = [
+        'Dashboard' => route('panel.dashboard'),
+        'Agenda' => null
+    ];
+@endphp
+
 @section('content')
 
 <!-- Cards de Resumo -->

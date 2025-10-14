@@ -335,6 +335,9 @@
                 </div>
             </header>
 
+            <!-- Breadcrumb -->
+            <x-breadcrumb :items="$customBreadcrumb ?? []" />
+
             <!-- Page Content -->
             <main class="flex-1 overflow-y-auto p-8">
                 @if(session('success'))
