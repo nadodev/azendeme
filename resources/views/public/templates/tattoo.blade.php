@@ -354,7 +354,7 @@
                         <a href="#inicio" class="nav-link-tattoo text-gray-300 hover:text-white font-bold uppercase text-sm tracking-widest transition active">Início</a>
                         <a href="#servicos" class="nav-link-tattoo text-gray-300 hover:text-white font-bold uppercase text-sm tracking-widest transition">Trabalhos</a>
                         <a href="#galeria" class="nav-link-tattoo text-gray-300 hover:text-white font-bold uppercase text-sm tracking-widest transition">Portfolio</a>
-                        <a href="{{ route('blog.index', $professional->slug) }}" class="nav-link-tattoo text-gray-300 hover:text-white font-bold uppercase text-sm tracking-widest transition">Blog</a>
+                        {{-- <a href="{{ route('blog.index', $professional->slug) }}" class="nav-link-tattoo text-gray-300 hover:text-white font-bold uppercase text-sm tracking-widest transition">Blog</a> --}}
                         <a href="#agendar" class="nav-link-tattoo text-gray-300 hover:text-white font-bold uppercase text-sm tracking-widest transition">Agendar</a>
                     </nav>
                 </div>

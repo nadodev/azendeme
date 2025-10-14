@@ -375,7 +375,7 @@
                         <a href="#inicio" class="nav-link text-gray-300 hover:text-white font-semibold text-sm tracking-wide transition active">Início</a>
                         <a href="#servicos" class="nav-link text-gray-300 hover:text-white font-semibold text-sm tracking-wide transition">Serviços</a>
                         <a href="#galeria" class="nav-link text-gray-300 hover:text-white font-semibold text-sm tracking-wide transition">Galeria</a>
-                        <a href="{{ route('blog.index', $professional->slug) }}" class="nav-link text-gray-300 hover:text-white font-semibold text-sm tracking-wide transition">Blog</a>
+                        {{-- <a href="{{ route('blog.index', $professional->slug) }}" class="nav-link text-gray-300 hover:text-white font-semibold text-sm tracking-wide transition">Blog</a> --}}
                         <a href="#agendar" class="nav-link text-gray-300 hover:text-white font-semibold text-sm tracking-wide transition">Agendar</a>
                     </nav>
                 </div>

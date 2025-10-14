@@ -186,7 +186,7 @@
                     <a href="#inicio" class="nav-link active">Início</a>
                     <a href="#servicos" class="nav-link">Serviços</a>
                     <a href="#galeria" class="nav-link">Galeria</a>
-                    <a href="{{ route('blog.index', $professional->slug) }}" class="nav-link">Blog</a>
+                    {{-- <a href="{{ route('blog.index', $professional->slug) }}" class="nav-link">Blog</a> --}}
                     <a href="#agendar" class="nav-link">Agendar</a>
                     <a href="#contato" class="nav-link">Contato</a>
                 </nav>

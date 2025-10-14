@@ -167,7 +167,7 @@
                     <a href="#inicio" class="text-gray-700 hover:text-[var(--brand)] font-semibold transition nav-link active">Início</a>
                     <a href="#servicos" class="text-gray-700 hover:text-[var(--brand)] font-semibold transition nav-link">Serviços</a>
                     <a href="#galeria" class="text-gray-700 hover:text-[var(--brand)] font-semibold transition nav-link">Galeria</a>
-                    <a href="{{ route('blog.index', $professional->slug) }}" class="text-gray-700 hover:text-[var(--brand)] font-semibold transition nav-link">Blog</a>
+                    {{-- <a href="{{ route('blog.index', $professional->slug) }}" class="text-gray-700 hover:text-[var(--brand)] font-semibold transition nav-link">Blog</a> --}}
                     <a href="#agendar" class="text-gray-700 hover:text-[var(--brand)] font-semibold transition nav-link">Agendar</a>
                 </nav>
 
