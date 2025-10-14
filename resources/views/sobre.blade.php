@@ -59,10 +59,10 @@
             <div class="flex justify-between items-center h-20">
                 <a href="{{ url('/') }}" class="flex items-center gap-3">
                     <div class="w-12 h-12 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 rounded-xl flex items-center justify-center shadow-lg">
-                        <span class="text-white font-black text-xl">aZ</span>
+                        <img src="{{ asset('favicon-16x16.png') }}" alt="aZendeMe" class="w-8 h-8">
                     </div>
                     <span class="text-2xl font-black">
-                        <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">aZendame</span>
+                        <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">aZendeMe</span>
                     </span>
                 </a>
                 

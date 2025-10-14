@@ -29,7 +29,7 @@
             '@type' => 'Organization',
             'name' => 'aZendame',
             'url' => url('/'),
-            'logo' => asset('favicon.svg'),
+            'logo' => asset('favicon-16x16.png'),
         ];
         $ldSite = [
             '@context' => 'https://schema.org',
@@ -71,8 +71,10 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 relative">
             <header class="flex items-center justify-between mb-10" role="banner">
                 <a href="/" class="flex items-center gap-3">
-                    <div class="w-12 h-12 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 rounded-xl grid place-content-center shadow"><span class="text-white font-black">aZ</span></div>
-                    <span class="text-xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">aZendame</span>
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 rounded-xl flex items-center justify-center shadow">
+                        <img src="{{ asset('favicon-16x16.png') }}" alt="aZendeMe" class="w-8 h-8">
+                    </div>
+                    <span class="text-xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">aZendeMe</span>
                 </a>
                 <nav class="hidden md:flex items-center gap-6">
                     <a href="#beneficios" class="text-gray-700 hover:text-purple-600 font-medium">Benefícios</a>

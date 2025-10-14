@@ -5,11 +5,9 @@
             <!-- Logo e Descrição -->
             <div class="lg:col-span-1">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl flex items-center justify-center">
-                        <span class="text-white font-bold text-xl">A</span>
-                    </div>
-                    <span class="text-2xl font-bold text-white">
-                        Azende<span class="text-purple-400">Me</span>
+                    <img src="{{ asset('favicon-16x16.png') }}" alt="aZendeMe" class="w-8 h-8">
+                    <span class="text-2xl font-black">
+                        <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">aZendeMe</span>
                     </span>
                 </div>
                 <p class="text-gray-400 mb-6">

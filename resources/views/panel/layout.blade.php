@@ -17,10 +17,10 @@
                 <!-- Logo -->
                 <div class="p-6 border-b border-gray-200">
                     <a href="{{ route('panel.dashboard') }}" class="flex items-center space-x-2">
-                        <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-pink-500 rounded-lg flex items-center justify-center">
-                            <span class="text-white font-bold text-xl">A</span>
-                        </div>
-                        <span class="text-xl font-bold text-gray-800">AzendeMe</span>
+                            <img src="{{ asset('logo.png') }}" alt="aZendeMe" class="w-8 h-8">
+                            <span class="text-2xl font-black">
+                                <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">aZendeMe</span>
+                            </span>
                     </a>
                 </div>
 
