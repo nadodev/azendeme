@@ -678,15 +678,15 @@
                 <div>
                     <h3 class="text-lg font-bold mb-4">Contato</h3>
                     <ul class="space-y-2">
-                        <li class="text-gray-400">contato@azendame.com</li>
-                        <li class="text-gray-400">(11) 99999-9999</li>
-                        <li class="text-gray-400">São Paulo, SP</li>
+                        <li class="text-gray-400">suporte@azendame.com</li>
+                        <li class="text-gray-400">(49) 99919-5407</li>
+                        <li class="text-gray-400">Joaçaba, SC</li>
                     </ul>
                 </div>
             </div>
             
             <div class="border-t border-gray-800 mt-12 pt-8 text-center">
-                <p class="text-gray-400">&copy; 2024 aZendame. Todos os direitos reservados.</p>
+                <p class="text-gray-400">&copy; {{ date('Y') }} aZendeme. Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>
