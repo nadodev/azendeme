@@ -92,7 +92,7 @@
                     </span>
                 </a>
                 
-                <div class="hidden lg:flex items-center gap-8">
+                <div class="hidden md:flex items-center gap-8">
                     <a href="#funcionalidades" class="text-gray-700 hover:text-purple-600 font-medium transition">Funcionalidades</a>
                     <a href="#como-funciona" class="text-gray-700 hover:text-purple-600 font-medium transition">Como Funciona</a>
                     <a href="#templates" class="text-gray-700 hover:text-purple-600 font-medium transition">Templates</a>
@@ -102,7 +102,7 @@
                 </div>
                 
                 <div class="flex items-center gap-2">
-                    <a href="#demo" class="hidden sm:inline-flex sm:text-sm px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition">
+                    <a href="#demo" class="md:flex hidden sm:text-sm px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition">
                         Solicitar Demonstração
                     </a>
                     <button id="mobile-menu-toggle" aria-label="Abrir menu" class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition">
@@ -114,7 +114,7 @@
         </nav>
 
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="lg:hidden hidden border-t border-gray-200 bg-white/95 backdrop-blur-xl">
+        <div id="mobile-menu" class="lg:hidden md:flex border-t border-gray-200 bg-white/95 backdrop-blur-xl">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <div class="flex flex-col gap-2">
                     <a href="#funcionalidades" class="px-3 py-2 rounded-lg text-gray-800 hover:bg-gray-100 font-medium">Funcionalidades</a>
