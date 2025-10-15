@@ -14,7 +14,7 @@ class SettingsController extends Controller
     protected $professionalId;
     public function __construct()
     {
-        $this->professionalId = auth()->user()->id;
+        $this->professionalId = auth()->user()->professional->id ?? null;
     }
 
     public function index()
@@ -28,13 +28,12 @@ class SettingsController extends Controller
 
     public function update(Request $request)
     {
-        $professionalId = $this->professionalId;
+        $professionalId = auth()->user()->professional->id;
         $professional = Professional::findOrFail($professionalId);
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'business_name' => 'nullable|string|max:255',
-            'email' => 'required|email|max:255',
             'phone' => 'nullable|string|max:20',
             'bio' => 'nullable|string',
             'brand_color' => 'nullable|string|max:7',
@@ -45,7 +44,6 @@ class SettingsController extends Controller
         $data = [
             'name' => $validated['name'],
             'business_name' => $validated['business_name'] ?? null,
-            'email' => $validated['email'],
             'phone' => $validated['phone'] ?? null,
             'bio' => $validated['bio'] ?? null,
             'brand_color' => $validated['brand_color'] ?? '#6C63FF',
@@ -71,7 +69,7 @@ class SettingsController extends Controller
 
     public function customizeTemplate()
     {
-        $professionalId = $this->professionalId;
+        $professionalId = auth()->user()->professional->id;
         $professional = Professional::with('templateSetting')->findOrFail($professionalId);
         
         // Se não existir configuração, criar uma padrão baseada no template
@@ -93,7 +91,7 @@ class SettingsController extends Controller
 
     public function updateTemplate(Request $request)
     {
-        $professionalId = $this->professionalId;
+        $professionalId = auth()->user()->professional->id;
         $professional = Professional::findOrFail($professionalId);
 
         $validated = $request->validate([
