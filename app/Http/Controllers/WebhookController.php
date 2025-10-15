@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PlanUpgraded;
+use App\Mail\PlanUpgradeNotification;
 
 class WebhookController extends Controller
 {
@@ -74,10 +77,15 @@ class WebhookController extends Controller
             if ($userId && in_array($targetPlan, ['premium', 'master'], true)) {
                 $user = User::find($userId);
                 if ($user) {
+                    $oldPlan = $user->plan;
                     $user->plan = $targetPlan;
                     if ($customerId) { $user->stripe_customer_id = $customerId; }
                     if ($subscriptionId) { $user->stripe_subscription_id = $subscriptionId; }
                     $user->save();
+                    
+                    // Enviar e-mails de notificação
+                    $this->sendPlanUpgradeEmails($user, $oldPlan, $targetPlan);
+                    
                     Log::info('User plan upgraded via checkout.session.completed', [
                         'user_id' => $user->id,
                         'plan' => $user->plan,
@@ -121,7 +129,11 @@ class WebhookController extends Controller
                         if (str_starts_with($configured, 'prod_') && $configured === $productId) { $targetPlan = $planKey; break; }
                     }
                     if ($targetPlan && in_array($targetPlan, ['premium', 'master'], true)) {
+                        $oldPlan = $user->plan;
                         $user->plan = $targetPlan;
+                        
+                        // Enviar e-mails de notificação
+                        $this->sendPlanUpgradeEmails($user, $oldPlan, $targetPlan);
                     }
                     $user->save();
                     Log::info('User subscription created update', [
@@ -180,7 +192,12 @@ class WebhookController extends Controller
                             $user = User::where('stripe_customer_id', (string)$subscription->customer)->first();
                         }
                         if ($user) {
+                            $oldPlan = $user->plan;
                             $user->plan = $targetPlan;
+                            
+                            // Enviar e-mails de notificação
+                            $this->sendPlanUpgradeEmails($user, $oldPlan, $targetPlan);
+                            
                             $user->save();
                             Log::info('User plan updated via invoice_payment.paid', [
                                 'user_id' => $user->id,
@@ -195,6 +212,39 @@ class WebhookController extends Controller
         }
 
         return response('ok', 200);
+    }
+
+    /**
+     * Enviar e-mails de notificação de upgrade de plano
+     */
+    private function sendPlanUpgradeEmails(User $user, string $oldPlan, string $newPlan)
+    {
+        try {
+            // E-mail para o usuário
+            Mail::to($user->email)->send(new PlanUpgraded($user, $oldPlan, $newPlan));
+            
+            // E-mail para o admin (você)
+            $adminEmail = config('mail.from.address');
+            if ($adminEmail) {
+                Mail::to($adminEmail)->send(new PlanUpgradeNotification($user, $oldPlan, $newPlan));
+            }
+            
+            Log::info('Plan upgrade emails sent successfully', [
+                'user_id' => $user->id,
+                'user_email' => $user->email,
+                'admin_email' => $adminEmail,
+                'old_plan' => $oldPlan,
+                'new_plan' => $newPlan
+            ]);
+            
+        } catch (\Exception $e) {
+            Log::error('Failed to send plan upgrade emails', [
+                'user_id' => $user->id,
+                'error' => $e->getMessage(),
+                'old_plan' => $oldPlan,
+                'new_plan' => $newPlan
+            ]);
+        }
     }
 }
 
