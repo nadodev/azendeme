@@ -327,7 +327,6 @@
                     <a href="#funcionalidades" class="text-gray-700 hover:text-purple-600 font-medium transition" aria-label="Ver funcionalidades do sistema">Funcionalidades</a>
                     <a href="#como-funciona" class="text-gray-700 hover:text-purple-600 font-medium transition" aria-label="Como funciona o sistema">Como Funciona</a>
                     <a href="#templates" class="text-gray-700 hover:text-purple-600 font-medium transition" aria-label="Ver templates disponíveis">Templates</a>
-                    <a href="#precos" class="text-gray-700 hover:text-purple-600 font-medium transition" aria-label="Ver planos e preços">Preços</a>
                     <a href="/sobre" class="text-gray-700 hover:text-purple-600 font-medium transition" aria-label="Sobre o aZendeMe">Sobre</a>
                     {{-- <a href="#depoimentos" class="text-gray-700 hover:text-purple-600 font-medium transition">Depoimentos</a> --}}
                 </div>
@@ -339,10 +338,10 @@
                             <span>Começar Grátis</span>
                         </span>
                     </a>
-                    <a href="#demo" class="lg:flex hidden sm:text-sm px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                    <a href="#precos" class="lg:flex hidden sm:text-sm px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300">
                         <span class="flex items-center gap-1.5">
-                            <span class="text-sm">📞</span>
-                            <span>Solicitar Demo</span>
+                            <span class="text-sm">💰</span>
+                            <span>Ver Planos</span>
                         </span>
                     </a>
                     <button id="mobile-menu-toggle" aria-label="Abrir menu" class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition">
@@ -360,7 +359,6 @@
                     <a href="#funcionalidades" class="px-3 py-2 rounded-lg text-gray-800 hover:bg-gray-100 font-medium">Funcionalidades</a>
                     <a href="#como-funciona" class="px-3 py-2 rounded-lg text-gray-800 hover:bg-gray-100 font-medium">Como Funciona</a>
                     <a href="#templates" class="px-3 py-2 rounded-lg text-gray-800 hover:bg-gray-100 font-medium">Templates</a>
-                    <a href="#precos" class="px-3 py-2 rounded-lg text-gray-800 hover:bg-gray-100 font-medium">Preços</a>
                     <a href="/sobre" class="px-3 py-2 rounded-lg text-gray-800 hover:bg-gray-100 font-medium">Sobre</a>
                     <a href="{{ url('/registrar') }}" class="mt-2 px-4 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-semibold text-center hover:shadow-lg transition-all duration-300">
                         <span class="flex items-center justify-center gap-2">
@@ -368,10 +366,10 @@
                             <span>Começar Grátis</span>
                         </span>
                     </a>
-                    <a href="#demo" class="mt-2 px-4 py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl font-semibold text-center hover:shadow-lg transition-all duration-300">
+                    <a href="#precos" class="mt-2 px-4 py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl font-semibold text-center hover:shadow-lg transition-all duration-300">
                         <span class="flex items-center justify-center gap-2">
-                            <span>📞</span>
-                            <span>Solicitar Demo</span>
+                            <span>💰</span>
+                            <span>Ver Planos</span>
                         </span>
                     </a>
                 </div>
@@ -404,24 +402,18 @@
                             Sistema profissional all-in-one com sua marca: Agenda, Fidelidade, Promoções, Feedbacks, Redes Sociais e muito mais!
                         </p>
                     
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
-                        <a href="{{ url('/registrar') }}" class="btn-primary group relative px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 overflow-hidden">
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-12">
+                        <a href="{{ url('/registrar') }}" class="btn-primary group relative px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-bold text-base hover:shadow-2xl transform hover:scale-105 transition-all duration-300 overflow-hidden">
                             <div class="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                             <div class="relative flex items-center justify-center gap-2">
-                                <span class="text-xl">🚀</span>
+                                <span class="text-lg">🚀</span>
                                 <span>Começar Grátis Agora</span>
                             </div>
                         </a>
-                        <a href="#demo" class="btn-primary group relative px-8 py-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 overflow-hidden">
-                            <div class="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                            <div class="relative flex items-center justify-center gap-2">
-                                <span class="text-xl">📞</span>
-                                <span>Solicitar Demonstração</span>
-                            </div>
-                        </a>
-                        <a href="#funcionalidades" class="btn-secondary px-8 py-4 bg-white text-purple-600 rounded-xl font-bold text-lg border-2 border-purple-600 hover:bg-purple-50 hover:border-purple-700 transition-all duration-300">
+                       
+                        <a href="#funcionalidades" class="btn-secondary px-6 py-3 bg-white text-purple-600 rounded-xl font-bold text-base border-2 border-purple-600 hover:bg-purple-50 hover:border-purple-700 transition-all duration-300">
                             <div class="flex items-center justify-center gap-2">
-                                <span class="text-xl">📋</span>
+                                <span class="text-lg">📋</span>
                                 <span>Ver Todas as Funcionalidades</span>
                             </div>
                         </a>
@@ -430,7 +422,7 @@
                     <!-- Stats -->
                     <div class="grid grid-cols-3 gap-6 max-w-md mx-auto lg:mx-0">
                         <div class="text-center">
-                            <div class="text-3xl font-black text-purple-600">20+</div>
+                            <div class="text-3xl font-black text-purple-600">21+</div>
                             <div class="text-sm text-gray-600">Funcionalidades</div>
                         </div>
                         <div class="text-center">
@@ -538,9 +530,15 @@
                     ],
                     [
                         'icon' => '📱',
+                        'title' => 'Página Bio',
+                        'desc' => 'Crie uma página profissional com sua marca, links personalizados, galeria de fotos e agendamento integrado.',
+                        'gradient' => 'from-indigo-500 to-purple-500'
+                    ],
+                    [
+                        'icon' => '🌐',
                         'title' => 'Redes Sociais',
                         'desc' => 'Link direto de agendamento, QR Code personalizado e integração com Instagram, Facebook e mais.',
-                        'gradient' => 'from-indigo-500 to-purple-500'
+                        'gradient' => 'from-teal-500 to-cyan-500'
                     ],
                     [
                         'icon' => '💰',
@@ -617,9 +615,6 @@
     @endif
     @if($showTestimonials)
         @include('landing.sections.testimonials')
-    @endif
-    @if($showDemoForm)
-        @include('landing.sections.demo-form')
     @endif
     @if($showFooter)
         @include('landing.sections.footer')

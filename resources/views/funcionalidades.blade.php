@@ -35,8 +35,8 @@
                     <a href="{{ url('/') }}" class="text-gray-700 hover:text-purple-600 font-medium transition">
                         ← Voltar
                     </a>
-                    <a href="{{ url('/#demo') }}" class="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:shadow-lg transition">
-                        Solicitar Demo
+                    <a href="{{ url('/registrar') }}" class="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:shadow-lg transition">
+                        Começar Grátis
                     </a>
                 </div>
             </div>
@@ -53,7 +53,7 @@
                 Conheça em detalhes cada recurso do sistema mais completo de agendamentos do Brasil
             </p>
             <div class="inline-flex items-center gap-2 px-6 py-3 bg-white/20 rounded-full text-lg font-semibold">
-                ⚡ Mais de 20 funcionalidades profissionais
+                ⚡ Mais de 21 funcionalidades profissionais
             </div>
         </div>
     </section>
@@ -68,8 +68,8 @@
                 <a href="#fidelidade" class="px-4 py-2 bg-yellow-100 text-yellow-700 rounded-lg font-semibold hover:bg-yellow-200 transition text-sm">Fidelidade</a>
                 <a href="#promocoes" class="px-4 py-2 bg-red-100 text-red-700 rounded-lg font-semibold hover:bg-red-200 transition text-sm">Promoções</a>
                 <a href="#feedback" class="px-4 py-2 bg-amber-100 text-amber-700 rounded-lg font-semibold hover:bg-amber-200 transition text-sm">Feedbacks</a>
+                <a href="#bio" class="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-lg font-semibold hover:bg-indigo-200 transition text-sm">Página Bio</a>
                 <a href="#financeiro" class="px-4 py-2 bg-green-100 text-green-700 rounded-lg font-semibold hover:bg-green-200 transition text-sm">Financeiro</a>
-                {{-- <a href="#social" class="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-lg font-semibold hover:bg-indigo-200 transition text-sm">Social</a> --}}
                 <a href="#relatorios" class="px-4 py-2 bg-cyan-100 text-cyan-700 rounded-lg font-semibold hover:bg-cyan-200 transition text-sm">Relatórios</a>
             </div>
         </div>
@@ -375,7 +375,70 @@
             </div>
         </section>
 
-        <!-- 7. CENTRO FINANCEIRO -->
+        <!-- 7. PÁGINA BIO -->
+        <section id="bio" class="mb-20 scroll-mt-32">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl flex items-center justify-center text-4xl shadow-lg">
+                    📱
+                </div>
+                <div>
+                    <h2 class="text-4xl font-black">Página Bio</h2>
+                    <p class="text-gray-600 text-lg">Sua presença digital profissional</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="feature-detail bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-indigo-200 hover:shadow-lg">
+                    <h3 class="text-xl font-bold mb-3 flex items-center gap-2">
+                        <span class="text-indigo-600">✓</span> Design Personalizado
+                    </h3>
+                    <p class="text-gray-600 mb-3">Crie uma página única com sua marca, cores personalizadas, avatar circular e temas profissionais.</p>
+                    <div class="text-sm text-indigo-600 font-semibold">• 4 temas disponíveis: Lavender, Ocean, Sunset, Forest</div>
+                </div>
+
+                <div class="feature-detail bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-indigo-200 hover:shadow-lg">
+                    <h3 class="text-xl font-bold mb-3 flex items-center gap-2">
+                        <span class="text-indigo-600">✓</span> Links Personalizados
+                    </h3>
+                    <p class="text-gray-600 mb-3">Adicione links para suas redes sociais, site, WhatsApp e outros. Detecção automática de ícones.</p>
+                    <div class="text-sm text-indigo-600 font-semibold">• Instagram, Facebook, TikTok, YouTube, LinkedIn</div>
+                </div>
+
+                <div class="feature-detail bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-indigo-200 hover:shadow-lg">
+                    <h3 class="text-xl font-bold mb-3 flex items-center gap-2">
+                        <span class="text-indigo-600">✓</span> QR Code Integrado
+                    </h3>
+                    <p class="text-gray-600 mb-3">QR Code personalizado para compartilhar sua página em cartões de visita e materiais impressos.</p>
+                    <div class="text-sm text-indigo-600 font-semibold">• Cliente escaneia e acessa direto</div>
+                </div>
+
+                <div class="feature-detail bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-indigo-200 hover:shadow-lg">
+                    <h3 class="text-xl font-bold mb-3 flex items-center gap-2">
+                        <span class="text-indigo-600">✓</span> Agendamento Integrado
+                    </h3>
+                    <p class="text-gray-600 mb-3">Botão de agendamento direto na página bio com calendário interativo e seleção de serviços.</p>
+                    <div class="text-sm text-indigo-600 font-semibold">• Cliente agenda sem sair da página</div>
+                </div>
+
+                <div class="feature-detail bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-indigo-200 hover:shadow-lg">
+                    <h3 class="text-xl font-bold mb-3 flex items-center gap-2">
+                        <span class="text-indigo-600">✓</span> Galeria de Fotos
+                    </h3>
+                    <p class="text-gray-600 mb-3">Exiba seus trabalhos em álbuns organizados. Visualização em modal com navegação.</p>
+                    <div class="text-sm text-indigo-600 font-semibold">• Organize por categorias e álbuns</div>
+                </div>
+
+                <div class="feature-detail bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-indigo-200 hover:shadow-lg">
+                    <h3 class="text-xl font-bold mb-3 flex items-center gap-2">
+                        <span class="text-indigo-600">✓</span> Totalmente Responsivo
+                    </h3>
+                    <p class="text-gray-600 mb-3">Funciona perfeitamente em qualquer dispositivo. Otimizado para mobile e desktop.</p>
+                    <div class="text-sm text-indigo-600 font-semibold">• +70% dos acessos são mobile</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. CENTRO FINANCEIRO -->
         <section id="financeiro" class="mb-20 scroll-mt-32">
             <div class="flex items-center gap-4 mb-8">
                 <div class="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center text-4xl shadow-lg">
@@ -617,14 +680,14 @@
                 Pronto para ter tudo isso no seu negócio?
             </h2>
             <p class="text-2xl text-purple-100 mb-10 max-w-3xl mx-auto">
-                Solicite uma demonstração gratuita e veja o sistema funcionando com seus dados
+                Comece grátis agora e tenha acesso a todas essas funcionalidades profissionais
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="{{ url('/#demo') }}" class="px-12 py-5 bg-white text-purple-600 rounded-xl font-bold text-xl hover:shadow-2xl transform hover:scale-105 transition">
-                    🚀 Solicitar Demonstração Grátis
+                <a href="{{ url('/registrar') }}" class="px-12 py-5 bg-white text-purple-600 rounded-xl font-bold text-xl hover:shadow-2xl transform hover:scale-105 transition">
+                    🚀 Começar Grátis Agora
                 </a>
-                <a href="https://wa.me/5511999999999?text=Olá!%20Vi%20todas%20as%20funcionalidades%20e%20quero%20uma%20demonstração!" target="_blank" class="px-12 py-5 bg-green-500 text-white rounded-xl font-bold text-xl hover:shadow-2xl transform hover:scale-105 transition">
-                    💬 Falar no WhatsApp
+                <a href="{{ url('/#precos') }}" class="px-12 py-5 bg-green-500 text-white rounded-xl font-bold text-xl hover:shadow-2xl transform hover:scale-105 transition">
+                    💰 Ver Planos
                 </a>
             </div>
         </section>

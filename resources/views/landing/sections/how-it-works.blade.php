@@ -21,46 +21,39 @@
 $steps = [
                     [
                         'number' => '01',
-                        'title' => 'Solicite uma Demonstração',
-                        'desc' => 'Preencha o formulário ou fale conosco pelo WhatsApp para conhecer o aZendame.',
-                        'icon' => '👤',
+                        'title' => 'Crie sua Conta Grátis',
+                        'desc' => 'Registre-se gratuitamente e comece a usar o sistema imediatamente.',
+                        'icon' => '🚀',
                         'color' => 'purple'
                     ],
                     [
                         'number' => '02',
-                        'title' => 'Contratação pelo WhatsApp',
-                        'desc' => 'Fechamos o plano e ativamos sua conta rapidamente pelo WhatsApp.',
-                        'icon' => '💬',
+                        'title' => 'Configure seu Negócio',
+                        'desc' => 'Adicione serviços, horários e personalize com suas cores e informações.',
+                        'icon' => '⚙️',
                         'color' => 'indigo'
                     ],
                     [
                         'number' => '03',
-                        'title' => 'Configure seu Negócio',
-                        'desc' => 'Adicione serviços, horários, profissionais e personalize as cores da sua marca.',
-                        'icon' => '⚙️',
+                        'title' => 'Escolha seu Template',
+                        'desc' => 'Selecione entre Clínica, Salão/Spa, Tatuagem ou Barbearia. Todos personalizáveis.',
+                        'icon' => '🎨',
                         'color' => 'blue'
                     ],
                     [
                         'number' => '04',
-                        'title' => 'Escolha seu Template',
-                        'desc' => 'Selecione entre Clínica, Salão/Spa, Tatuagem ou Barbearia. Todos personalizáveis.',
-                        'icon' => '🎨',
+                        'title' => 'Compartilhe seu Link',
+                        'desc' => 'Receba seu link personalizado (aZendame/seu-negocio) e compartilhe nas redes.',
+                        'icon' => '🔗',
                         'color' => 'pink'
                     ],
                     [
                         'number' => '05',
-                        'title' => 'Compartilhe seu Link',
-                        'desc' => 'Receba seu link personalizado (aZendame/seu-negocio) e compartilhe nas redes.',
-                        'icon' => '🔗',
-                        'color' => 'green'
-                    ],
-                    [
-                        'number' => '06',
                         'title' => 'Receba Agendamentos',
                         'desc' => 'Clientes escolhem data e horário. Você recebe alertas e gerencia tudo no painel.',
                         'icon' => '📅',
-                        'color' => 'orange'
-                    ]
+                        'color' => 'green'
+                    ],
                 ];
                 @endphp
 
@@ -108,8 +101,8 @@ $steps = [
                         </div>
                     </div>
 
-                    <a href="#demo" class="block mt-8 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-bold text-center hover:shadow-xl transform hover:scale-105 transition">
-                        Começar Agora Grátis
+                    <a href="{{ url('/registrar') }}" class="block mt-8 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-bold text-center hover:shadow-xl transform hover:scale-105 transition">
+                        🚀 Começar Agora Grátis
                     </a>
                 </div>
 

@@ -77,8 +77,8 @@
                 </div>
                 
                 <div class="flex items-center gap-4">
-                    <a href="{{ url('/#demo') }}" class="px-6 py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition">
-                        Solicitar Demonstração
+                    <a href="{{ url('/registrar') }}" class="px-6 py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition">
+                       Começar Grátis
                     </a>
                 </div>
             </div>
@@ -637,8 +637,8 @@
                 Junte-se a centenas de profissionais que já escolheram o aZendeme para gerenciar seus agendamentos
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="{{ url('/#demo') }}" class="px-10 py-5 bg-white text-purple-600 rounded-xl font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition">
-                    🚀 Solicitar Demonstração
+                <a href="{{ url('/registrar') }}" class="px-10 py-5 bg-white text-purple-600 rounded-xl font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition">
+                    🚀 Começar Grátis
                 </a>
                 <a href="{{ url('/#precos') }}" class="px-10 py-5 bg-white/20 text-white rounded-xl font-bold text-lg border-2 border-white hover:bg-white/30 transition">
                     💰 Ver Preços

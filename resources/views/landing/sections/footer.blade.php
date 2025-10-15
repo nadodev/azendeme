@@ -23,7 +23,7 @@
                     <li><a href="{{ url('/funcionalidades') }}" class="hover:text-purple-400 transition">Lista Completa</a></li>
                     <li><a href="/#templates" class="hover:text-purple-400 transition">Templates</a></li>
                     <li><a href="/#precos" class="hover:text-purple-400 transition">Preços</a></li>
-                    <li><a href="/#demo" class="hover:text-purple-400 transition">Solicitar Demo</a></li>
+                    <li><a href="{{ url('/registrar') }}" class="hover:text-purple-400 transition">Começar Grátis</a></li>
                 </ul>
             </div>
 
@@ -48,8 +48,8 @@
                     Junte-se a centenas de profissionais que já transformaram seus negócios
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="#demo" class="px-10 py-4 bg-white text-purple-600 rounded-xl font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition">
-                        Solicitar Demonstração
+                    <a href="{{ url('/registrar') }}" class="px-10 py-4 bg-white text-purple-600 rounded-xl font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition">
+                        🚀 Começar Grátis
                     </a>
                     <a href="https://wa.me/5549999195407?text=Olá!%20Gostaria%20de%20conhecer%20o%20AzendaMe" target="_blank" class="px-10 py-4 bg-green-600 text-white rounded-xl font-bold text-lg border-2 border-white/30 hover:bg-green-700 transition">
                         💬 Falar no WhatsApp
