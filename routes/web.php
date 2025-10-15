@@ -451,6 +451,8 @@ Route::prefix('panel')->name('panel.')->middleware(['auth', 'verified'])->group(
             // Analytics
             Route::get('/analytics', [App\Http\Controllers\Panel\EventAnalyticsController::class, 'index'])->name('analytics.index');
 
+            // Confirmação de presença (pública)
+
             // Contratos
             Route::prefix('contratos')->name('contracts.')->group(function () {
                 Route::get('/', [App\Http\Controllers\Panel\EventContractController::class, 'index'])->name('index');
@@ -536,6 +538,10 @@ Route::prefix('panel')->name('panel.')->middleware(['auth', 'verified'])->group(
             Route::resource('/', App\Http\Controllers\Panel\EventController::class)->parameters(['' => 'event']);
         });
 });
+
+
+// Confirmação de presença de evento (link público)
+Route::get('/evento/confirmar/{token}', [App\Http\Controllers\Panel\EventConfirmationController::class, 'confirm'])->name('event.confirm');
 
 
 // Links de Agendamento Rápido Público
