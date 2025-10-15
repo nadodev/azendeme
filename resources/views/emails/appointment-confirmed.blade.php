@@ -351,7 +351,7 @@
                 <h3>🔄 Precisa de Outro Serviço?</h3>
                 <p>Que tal agendar outro serviço enquanto está aqui?</p>
                 <p>Clique no botão abaixo para ver nossa agenda disponível!</p>
-                <a href="https://azendeme.com.br/{{ $professional->slug }}/#agendar" class="reschedule-button">
+                <a href="https://azendeme.com.br/{{ $slug }}#agendar" class="reschedule-button">
                     📅 Agendar Outro Serviço
                 </a>
             </div>
