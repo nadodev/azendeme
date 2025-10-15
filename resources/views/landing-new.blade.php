@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     
     <!-- SEO Meta Tags -->
     <title>aZendeMe — Sistema Completo de Agendamentos Online para Profissionais | Salão, Clínica, Barbearia</title>
@@ -332,12 +333,15 @@
                 </div>
                 
                 <div class="flex items-center gap-2">
-                    <a href="{{ url('/registrar') }}" class="lg:flex hidden sm:text-sm px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300">
-                        <span class="flex items-center gap-1.5">
-                            <span class="text-sm">🚀</span>
-                            <span>Começar Grátis</span>
-                        </span>
+                    <button onclick="openBugReportModal()" class="lg:flex hidden items-center gap-1.5 px-3 py-2 text-gray-600 hover:text-purple-600 font-medium transition" title="Reportar Bug">
+                        <span class="text-sm">🐛</span>
+                        <span class="text-sm">Bug</span>
+                    </button>
+                    <a href="{{ url('/login') }}" class="lg:flex hidden items-center gap-1.5 px-3 py-2 text-gray-700 hover:text-purple-600 font-medium transition">
+                        <span class="text-sm">🔑</span>
+                        <span class="text-sm">Entrar</span>
                     </a>
+                   
                     <a href="#precos" class="lg:flex hidden sm:text-sm px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300">
                         <span class="flex items-center gap-1.5">
                             <span class="text-sm">💰</span>
@@ -360,6 +364,10 @@
                     <a href="#como-funciona" class="px-3 py-2 rounded-lg text-gray-800 hover:bg-gray-100 font-medium">Como Funciona</a>
                     <a href="#templates" class="px-3 py-2 rounded-lg text-gray-800 hover:bg-gray-100 font-medium">Templates</a>
                     <a href="/sobre" class="px-3 py-2 rounded-lg text-gray-800 hover:bg-gray-100 font-medium">Sobre</a>
+                    <button onclick="openBugReportModal()" class="px-3 py-2 rounded-lg text-gray-800 hover:bg-gray-100 font-medium flex items-center gap-2">
+                        <span>🐛</span>
+                        <span>Reportar Bug</span>
+                    </button>
                     <a href="{{ url('/registrar') }}" class="mt-2 px-4 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-semibold text-center hover:shadow-lg transition-all duration-300">
                         <span class="flex items-center justify-center gap-2">
                             <span>🚀</span>
@@ -667,6 +675,9 @@
             });
         }
     </script>
+
+    <!-- Modal de Relatório de Bugs -->
+    @include('components.bug-report-modal')
 </body>
 </html>
 

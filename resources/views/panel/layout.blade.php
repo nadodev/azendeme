@@ -436,6 +436,10 @@
                                 class="block px-4 py-2 text-sm {{ request()->routeIs('panel.activity-logs.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
                                 Logs de Atividade
                             </a>
+                            <button onclick="openBugReportModal()"
+                                class="block w-full text-left px-4 py-2 text-sm text-gray-600 hover:text-gray-900">
+                                🐛 Reportar Bug
+                            </button>
                         </div>
                     </div>
                 </nav>
@@ -562,6 +566,9 @@
     </div>
 
     @stack('scripts')
+    
+    <!-- Modal de Relatório de Bugs -->
+    @include('components.bug-report-modal')
 </body>
 
 </html>

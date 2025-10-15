@@ -62,7 +62,7 @@
                     <div class="mt-12 pt-8 border-t border-white/20">
                         <p class="text-sm text-purple-100">
                             Ainda não tem acesso? 
-                            <a href="/#demo" class="font-bold text-white hover:underline">Solicite uma demonstração</a>
+                            <a href="/registrar" class="font-bold text-white hover:underline">Cadastre-se grátis</a>
                         </p>
                     </div>
                 </div>
@@ -185,8 +185,8 @@
                         </a>
                         <p class="text-sm text-gray-600">
                             Não tem acesso ao sistema? 
-                            <a href="{{ url('/#demo') }}" class="font-bold text-purple-600 hover:text-purple-700 transition">
-                                Solicite uma demonstração
+                            <a href="{{ url('/registrar') }}" class="font-bold text-purple-600 hover:text-purple-700 transition">
+                                Cadastre-se grátis
                             </a>
                         </p>
                     </div>

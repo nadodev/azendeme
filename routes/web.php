@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BugReportController;
 use App\Http\Controllers\Panel\ActivityLogController;
 use App\Http\Controllers\Panel\AgendaController;
 use App\Http\Controllers\Panel\AlertController;
@@ -597,6 +598,8 @@ Route::post('/{slug}/validate-promo', [PublicController::class, 'validatePromo']
 Route::post('/{slug}/check-loyalty', [PublicController::class, 'checkLoyalty'])
     ->where('slug', '[a-zA-Z0-9\-_]+')
     ->name('public.check-loyalty');
+Route::post('/bug-report', [BugReportController::class, 'store'])->name('bug-report.store');
+
 Route::post('/{slug}/book', [PublicController::class, 'book'])
     ->where('slug', '[a-zA-Z0-9\-_]+')
     ->name('public.book');
