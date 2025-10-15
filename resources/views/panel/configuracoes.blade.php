@@ -4,22 +4,23 @@
 @section('page-subtitle', 'Personalize seu perfil e preferências')
 
 @section('content')
-<div class="mb-6">
-    <a href="{{ route('panel.template.customize') }}" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl">
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<div class="mb-4 lg:mb-6">
+    <a href="{{ route('panel.template.customize') }}" class="inline-flex items-center px-4 lg:px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl text-sm lg:text-base">
+        <svg class="w-4 h-4 lg:w-5 lg:h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
         </svg>
-        Personalizar Cores & Textos do Template
+        <span class="hidden sm:inline">Personalizar Cores & Textos do Template</span>
+        <span class="sm:hidden">Personalizar Template</span>
     </a>
 </div>
 
-<div class="max-w-3xl">
+<div class="max-w-3xl mx-auto">
     <form method="POST" action="{{ route('panel.configuracoes.update') }}" enctype="multipart/form-data" class="space-y-6">
         @csrf
 
         <!-- Informações do Negócio -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-6">Informações do Negócio</h3>
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 lg:p-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 lg:mb-6">Informações do Negócio</h3>
             
             <div class="space-y-4">
                 <div>

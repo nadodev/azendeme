@@ -13,8 +13,18 @@
 
 <body class="bg-gray-50">
     <div class="min-h-screen flex">
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-button" class="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white rounded-lg shadow-lg border border-gray-200">
+            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
+
+        <!-- Mobile Overlay -->
+        <div id="mobile-overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
         <!-- Sidebar -->
-        <aside class="w-64 bg-white border-r border-gray-200 flex-shrink-0">
+        <aside id="sidebar" class="w-64 bg-white border-r border-gray-200 flex-shrink-0 fixed lg:static inset-y-0 left-0 z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
             <div class="h-full flex flex-col">
                 <!-- Logo -->
                 <div class="p-6 border-b border-gray-200">
@@ -473,9 +483,9 @@
         </aside>
 
         <!-- Main Content -->
-        <div class="flex-1 flex flex-col min-w-0">
+        <div class="flex-1 flex flex-col min-w-0 lg:ml-0">
             <!-- Top Bar -->
-            <header class="bg-white border-b border-gray-200 px-8 py-4">
+            <header class="bg-white border-b border-gray-200 px-4 lg:px-8 py-4 pt-16 lg:pt-4">
                 <div class="flex items-center justify-between">
                     <div>
                         <h1 class="text-2xl font-bold text-gray-900">@yield('page-title', 'Painel')</h1>
@@ -483,7 +493,7 @@
                             <p class="text-sm text-gray-500 mt-1">@yield('page-subtitle')</p>
                         @endif
                     </div>
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2 lg:gap-3">
                         @php
                             $idProfessional = auth()->user()->id;
 
@@ -491,19 +501,19 @@
                             $publicUrl = $professional ? url('/' . $professional->slug) : url('/');
                         @endphp
                         <a href="{{ route('panel.profile') }}"
-                            class="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg font-semibold hover:bg-gray-300 transition">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            class="hidden sm:inline-flex items-center gap-2 px-3 lg:px-4 py-2 bg-gray-200 text-gray-800 rounded-lg font-semibold hover:bg-gray-300 transition text-sm lg:text-base">
+                            <svg class="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A7 7 0 1118.88 7.196M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
-                            Meu Perfil
+                            <span class="hidden lg:inline">Meu Perfil</span>
                         </a>
                         <a href="{{ $publicUrl }}" target="_blank"
-                            class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-lg font-semibold hover:shadow-lg transition">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            class="inline-flex items-center gap-2 px-3 lg:px-4 py-2 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-lg font-semibold hover:shadow-lg transition text-sm lg:text-base">
+                            <svg class="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                             </svg>
-                            Ver meu site
+                            <span class="hidden sm:inline">Ver meu site</span>
                         </a>
                         @hasSection('header-actions')
                             <div>
@@ -518,7 +528,7 @@
             <x-breadcrumb :items="$customBreadcrumb ?? []" />
 
             <!-- Page Content -->
-            <main class="flex-1 overflow-y-auto p-8">
+            <main class="flex-1 overflow-y-auto p-4 lg:p-8">
                 @if(session('success'))
                     <div
                         class="mb-6 bg-green-50 border border-green-200 text-green-800 px-6 py-4 rounded-lg flex items-center justify-between">
@@ -569,6 +579,57 @@
     
     <!-- Modal de Relatório de Bugs -->
     @include('components.bug-report-modal')
+
+    <!-- Mobile Menu Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const sidebar = document.getElementById('sidebar');
+            const mobileOverlay = document.getElementById('mobile-overlay');
+
+            function toggleSidebar() {
+                sidebar.classList.toggle('-translate-x-full');
+                mobileOverlay.classList.toggle('hidden');
+            }
+
+            function closeSidebar() {
+                sidebar.classList.add('-translate-x-full');
+                mobileOverlay.classList.add('hidden');
+            }
+
+            // Toggle sidebar
+            mobileMenuButton.addEventListener('click', toggleSidebar);
+
+            // Close sidebar when clicking overlay
+            mobileOverlay.addEventListener('click', closeSidebar);
+
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(event) {
+                if (window.innerWidth < 1024) {
+                    if (!sidebar.contains(event.target) && !mobileMenuButton.contains(event.target)) {
+                        closeSidebar();
+                    }
+                }
+            });
+
+            // Close sidebar on window resize to desktop
+            window.addEventListener('resize', function() {
+                if (window.innerWidth >= 1024) {
+                    closeSidebar();
+                }
+            });
+
+            // Close sidebar when clicking on navigation links
+            const navLinks = sidebar.querySelectorAll('a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth < 1024) {
+                        closeSidebar();
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

@@ -5,23 +5,24 @@
 
 @section('header-actions')
     @if($errors->has('plan'))
-        <div class="mr-3 px-3 py-2 bg-yellow-100 text-yellow-800 rounded">{{ $errors->first('plan') }}</div>
+        <div class="mr-3 px-3 py-2 bg-yellow-100 text-yellow-800 rounded text-sm">{{ $errors->first('plan') }}</div>
     @endif
-    <a href="{{ route('panel.servicos.create') }}" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition inline-flex items-center space-x-2 {{ ($reachedLimit ?? false) ? 'opacity-50 pointer-events-none' : '' }}">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <a href="{{ route('panel.servicos.create') }}" class="px-3 lg:px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition inline-flex items-center space-x-2 text-sm lg:text-base {{ ($reachedLimit ?? false) ? 'opacity-50 pointer-events-none' : '' }}">
+        <svg class="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
         </svg>
-        <span>Novo Serviço</span>
+        <span class="hidden sm:inline">Novo Serviço</span>
+        <span class="sm:hidden">Novo</span>
     </a>
     @if($reachedLimit ?? false)
-        <a href="{{ route('panel.plans.index') }}" class="ml-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Upgrade</a>
+        <a href="{{ route('panel.plans.index') }}" class="ml-2 px-3 lg:px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm lg:text-base">Upgrade</a>
     @endif
 @endsection
 
 @section('content')
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
     @forelse($services as $service)
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition">
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 lg:p-6 hover:shadow-md transition">
             <div class="flex items-start justify-between mb-4">
                 <div class="flex-1">
                     <h3 class="text-lg font-semibold text-gray-900">{{ $service->name }}</h3>
