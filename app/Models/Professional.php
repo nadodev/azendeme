@@ -49,6 +49,21 @@ class Professional extends Model
         return $this->hasMany(Availability::class);
     }
 
+    public function events(): HasMany
+    {
+        return $this->hasMany(Event::class);
+    }
+
+    public function eventEquipment(): HasMany
+    {
+        return $this->hasMany(EventEquipment::class);
+    }
+
+    public function eventCostCategories(): HasMany
+    {
+        return $this->hasMany(EventCostCategory::class);
+    }
+
     public function blockedDates(): HasMany
     {
         return $this->hasMany(BlockedDate::class);

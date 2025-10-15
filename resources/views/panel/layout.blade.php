@@ -248,6 +248,68 @@
                         <span class="font-medium">Analytics</span>
                     </a>
 
+                    <!-- Menu de Eventos -->
+                    <div x-data="{ open: {{ request()->routeIs('panel.events.*') ? 'true' : 'false' }} }">
+                        <button @click="open = !open" class="w-full flex items-center justify-between space-x-3 px-4 py-3 rounded-lg {{ request()->routeIs('panel.events.*') ? 'bg-purple-50 text-purple-600' : 'text-gray-700 hover:bg-gray-50' }} transition">
+                            <div class="flex items-center space-x-3">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                                <span class="font-medium">Eventos</span>
+                            </div>
+                            <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <div x-show="open" x-collapse class="ml-8 mt-1 space-y-1">
+                            <a href="{{ route('panel.events.index') }}" class="block px-4 py-2 text-sm {{ request()->routeIs('panel.events.index') || request()->routeIs('panel.events.show') || request()->routeIs('panel.events.create') || request()->routeIs('panel.events.edit') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
+                                Lista de Eventos
+                            </a>
+                            <a href="{{ route('panel.events.schedule.index') }}" class="block px-4 py-2 text-sm {{ request()->routeIs('panel.events.schedule.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
+                                Agenda
+                            </a>
+                            <a href="{{ route('panel.events.equipment.index') }}" class="block px-4 py-2 text-sm {{ request()->routeIs('panel.events.equipment.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
+                                Equipamentos
+                            </a>
+                <a href="{{ route('panel.events.budgets.index') }}" class="block px-4 py-2 text-sm {{ request()->routeIs('panel.events.budgets.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
+                    Orçamentos
+                </a>
+                <a href="{{ route('panel.events.invoices.index') }}" class="block px-4 py-2 text-sm {{ request()->routeIs('panel.events.invoices.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
+                    Faturas
+                </a>
+                <a href="{{ route('panel.events.payments.index') }}" class="block px-4 py-2 text-sm {{ request()->routeIs('panel.events.payments.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
+                    Pagamentos
+                </a>
+        <a href="{{ route('panel.events.service-orders.index') }}" class="block px-4 py-2 text-sm {{ request()->routeIs('panel.events.service-orders.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
+            Ordens de Serviço
+        </a>
+        <a href="{{ route('panel.events.reports.index') }}" class="block px-4 py-2 text-sm {{ request()->routeIs('panel.events.reports.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
+            Relatórios
+        </a>
+        <a href="{{ route('panel.events.analytics.index') }}" class="block px-4 py-2 text-sm {{ request()->routeIs('panel.events.analytics.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
+            Analytics
+        </a>
+        <a href="{{ route('panel.events.contracts.index') }}" class="block px-4 py-2 text-sm {{ request()->routeIs('panel.events.contracts.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
+            Contratos
+        </a>
+        <a href="{{ route('panel.events.commercial-proposals.index') }}" class="block px-4 py-2 text-sm {{ request()->routeIs('panel.events.commercial-proposals.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
+            Propostas Comerciais
+        </a>
+        <a href="{{ route('panel.events.service-notes.index') }}" class="block px-4 py-2 text-sm {{ request()->routeIs('panel.events.service-notes.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
+            Notas de Serviço
+        </a>
+        <a href="{{ route('panel.events.receipts.index') }}" class="block px-4 py-2 text-sm {{ request()->routeIs('panel.events.receipts.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
+            Recibos
+        </a>
+        <a href="{{ route('panel.events.cost-categories.index') }}" class="block px-4 py-2 text-sm {{ request()->routeIs('panel.events.cost-categories.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
+            Categorias de Custos
+        </a>
+        <a href="{{ route('panel.events.costs.index') }}" class="block px-4 py-2 text-sm {{ request()->routeIs('panel.events.costs.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
+            Controle de Custos
+        </a>
+                        </div>
+                    </div>
+
                     <!-- Seção: Configurações -->
                     <div class="border-t border-gray-200 my-3"></div>
                     <div class="px-4 py-2">

@@ -351,6 +351,190 @@ Route::prefix('panel')->name('panel.')->middleware(['auth', 'verified'])->group(
             Route::post('bulk-action', [BlogCommentController::class, 'bulkAction'])->name('bulk-action');
         });
     });
+
+    // Sistema de Eventos
+    Route::prefix('eventos')->name('events.')->group(function () {
+        // Equipamentos (rotas mais específicas primeiro)
+        Route::prefix('equipamentos')->name('equipment.')->group(function () {
+            Route::get('/', [App\Http\Controllers\Panel\EventEquipmentController::class, 'index'])->name('index');
+            Route::get('/create', [App\Http\Controllers\Panel\EventEquipmentController::class, 'create'])->name('create');
+            Route::post('/', [App\Http\Controllers\Panel\EventEquipmentController::class, 'store'])->name('store');
+            Route::get('/{equipment}', [App\Http\Controllers\Panel\EventEquipmentController::class, 'show'])->name('show');
+            Route::get('/{equipment}/edit', [App\Http\Controllers\Panel\EventEquipmentController::class, 'edit'])->name('edit');
+            Route::put('/{equipment}', [App\Http\Controllers\Panel\EventEquipmentController::class, 'update'])->name('update');
+            Route::delete('/{equipment}', [App\Http\Controllers\Panel\EventEquipmentController::class, 'destroy'])->name('destroy');
+            Route::post('/{equipment}/toggle-status', [App\Http\Controllers\Panel\EventEquipmentController::class, 'toggleStatus'])->name('toggle-status');
+        });
+
+        // Orçamentos (rotas mais específicas primeiro)
+        Route::prefix('orcamentos')->name('budgets.')->group(function () {
+            Route::get('/', [App\Http\Controllers\Panel\EventBudgetController::class, 'index'])->name('index');
+            Route::get('/{event}/criar', [App\Http\Controllers\Panel\EventBudgetController::class, 'create'])->name('create');
+            Route::post('/{event}', [App\Http\Controllers\Panel\EventBudgetController::class, 'store'])->name('store');
+            Route::get('/{budget}', [App\Http\Controllers\Panel\EventBudgetController::class, 'show'])->name('show');
+            Route::get('/{budget}/editar', [App\Http\Controllers\Panel\EventBudgetController::class, 'edit'])->name('edit');
+            Route::put('/{budget}', [App\Http\Controllers\Panel\EventBudgetController::class, 'update'])->name('update');
+            Route::delete('/{budget}', [App\Http\Controllers\Panel\EventBudgetController::class, 'destroy'])->name('destroy');
+            Route::get('/{budget}/pdf', [App\Http\Controllers\Panel\EventBudgetController::class, 'generatePdf'])->name('pdf');
+            Route::post('/{budget}/enviar', [App\Http\Controllers\Panel\EventBudgetController::class, 'sendToCustomer'])->name('send');
+            Route::post('/{budget}/aprovar', [App\Http\Controllers\Panel\EventBudgetController::class, 'approve'])->name('approve');
+            Route::post('/{budget}/rejeitar', [App\Http\Controllers\Panel\EventBudgetController::class, 'reject'])->name('reject');
+            Route::post('/{budget}/faturar', [App\Http\Controllers\Panel\EventBudgetController::class, 'createInvoice'])->name('create-invoice');
+            Route::post('/{budget}/criar-os', [App\Http\Controllers\Panel\EventBudgetController::class, 'createServiceOrder'])->name('create-service-order');
+        });
+
+        // Faturas
+        Route::prefix('faturas')->name('invoices.')->group(function () {
+            Route::get('/', [App\Http\Controllers\Panel\EventInvoiceController::class, 'index'])->name('index');
+            Route::get('/{event}/criar', [App\Http\Controllers\Panel\EventInvoiceController::class, 'create'])->name('create');
+            Route::post('/{event}', [App\Http\Controllers\Panel\EventInvoiceController::class, 'store'])->name('store');
+            Route::get('/{invoice}', [App\Http\Controllers\Panel\EventInvoiceController::class, 'show'])->name('show');
+            Route::get('/{invoice}/editar', [App\Http\Controllers\Panel\EventInvoiceController::class, 'edit'])->name('edit');
+            Route::put('/{invoice}', [App\Http\Controllers\Panel\EventInvoiceController::class, 'update'])->name('update');
+            Route::delete('/{invoice}', [App\Http\Controllers\Panel\EventInvoiceController::class, 'destroy'])->name('destroy');
+            Route::get('/{invoice}/pdf', [App\Http\Controllers\Panel\EventInvoiceController::class, 'generatePdf'])->name('pdf');
+            Route::post('/{invoice}/enviar', [App\Http\Controllers\Panel\EventInvoiceController::class, 'sendToCustomer'])->name('send');
+            Route::post('/{invoice}/pagar', [App\Http\Controllers\Panel\EventInvoiceController::class, 'markAsPaid'])->name('mark-paid');
+            Route::post('/os/{serviceOrder}/faturar', [App\Http\Controllers\Panel\EventInvoiceController::class, 'createFromServiceOrder'])->name('create-from-service-order');
+        });
+
+        // Pagamentos
+        Route::prefix('pagamentos')->name('payments.')->group(function () {
+            Route::get('/', [App\Http\Controllers\Panel\EventPaymentController::class, 'index'])->name('index');
+            Route::get('/{event}/criar', [App\Http\Controllers\Panel\EventPaymentController::class, 'create'])->name('create');
+            Route::post('/{event}', [App\Http\Controllers\Panel\EventPaymentController::class, 'store'])->name('store');
+            Route::get('/{payment}', [App\Http\Controllers\Panel\EventPaymentController::class, 'show'])->name('show');
+            Route::get('/{payment}/editar', [App\Http\Controllers\Panel\EventPaymentController::class, 'edit'])->name('edit');
+            Route::put('/{payment}', [App\Http\Controllers\Panel\EventPaymentController::class, 'update'])->name('update');
+            Route::delete('/{payment}', [App\Http\Controllers\Panel\EventPaymentController::class, 'destroy'])->name('destroy');
+            Route::post('/{payment}/confirmar', [App\Http\Controllers\Panel\EventPaymentController::class, 'confirm'])->name('confirm');
+            Route::post('/{payment}/cancelar', [App\Http\Controllers\Panel\EventPaymentController::class, 'cancel'])->name('cancel');
+        });
+
+            // Ordens de Serviço
+            Route::prefix('ordens-servico')->name('service-orders.')->group(function () {
+                Route::get('/', [App\Http\Controllers\Panel\EventServiceOrderController::class, 'index'])->name('index');
+                Route::get('/criar', [App\Http\Controllers\Panel\EventServiceOrderController::class, 'selectEvent'])->name('select-event');
+                Route::get('/{event}/criar', [App\Http\Controllers\Panel\EventServiceOrderController::class, 'create'])->name('create');
+            Route::post('/{event}', [App\Http\Controllers\Panel\EventServiceOrderController::class, 'store'])->name('store');
+            Route::get('/{serviceOrder}', [App\Http\Controllers\Panel\EventServiceOrderController::class, 'show'])->name('show');
+            Route::get('/{serviceOrder}/editar', [App\Http\Controllers\Panel\EventServiceOrderController::class, 'edit'])->name('edit');
+            Route::put('/{serviceOrder}', [App\Http\Controllers\Panel\EventServiceOrderController::class, 'update'])->name('update');
+            Route::delete('/{serviceOrder}', [App\Http\Controllers\Panel\EventServiceOrderController::class, 'destroy'])->name('destroy');
+            Route::get('/{serviceOrder}/pdf', [App\Http\Controllers\Panel\EventServiceOrderController::class, 'generatePdf'])->name('pdf');
+            Route::post('/{serviceOrder}/iniciar', [App\Http\Controllers\Panel\EventServiceOrderController::class, 'startExecution'])->name('start');
+            Route::post('/{serviceOrder}/concluir', [App\Http\Controllers\Panel\EventServiceOrderController::class, 'complete'])->name('complete');
+            Route::post('/{serviceOrder}/cancelar', [App\Http\Controllers\Panel\EventServiceOrderController::class, 'cancel'])->name('cancel');
+        });
+
+        // Rotas específicas de eventos (antes do resource)
+        Route::post('/{event}/add-service', [App\Http\Controllers\Panel\EventController::class, 'addService'])->name('add-service');
+        Route::delete('/services/{service}', [App\Http\Controllers\Panel\EventController::class, 'removeService'])->name('remove-service');
+        Route::post('/{event}/add-employee', [App\Http\Controllers\Panel\EventController::class, 'addEmployee'])->name('add-employee');
+        Route::delete('/employees/{employee}', [App\Http\Controllers\Panel\EventController::class, 'removeEmployee'])->name('remove-employee');
+
+            // Agenda
+            Route::prefix('agenda')->name('schedule.')->group(function () {
+                Route::get('/', [App\Http\Controllers\Panel\EventScheduleController::class, 'index'])->name('index');
+                Route::get('/eventos-data', [App\Http\Controllers\Panel\EventScheduleController::class, 'getEventsForDate'])->name('events-for-date');
+            });
+
+            // Relatórios
+            Route::prefix('relatorios')->name('reports.')->group(function () {
+                Route::get('/', [App\Http\Controllers\Panel\EventReportController::class, 'index'])->name('index');
+                Route::get('/financeiro', [App\Http\Controllers\Panel\EventReportController::class, 'financial'])->name('financial');
+                Route::get('/equipamentos', [App\Http\Controllers\Panel\EventReportController::class, 'equipment'])->name('equipment');
+                Route::get('/tipos-eventos', [App\Http\Controllers\Panel\EventReportController::class, 'eventTypes'])->name('event-types');
+                Route::get('/metodos-pagamento', [App\Http\Controllers\Panel\EventReportController::class, 'paymentMethods'])->name('payment-methods');
+            });
+
+            // Analytics
+            Route::get('/analytics', [App\Http\Controllers\Panel\EventAnalyticsController::class, 'index'])->name('analytics.index');
+
+            // Contratos
+            Route::prefix('contratos')->name('contracts.')->group(function () {
+                Route::get('/', [App\Http\Controllers\Panel\EventContractController::class, 'index'])->name('index');
+                Route::get('/criar', [App\Http\Controllers\Panel\EventContractController::class, 'selectEvent'])->name('select-event');
+                Route::get('/{event}/criar', [App\Http\Controllers\Panel\EventContractController::class, 'create'])->name('create');
+                Route::post('/{event}', [App\Http\Controllers\Panel\EventContractController::class, 'store'])->name('store');
+                Route::get('/{contract}', [App\Http\Controllers\Panel\EventContractController::class, 'show'])->name('show');
+                Route::get('/{contract}/editar', [App\Http\Controllers\Panel\EventContractController::class, 'edit'])->name('edit');
+                Route::put('/{contract}', [App\Http\Controllers\Panel\EventContractController::class, 'update'])->name('update');
+                Route::delete('/{contract}', [App\Http\Controllers\Panel\EventContractController::class, 'destroy'])->name('destroy');
+                Route::get('/{contract}/pdf', [App\Http\Controllers\Panel\EventContractController::class, 'pdf'])->name('pdf');
+                Route::post('/{contract}/enviar', [App\Http\Controllers\Panel\EventContractController::class, 'send'])->name('send');
+                Route::post('/{contract}/assinar', [App\Http\Controllers\Panel\EventContractController::class, 'sign'])->name('sign');
+            });
+
+            // Notas de Serviço
+            Route::prefix('notas-servico')->name('service-notes.')->group(function () {
+                Route::get('/', [App\Http\Controllers\Panel\EventServiceNoteController::class, 'index'])->name('index');
+                Route::get('/{event}/criar', [App\Http\Controllers\Panel\EventServiceNoteController::class, 'create'])->name('create');
+                Route::post('/{event}', [App\Http\Controllers\Panel\EventServiceNoteController::class, 'store'])->name('store');
+                Route::get('/{serviceNote}', [App\Http\Controllers\Panel\EventServiceNoteController::class, 'show'])->name('show');
+                Route::get('/{serviceNote}/editar', [App\Http\Controllers\Panel\EventServiceNoteController::class, 'edit'])->name('edit');
+                Route::put('/{serviceNote}', [App\Http\Controllers\Panel\EventServiceNoteController::class, 'update'])->name('update');
+                Route::delete('/{serviceNote}', [App\Http\Controllers\Panel\EventServiceNoteController::class, 'destroy'])->name('destroy');
+                Route::get('/{serviceNote}/pdf', [App\Http\Controllers\Panel\EventServiceNoteController::class, 'pdf'])->name('pdf');
+            });
+
+            // Propostas Comerciais
+            Route::prefix('propostas-comerciais')->name('commercial-proposals.')->group(function () {
+                Route::get('/', [App\Http\Controllers\Panel\EventCommercialProposalController::class, 'index'])->name('index');
+                Route::get('/{event}/criar', [App\Http\Controllers\Panel\EventCommercialProposalController::class, 'create'])->name('create');
+                Route::post('/{event}', [App\Http\Controllers\Panel\EventCommercialProposalController::class, 'store'])->name('store');
+                Route::get('/{commercialProposal}', [App\Http\Controllers\Panel\EventCommercialProposalController::class, 'show'])->name('show');
+                Route::get('/{commercialProposal}/editar', [App\Http\Controllers\Panel\EventCommercialProposalController::class, 'edit'])->name('edit');
+                Route::put('/{commercialProposal}', [App\Http\Controllers\Panel\EventCommercialProposalController::class, 'update'])->name('update');
+                Route::delete('/{commercialProposal}', [App\Http\Controllers\Panel\EventCommercialProposalController::class, 'destroy'])->name('destroy');
+                Route::get('/{commercialProposal}/pdf', [App\Http\Controllers\Panel\EventCommercialProposalController::class, 'pdf'])->name('pdf');
+                Route::post('/{commercialProposal}/enviar', [App\Http\Controllers\Panel\EventCommercialProposalController::class, 'send'])->name('send');
+                Route::post('/{commercialProposal}/aprovar', [App\Http\Controllers\Panel\EventCommercialProposalController::class, 'approve'])->name('approve');
+                Route::post('/{commercialProposal}/rejeitar', [App\Http\Controllers\Panel\EventCommercialProposalController::class, 'reject'])->name('reject');
+            });
+
+            // Recibos
+            Route::prefix('recibos')->name('receipts.')->group(function () {
+                Route::get('/', [App\Http\Controllers\Panel\EventReceiptController::class, 'index'])->name('index');
+                Route::get('/criar', [App\Http\Controllers\Panel\EventReceiptController::class, 'selectEvent'])->name('select-event');
+                Route::get('/{event}/criar', [App\Http\Controllers\Panel\EventReceiptController::class, 'create'])->name('create');
+                Route::post('/{event}', [App\Http\Controllers\Panel\EventReceiptController::class, 'store'])->name('store');
+                Route::get('/{receipt}', [App\Http\Controllers\Panel\EventReceiptController::class, 'show'])->name('show');
+                Route::get('/{receipt}/editar', [App\Http\Controllers\Panel\EventReceiptController::class, 'edit'])->name('edit');
+                Route::put('/{receipt}', [App\Http\Controllers\Panel\EventReceiptController::class, 'update'])->name('update');
+                Route::delete('/{receipt}', [App\Http\Controllers\Panel\EventReceiptController::class, 'destroy'])->name('destroy');
+                Route::get('/{receipt}/pdf', [App\Http\Controllers\Panel\EventReceiptController::class, 'pdf'])->name('pdf');
+                Route::post('/{receipt}/emitir', [App\Http\Controllers\Panel\EventReceiptController::class, 'issue'])->name('issue');
+                Route::post('/{receipt}/marcar-pago', [App\Http\Controllers\Panel\EventReceiptController::class, 'markAsPaid'])->name('mark-as-paid');
+            });
+
+            // Categorias de Custos
+            Route::prefix('categorias-custos')->name('cost-categories.')->group(function () {
+                Route::get('/', [App\Http\Controllers\Panel\EventCostCategoryController::class, 'index'])->name('index');
+                Route::get('/criar', [App\Http\Controllers\Panel\EventCostCategoryController::class, 'create'])->name('create');
+                Route::post('/', [App\Http\Controllers\Panel\EventCostCategoryController::class, 'store'])->name('store');
+                Route::get('/{costCategory}', [App\Http\Controllers\Panel\EventCostCategoryController::class, 'show'])->name('show');
+                Route::get('/{costCategory}/editar', [App\Http\Controllers\Panel\EventCostCategoryController::class, 'edit'])->name('edit');
+                Route::put('/{costCategory}', [App\Http\Controllers\Panel\EventCostCategoryController::class, 'update'])->name('update');
+                Route::delete('/{costCategory}', [App\Http\Controllers\Panel\EventCostCategoryController::class, 'destroy'])->name('destroy');
+            });
+
+            // Custos
+            Route::prefix('custos')->name('costs.')->group(function () {
+                Route::get('/', [App\Http\Controllers\Panel\EventCostController::class, 'index'])->name('index');
+                Route::get('/criar', [App\Http\Controllers\Panel\EventCostController::class, 'selectEvent'])->name('select-event');
+                Route::get('/{event}/criar', [App\Http\Controllers\Panel\EventCostController::class, 'create'])->name('create');
+                Route::post('/{event}', [App\Http\Controllers\Panel\EventCostController::class, 'store'])->name('store');
+                Route::get('/{cost}', [App\Http\Controllers\Panel\EventCostController::class, 'show'])->name('show');
+                Route::get('/{cost}/editar', [App\Http\Controllers\Panel\EventCostController::class, 'edit'])->name('edit');
+                Route::put('/{cost}', [App\Http\Controllers\Panel\EventCostController::class, 'update'])->name('update');
+                Route::delete('/{cost}', [App\Http\Controllers\Panel\EventCostController::class, 'destroy'])->name('destroy');
+                Route::post('/{cost}/marcar-pago', [App\Http\Controllers\Panel\EventCostController::class, 'markPaid'])->name('mark-paid');
+            });
+
+            // Eventos (resource por último)
+            Route::resource('/', App\Http\Controllers\Panel\EventController::class)->parameters(['' => 'event']);
+        });
 });
 
 
