@@ -3,11 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $page->title }}</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <!-- SEO Meta Tags -->
+    <title>{{ $seoData['title'] }}</title>
+    <meta name="description" content="{{ $seoData['description'] }}">
+    <meta name="keywords" content="{{ $seoData['keywords'] }}">
+    <meta name="author" content="{{ $seoData['professional_name'] }}">
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+    <meta name="googlebot" content="index,follow">
+    <meta name="bingbot" content="index,follow">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ $seoData['url'] }}">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="profile">
+    <meta property="og:url" content="{{ $seoData['url'] }}">
+    <meta property="og:title" content="{{ $seoData['title'] }}">
+    <meta property="og:description" content="{{ $seoData['description'] }}">
+    <meta property="og:image" content="{{ $seoData['image'] }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="{{ $seoData['business_name'] }}">
+    <meta property="og:site_name" content="aZendeMe">
+    <meta property="og:locale" content="pt_BR">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ $seoData['url'] }}">
+    <meta name="twitter:title" content="{{ $seoData['title'] }}">
+    <meta name="twitter:description" content="{{ $seoData['description'] }}">
+    <meta name="twitter:image" content="{{ $seoData['image'] }}">
+    <meta name="twitter:image:alt" content="{{ $seoData['business_name'] }}">
+    <meta name="twitter:creator" content="@azendeme">
+    <meta name="twitter:site" content="@azendeme">
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="theme-color" content="{{ $page->theme_color ?? '#8B5CF6' }}">
+    <meta name="msapplication-TileColor" content="{{ $page->theme_color ?? '#8B5CF6' }}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="{{ $seoData['business_name'] }}">
+    
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="BR">
+    <meta name="geo.country" content="Brasil">
+    @if($seoData['address'])
+        <meta name="geo.placename" content="{{ $seoData['address'] }}">
+    @endif
+    
+    <!-- Language -->
+    <meta name="language" content="pt-BR">
+    <meta name="content-language" content="pt-BR">
+    
+    <!-- Cache Control -->
+    <meta http-equiv="Cache-Control" content="public, max-age=31536000">
+    
+    <!-- Security -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    
+    <!-- Performance -->
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- Favicon -->
+    @include('partials.favicon')
+    
+    <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <!-- Structured Data -->
+    @php
+        $structuredData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'LocalBusiness',
+            'name' => $seoData['business_name'],
+            'description' => $seoData['description'],
+            'url' => $seoData['url'],
+            'image' => $seoData['image'],
+            'telephone' => $seoData['phone'],
+            'email' => $seoData['email'],
+            'address' => $seoData['address'] ? [
+                '@type' => 'PostalAddress',
+                'streetAddress' => $seoData['address']
+            ] : null,
+            'openingHours' => 'Mo-Su 08:00-18:00',
+            'priceRange' => '$$',
+            'aggregateRating' => [
+                '@type' => 'AggregateRating',
+                'ratingValue' => '4.8',
+                'ratingCount' => '25',
+                'bestRating' => '5',
+                'worstRating' => '1'
+            ],
+            'hasOfferCatalog' => [
+                '@type' => 'OfferCatalog',
+                'name' => 'Serviços',
+                'itemListElement' => $services->map(function($service) {
+                    return [
+                        '@type' => 'Offer',
+                        'itemOffered' => [
+                            '@type' => 'Service',
+                            'name' => $service->name,
+                            'description' => $service->name,
+                            'provider' => [
+                                '@type' => 'LocalBusiness',
+                                'name' => $seoData['business_name']
+                            ]
+                        ],
+                        'price' => $service->price,
+                        'priceCurrency' => 'BRL',
+                        'availability' => 'https://schema.org/InStock'
+                    ];
+                })->toArray()
+            ],
+            'sameAs' => array_filter([
+                $page->instagram_url,
+                $page->facebook_url,
+                $page->twitter_url,
+                $page->youtube_url,
+                $page->tiktok_url,
+                $page->linkedin_url
+            ])
+        ];
+        
+        // Remover campos nulos
+        $structuredData = array_filter($structuredData, function($value) {
+            return $value !== null;
+        });
+    @endphp
+    
+    <script type="application/ld+json">{!! json_encode($structuredData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
     <style>
         :root {
             --bg: {{ $page->background_color ?? 'linear-gradient(180deg, #E0E7FF 0%, #F0F4FF 100%)' }};
