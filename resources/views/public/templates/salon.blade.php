@@ -151,14 +151,7 @@
 <body class="antialiased bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 text-gray-900">
     <!-- Header -->
     <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-pink-100 shadow-lg">
-        @if(($isDemo ?? true))
-        <div class="absolute top-2 left-3 sm:top-6 sm:left-3">
-            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-yellow-100 text-yellow-800 border border-yellow-200 shadow-sm">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>
-                Versão de Demonstração
-            </span>
-        </div>
-    @endif
+       
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="relative flex items-center justify-between h-24">
                
