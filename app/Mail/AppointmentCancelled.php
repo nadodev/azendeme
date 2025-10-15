@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Appointment;
+use App\Models\Professional;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
@@ -38,10 +39,15 @@ class AppointmentCancelled extends Mailable
      */
     public function content(): Content
     {
+
+
+        $professional = Professional::where('user_id', auth()->user()->id)->firstOrFail();
+
         return new Content(
             view: 'emails.appointment-cancelled',
             with: [
                 'appointment' => $this->appointment,
+                'slug' => $professional->slug,
                 'customer' => $this->appointment->customer,
                 'service' => $this->appointment->service,
                 'professional' => $this->appointment->professional,

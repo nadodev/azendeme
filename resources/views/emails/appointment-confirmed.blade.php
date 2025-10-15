@@ -189,6 +189,48 @@
             margin: 5px 0;
         }
         
+        .reschedule-section {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: center;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .reschedule-section h3 {
+            color: #1e40af;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .reschedule-section p {
+            color: #475569;
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+        
+        .reschedule-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            padding: 15px 35px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            font-size: 16px;
+        }
+        
+        .reschedule-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+        
         .footer {
             background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             padding: 30px;
@@ -303,6 +345,15 @@
                 <p>• Chegue com <strong>10 minutos de antecedência</strong></p>
                 <p>• Em caso de imprevistos, entre em contato conosco o quanto antes</p>
                 <p>• Traga um documento de identificação</p>
+            </div>
+
+            <div class="reschedule-section">
+                <h3>🔄 Precisa de Outro Serviço?</h3>
+                <p>Que tal agendar outro serviço enquanto está aqui?</p>
+                <p>Clique no botão abaixo para ver nossa agenda disponível!</p>
+                <a href="https://azendeme.com.br/{{ $professional->slug }}/#agendar" class="reschedule-button">
+                    📅 Agendar Outro Serviço
+                </a>
             </div>
         </div>
         
