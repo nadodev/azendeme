@@ -25,6 +25,7 @@ class Appointment extends Model
         'total_price',
         'total_duration',
         'has_multiple_services',
+        'confirmation_token',
     ];
 
     protected $casts = [

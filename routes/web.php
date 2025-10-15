@@ -600,6 +600,28 @@ Route::post('/{slug}/check-loyalty', [PublicController::class, 'checkLoyalty'])
     ->name('public.check-loyalty');
 Route::post('/bug-report', [BugReportController::class, 'store'])->name('bug-report.store');
 
+// Confirmação de agendamento
+Route::get('/appointment/confirm/{token}', function ($token) {
+    $appointment = \App\Models\Appointment::where('confirmation_token', $token)->first();
+    
+    if (!$appointment) {
+        return view('appointment-confirmation', [
+            'success' => false,
+            'message' => 'Token de confirmação inválido ou expirado.'
+        ]);
+    }
+    
+    // Marcar como confirmado
+    $appointment->status = 'confirmed';
+    $appointment->save();
+    
+    return view('appointment-confirmation', [
+        'success' => true,
+        'message' => 'Agendamento confirmado com sucesso!',
+        'appointment' => $appointment
+    ]);
+})->name('appointment.confirm');
+
 Route::post('/{slug}/book', [PublicController::class, 'book'])
     ->where('slug', '[a-zA-Z0-9\-_]+')
     ->name('public.book');

@@ -10,3 +10,6 @@ Artisan::command('inspire', function () {
 
 // Agendamento: enviar lembretes de eventos a cada hora
 Schedule::command('events:send-reminders')->hourly();
+
+// Agendamento: enviar lembretes de agendamentos a cada hora
+Schedule::command('appointments:send-reminders')->hourly();
