@@ -56,10 +56,10 @@
                         <p class="text-sm font-medium text-gray-900">Habilitar botão "Agendar" na página pública</p>
                         <p class="text-xs text-gray-600">Quando ativo, a página exibirá um botão que abre um painel com serviços e calendário disponíveis.</p>
                     </div>
-                    <label class="inline-flex items-center cursor-pointer">
-                        <input type="checkbox" name="enable_booking" value="1" class="sr-only" {{ old('enable_booking', $page->enable_booking) ? 'checked' : '' }}>
-                        <span class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-purple-600 transition"></span>
-                        <span class="-ml-9 w-5 h-5 bg-white rounded-full shadow transform peer-checked:translate-x-5 transition"></span>
+                    <label class="relative inline-flex items-center cursor-pointer select-none">
+                        <input type="checkbox" name="enable_booking" value="1" class="sr-only peer" {{ old('enable_booking', $page->enable_booking) ? 'checked' : '' }}>
+                        <div class="w-11 h-6 bg-gray-200 rounded-full transition peer-checked:bg-purple-600"></div>
+                        <div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform peer-checked:translate-x-5"></div>
                     </label>
                 </div>
             </div>
