@@ -481,7 +481,7 @@
                     </div>
                     <div class="flex items-center gap-3">
                         @php
-                            $professional = \App\Models\Professional::find(1);
+                            $professional = \App\Models\Professional::find(auth()->user()->professional_id);
                             $publicUrl = $professional ? url('/' . $professional->slug) : url('/');
                         @endphp
                         <a href="{{ route('panel.profile') }}"

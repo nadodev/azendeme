@@ -268,6 +268,36 @@
             transform: translateY(-8px);
             box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
         }
+        
+        .btn-primary {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-secondary {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900 antialiased">
@@ -303,11 +333,17 @@
                 </div>
                 
                 <div class="flex items-center gap-2">
-                    <a href="{{ url('/registrar') }}" class="lg:flex hidden sm:text-sm px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition">
-                        🚀 Começar Grátis
+                    <a href="{{ url('/registrar') }}" class="lg:flex hidden sm:text-sm px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                        <span class="flex items-center gap-1.5">
+                            <span class="text-sm">🚀</span>
+                            <span>Começar Grátis</span>
+                        </span>
                     </a>
-                    <a href="#demo" class="lg:flex hidden sm:text-sm px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition">
-                        Solicitar Demonstração
+                    <a href="#demo" class="lg:flex hidden sm:text-sm px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                        <span class="flex items-center gap-1.5">
+                            <span class="text-sm">📞</span>
+                            <span>Solicitar Demo</span>
+                        </span>
                     </a>
                     <button id="mobile-menu-toggle" aria-label="Abrir menu" class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition">
                         <svg id="icon-open" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 5h14a1 1 0 100-2H3a1 1 0 100 2zm14 4H3a1 1 0 100 2h14a1 1 0 100-2zm0 6H3a1 1 0 100 2h14a1 1 0 100-2z" clip-rule="evenodd"/></svg>
@@ -326,8 +362,18 @@
                     <a href="#templates" class="px-3 py-2 rounded-lg text-gray-800 hover:bg-gray-100 font-medium">Templates</a>
                     <a href="#precos" class="px-3 py-2 rounded-lg text-gray-800 hover:bg-gray-100 font-medium">Preços</a>
                     <a href="/sobre" class="px-3 py-2 rounded-lg text-gray-800 hover:bg-gray-100 font-medium">Sobre</a>
-                    <a href="{{ url('/registrar') }}" class="mt-2 px-4 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-semibold text-center">🚀 Começar Grátis</a>
-                    <a href="#demo" class="mt-2 px-4 py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl font-semibold text-center">Solicitar Demonstração</a>
+                    <a href="{{ url('/registrar') }}" class="mt-2 px-4 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-semibold text-center hover:shadow-lg transition-all duration-300">
+                        <span class="flex items-center justify-center gap-2">
+                            <span>🚀</span>
+                            <span>Começar Grátis</span>
+                        </span>
+                    </a>
+                    <a href="#demo" class="mt-2 px-4 py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl font-semibold text-center hover:shadow-lg transition-all duration-300">
+                        <span class="flex items-center justify-center gap-2">
+                            <span>📞</span>
+                            <span>Solicitar Demo</span>
+                        </span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -359,14 +405,25 @@
                         </p>
                     
                     <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
-                        <a href="{{ url('/registrar') }}" class="px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition">
-                            🚀 Começar Grátis Agora
+                        <a href="{{ url('/registrar') }}" class="btn-primary group relative px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="relative flex items-center justify-center gap-2">
+                                <span class="text-xl">🚀</span>
+                                <span>Começar Grátis Agora</span>
+                            </div>
                         </a>
-                        <a href="#demo" class="px-8 py-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition">
-                            📞 Solicitar Demonstração
+                        <a href="#demo" class="btn-primary group relative px-8 py-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="relative flex items-center justify-center gap-2">
+                                <span class="text-xl">📞</span>
+                                <span>Solicitar Demonstração</span>
+                            </div>
                         </a>
-                        <a href="#funcionalidades" class="px-8 py-4 bg-white text-purple-600 rounded-xl font-bold text-lg border-2 border-purple-600 hover:bg-purple-50 transition">
-                            📋 Ver Todas as Funcionalidades
+                        <a href="#funcionalidades" class="btn-secondary px-8 py-4 bg-white text-purple-600 rounded-xl font-bold text-lg border-2 border-purple-600 hover:bg-purple-50 hover:border-purple-700 transition-all duration-300">
+                            <div class="flex items-center justify-center gap-2">
+                                <span class="text-xl">📋</span>
+                                <span>Ver Todas as Funcionalidades</span>
+                            </div>
                         </a>
                     </div>
                     
