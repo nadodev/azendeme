@@ -113,6 +113,8 @@ class PublicController extends Controller
         $serviceId = $request->get('service_id');
         
         $service = Service::findOrFail($serviceId);
+        $requestedDuration = (int) $request->get('duration');
+        $duration = $requestedDuration > 0 ? $requestedDuration : (int) $service->duration;
         $dayOfWeek = $date->dayOfWeek;
 
         // Verifica se a data está bloqueada
@@ -140,16 +142,14 @@ class PublicController extends Controller
 
         while ($currentTime->lt($endTime)) {
             $slotStart = $currentTime->copy();
-            $slotEnd = $currentTime->copy()->addMinutes($service->duration);
+            $slotEnd = $currentTime->copy()->addMinutes($duration);
 
             if ($slotEnd->lte($endTime)) {
                 // Cria o datetime completo para verificação
                 $slotDateTime = Carbon::parse($date->format('Y-m-d') . ' ' . $slotStart->format('H:i:s'));
-                $slotEndDateTime = $slotDateTime->copy()->addMinutes($service->duration);
+                $slotEndDateTime = $slotDateTime->copy()->addMinutes($duration);
                 
                 // Verifica se há conflito com algum agendamento existente
-                // Um slot está ocupado se:
-                // 1. Um agendamento começa antes do fim do slot E termina depois do início do slot
                 $hasConflict = Appointment::where('professional_id', $professional->id)
                     ->where('start_time', '<', $slotEndDateTime)
                     ->where('end_time', '>', $slotDateTime)
@@ -182,6 +182,7 @@ class PublicController extends Controller
             'professional_id' => 'nullable|exists:professionals,id',
         ]);
 
+      
         // Busca ou cria o cliente
         $customer = Customer::firstOrCreate(
             [
@@ -210,20 +211,41 @@ class PublicController extends Controller
         $totalPrice = $services->sum('price');
 
         // Cria o agendamento
-        $startTime = Carbon::parse($validated['date'] . ' ' . $validated['time']);
-        $endTime = $startTime->copy()->addMinutes($totalDuration);
+        $baseStart = Carbon::parse($validated['date'] . ' ' . $validated['time']);
+        $baseEnd = $baseStart->copy()->addMinutes($totalDuration);
+
+        // Impede conflito: se já existir agendamento que comece antes do fim e termine após o início
+        $hasConflict = Appointment::where('professional_id', $professional->id)
+            ->where('start_time', '<', $baseEnd)
+            ->where('end_time', '>', $baseStart)
+            ->exists();
+        if ($hasConflict) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Este horário já foi reservado. Escolha outro horário.'
+            ], 409);
+        }
+
+        $startTime = $baseStart;
+        $endTime = $baseEnd;
 
         $appointment = Appointment::create([
             'professional_id' => $professional->id,
             'service_id' => $serviceIds[0], // Serviço principal
             'customer_id' => $customer->id,
             'start_time' => $startTime,
+            'name' => $validated['name'],
+            'phone' => $validated['phone'],
+            'email' => $validated['email'],
             'end_time' => $endTime,
             'status' => 'pending',
             'has_multiple_services' => $hasMultiple,
             'total_price' => $totalPrice,
             'total_duration' => $totalDuration,
+            'notes' => 'Agendado via Bio — Nome: ' . ($validated['name'] ?? '') . ' | Telefone: ' . ($validated['phone'] ?? '') . ' | E-mail: ' . ($validated['email'] ?? ''),
         ]);
+
+      
 
         // Se tem múltiplos serviços, cria os registros na tabela pivot
         if ($hasMultiple) {

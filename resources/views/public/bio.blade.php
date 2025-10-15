@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $page->title }}</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -64,12 +65,18 @@
         .drawer.open { right: 0; }
         .drawer-header { padding: 16px 18px; border-bottom: 1px solid #eee; display: flex; align-items: center; justify-content: space-between; }
         .drawer-title { font-weight: 700; color: #111827; }
-        .drawer-body { padding: 16px 18px; overflow-y: auto; }
+        .drawer-body { padding: 16px 18px 96px; overflow-y: auto; }
+        .drawer-footer { position: absolute; left: 0; right: 0; bottom: 0; padding: 12px 16px; background: linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,.85) 18%, #fff 60%); border-top: 1px solid #e5e7eb; display: flex; gap: 10px; }
+        .drawerActionBtn { flex: 1; background: var(--btn); color: #fff; border: 0; padding: 14px 16px; border-radius: 12px; font-weight: 700; }
+        .drawerActionBtn[disabled] { opacity: .6; filter: grayscale(.2); }
         .service { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border: 1px solid #eee; border-radius: 10px; margin-bottom: 10px; }
         .service .action { background:transparent; border:1px solid #e5e7eb; padding:8px 10px; border-radius:8px; cursor:pointer; }
         .service.selected { border-color: var(--btn); background: #f5f3ff; }
         .summary { margin-top: 10px; padding-top: 10px; border-top: 1px solid #eee; color:#374151; }
         .calendar { margin-top: 14px; display:grid; grid-template-columns: repeat(7, 1fr); gap:6px; }
+        .cal-header { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:12px; }
+        .cal-nav { display:flex; gap:8px; }
+        .cal-btn { background:#f3f4f6; border:1px solid #e5e7eb; padding:6px 10px; border-radius:8px; cursor:pointer; }
         .day { padding:10px; text-align:center; border-radius:8px; background:#f3f4f6; cursor:not-allowed; color:#9ca3af; }
         .day.available { background:#ecfeff; color:#0369a1; cursor:pointer; }
         .day.available:hover { background:#cffafe; }
@@ -77,11 +84,13 @@
         .slot-list { margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; }
         .slot { padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; cursor:pointer; }
         .slot.active { background: var(--btn); color:#fff; border-color: var(--btn); }
-        .book-submit { margin-top: 14px; background: var(--btn); color:#fff; border:0; padding: 12px 16px; border-radius:10px; font-weight:700; width:100%; }
+        .book-submit { display:none; }
         .backdrop { position: fixed; inset:0; background: rgba(0,0,0,.3); opacity:0; pointer-events:none; transition: opacity .3s ease; z-index:50; }
         .backdrop.show { opacity:1; pointer-events:auto; }
+        .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: #111827; color:#fff; padding:10px 14px; border-radius:10px; font-size:14px; opacity:0; pointer-events:none; transition: opacity .25s ease; z-index:70; }
+        .toast.show { opacity:1; }
 
-        @media (max-width: 640px) { .container{ padding:32px 24px; border-radius:24px } .name{ font-size:20px } .footer{ flex-direction:column; text-align:center } }
+        @media (max-width: 640px) { .drawer{ right:-100%; width:100%; max-width:100vw; border-radius:0 } .container{ padding:32px 24px; border-radius:24px } .name{ font-size:20px } .footer{ flex-direction:column; text-align:center } }
     </style>
 </head>
 <body>
@@ -112,7 +121,7 @@
                 <a href="{{ $page->instagram_url }}" target="_blank" rel="noopener" class="social-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
             @endif
             @if($page->whatsapp_number)
-                <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $page->whatsapp_number) }}" target="_blank" rel="noopener" class="social-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+                <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $page->whatsapp_number) }}" target="_blank" rel="noopener" class="social-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.86 1.04-.16.18-.32.2-.59.07-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
             @endif
             @if($page->facebook_url)
                 <a href="{{ $page->facebook_url }}" target="_blank" rel="noopener" class="social-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
@@ -179,19 +188,23 @@
             <form id="bookingForm" onsubmit="submitBooking(event)" style="display:none">
                 <input type="hidden" id="bk_services" value="">
                 <input type="text" id="bk_name" placeholder="Seu nome" required style="width:100%;padding:10px;border:1px solid #e5e7eb;border-radius:10px;margin-top:10px">
-                <input type="email" id="bk_email" placeholder="Seu e-mail" required style="width:100%;padding:10px;border:1px solid #e5e7eb;border-radius:10px;margin-top:10px">
-                <input type="tel" id="bk_phone" placeholder="Seu telefone" style="width:100%;padding:10px;border:1px solid #e5e7eb;border-radius:10px;margin-top:10px">
+                <input type="email" id="bk_email" placeholder="Seu e-mail" style="width:100%;padding:10px;border:1px solid #e5e7eb;border-radius:10px;margin-top:10px">
+                <input type="tel" id="bk_phone" placeholder="Seu telefone" required style="width:100%;padding:10px;border:1px solid #e5e7eb;border-radius:10px;margin-top:10px">
                 <button class="book-submit" type="submit">Confirmar agendamento</button>
             </form>
         </div>
+        <div class="drawer-footer">
+            <button id="drawerAction" class="drawerActionBtn" disabled onclick="triggerSubmit()">Confirmar agendamento</button>
+        </div>
     </div>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
     @endif
 
     <script>
     async function sharePage(url){ const data = { title: document.title, text: document.title, url }; if (navigator.share){ try{ await navigator.share(data); }catch(_){} } else { try{ await navigator.clipboard.writeText(url); alert('Link copiado!'); }catch(_){ window.prompt('Copie o link:', url); } } }
     async function shareLink(ev, title, url){ ev.preventDefault(); ev.stopPropagation(); const data = { title, text: title, url }; if (navigator.share){ try{ await navigator.share(data); }catch(_){} } else { try{ await navigator.clipboard.writeText(url); alert('Link copiado!'); }catch(_){ window.prompt('Copie o link:', url); } } }
 
-    function openDrawer(){ document.getElementById('drawer').classList.add('open'); document.getElementById('drawerBackdrop').classList.add('show'); loadBookingData(); }
+    function openDrawer(){ document.getElementById('drawer').classList.add('open'); document.getElementById('drawerBackdrop').classList.add('show'); loadBookingData(); fetchAvailabilityAndRender(); }
     function closeDrawer(){ resetBooking(); document.getElementById('drawer').classList.remove('open'); document.getElementById('drawerBackdrop').classList.remove('show'); }
 
     // Demo loader: replace with real endpoints later
@@ -211,6 +224,31 @@
     }
 
     let selectedServiceIds = []; let selectedServiceTotal = 0;
+    let calendarBase = new Date();
+    let availableDaysCache = { }; // key: YYYY-MM -> Set(days 'YYYY-MM-DD')
+
+    function monthKey(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,'0'); }
+    function formatYM(d){ return d.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }); }
+
+    function changeMonth(delta){ calendarBase.setMonth(calendarBase.getMonth()+delta); fetchAvailabilityAndRender(); }
+
+    function fetchAvailabilityAndRender(){
+        const slugUrl = "{{ $page->professional ? route('public.availability', $page->professional->slug) : '' }}";
+        const y = calendarBase.getFullYear(); const m = calendarBase.getMonth()+1;
+        const key = monthKey(calendarBase);
+        const finish = () => renderCalendar(calendarBase);
+        if (availableDaysCache[key]){ finish(); return; }
+        if (!slugUrl){ availableDaysCache[key] = new Set(); finish(); return; }
+        fetch(`${slugUrl}?month=${m}&year=${y}`, { headers: { 'Accept':'application/json' }})
+            .then(r=>r.json())
+            .then(data=>{
+                const days = Array.isArray(data.available_days) ? data.available_days : [];
+                availableDaysCache[key] = new Set(days);
+            })
+            .catch(()=>{ availableDaysCache[key] = new Set(); })
+            .finally(finish);
+    }
+
     function toggleService(id){
         const card = document.querySelector(`.service[data-id='${id}']`);
         if (!card) return;
@@ -228,6 +266,7 @@
         }
         renderSummary();
         document.getElementById('bookingForm').style.display = selectedServiceIds.length ? 'block' : 'none';
+        updateActionButtonState();
     }
 
     function renderSummary(){
@@ -246,11 +285,17 @@
         const cont = document.getElementById('calendarContainer');
         const year = base.getFullYear(); const month = base.getMonth();
         const first = new Date(year, month, 1); const last = new Date(year, month+1, 0);
-        let html = `<h4 style="margin:8px 0">Selecione a data</h4><div class='calendar' role='grid'>`;
+        const key = monthKey(base);
+        const avail = availableDaysCache[key] || new Set();
+        const today = new Date(); today.setHours(0,0,0,0);
+        let html = `<div class='cal-header'><div style='font-weight:700;color:#111827'>${formatYM(base)}</div><div class='cal-nav'><button class='cal-btn' onclick='changeMonth(-1)' aria-label='Mês anterior'>&lt;</button><button class='cal-btn' onclick='changeMonth(1)' aria-label='Próximo mês'>&gt;</button></div></div>`;
+        html += `<div class='calendar' role='grid'>`;
         const startWeekday = (first.getDay()+6)%7; for(let i=0;i<startWeekday;i++){ html += `<div></div>`; }
         for(let d=1; d<=last.getDate(); d++){
             const dt = new Date(year, month, d);
-            const isAvailable = dt.getDay() % 6 !== 0; // demo: seg-sex
+            const dateStr = dt.toISOString().slice(0,10);
+            const isPast = dt < today;
+            const isAvailable = avail.has(dateStr) && !isPast;
             const attrs = isAvailable ? `class='day available' role='gridcell' aria-selected='false' onclick='selectDate(event, ${year},${month},${d})'` : `class='day' role='gridcell' aria-disabled='true'`;
             html += `<div ${attrs}>${d}</div>`;
         }
@@ -258,17 +303,75 @@
     }
 
     function selectDate(ev,y,m,d){ selectedDate = new Date(y,m,d);
-        // clear previous selection
+        if (!selectedServiceIds.length){ showToast('Selecione um serviço antes de escolher a data.'); return; }
         document.querySelectorAll('.calendar .day.available').forEach(el=>{ el.classList.remove('selected'); el.setAttribute('aria-selected','false'); });
-        // mark current
         const el = ev.currentTarget || ev.target; if (el){ el.classList.add('selected'); el.setAttribute('aria-selected','true'); }
-        // demo slots
-        const slots = ['09:00','10:00','11:00','14:00','15:00'];
-        document.getElementById('slotsContainer').innerHTML = `<h4>Horários</h4>` + slots.map(t=>`<span class='slot' onclick="selectSlot('${t}')">${t}</span>`).join('');
+        // Busca horários disponíveis reais usando o primeiro serviço selecionado
+        const firstServiceId = selectedServiceIds[0];
+        const slugUrl = "{{ $page->professional ? route('public.slots', $page->professional->slug) : '' }}";
+        const dateStr = selectedDate.toISOString().slice(0,10);
+        if (slugUrl && firstServiceId){
+            const duration = (window.selectedServiceIds || []).length ? Array.from(document.querySelectorAll('.service.selected')).map(el=>parseInt(el.getAttribute('data-duration')||'0')||0).reduce((a,b)=>a+b,0) : 0;
+            const qs = `date=${encodeURIComponent(dateStr)}&service_id=${firstServiceId}${duration?`&duration=${duration}`:''}`;
+            fetch(`${slugUrl}?${qs}`, { headers: { 'Accept': 'application/json' } })
+                .then(r => r.json())
+                .then(slots => { renderSlots(Array.isArray(slots) ? slots : []); })
+                .catch(() => { renderSlots([]); });
+        } else {
+            renderSlots([]);
+        }
+        updateActionButtonState();
     }
-    function selectSlot(t){ selectedSlot=t; document.querySelectorAll('.slot').forEach(s=>s.classList.remove('active')); [...document.querySelectorAll('.slot')].find(s=>s.textContent===t).classList.add('active'); }
 
-    function submitBooking(ev){ ev.preventDefault(); if(!selectedServiceIds.length || !selectedDate || !selectedSlot){ alert('Selecione serviço(s), data e horário'); return; } alert('Agendamento enviado!'); resetBooking(); closeDrawer(); }
+    function renderSlots(slots){
+        const cont = document.getElementById('slotsContainer');
+        if (!slots.length){ cont.innerHTML = `<div style='color:#6b7280'>Sem horários disponíveis nesta data.</div>`; selectedSlot=null; updateActionButtonState(); return; }
+        cont.innerHTML = `<h4>Horários</h4>` + slots.map(t=>`<span class='slot' onclick=\"selectSlot('${t}')\">${t}</span>`).join('');
+    }
+    function selectSlot(t){ selectedSlot=t; document.querySelectorAll('.slot').forEach(s=>s.classList.remove('active')); [...document.querySelectorAll('.slot')].find(s=>s.textContent===t).classList.add('active'); updateActionButtonState(); }
+
+    function updateActionButtonState(){
+        const btn = document.getElementById('drawerAction');
+        if (!btn) return;
+        const ready = selectedServiceIds.length && selectedDate && selectedSlot;
+        btn.disabled = !ready;
+    }
+
+    function triggerSubmit(){
+        if (document.getElementById('drawerAction').disabled) return;
+        const form = document.getElementById('bookingForm');
+        if (form) submitBooking(new Event('submit', { cancelable: true }));
+    }
+
+    function submitBooking(ev){ ev.preventDefault(); if(!selectedServiceIds.length || !selectedDate || !selectedSlot){ alert('Selecione serviço(s), data e horário'); return; }
+        const url = "{{ $page->professional ? route('public.book', $page->professional->slug) : '' }}";
+        if (!url){ alert('Profissional não encontrado.'); return; }
+        const payload = {
+            service_ids: selectedServiceIds.map(Number),
+            date: selectedDate.toISOString().slice(0,10),
+            time: selectedSlot,
+            name: document.getElementById('bk_name').value,
+            phone: document.getElementById('bk_phone').value,
+            email: document.getElementById('bk_email').value || null
+        };
+        const btn = ev.submitter || document.querySelector('.book-submit');
+        if (btn) { btn.disabled = true; btn.textContent = 'Enviando...'; }
+        fetch(url, { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'), 'X-Requested-With': 'XMLHttpRequest' }, body: JSON.stringify(payload) })
+            .then(async (r) => { const ct = r.headers.get('content-type')||''; const data = ct.includes('application/json') ? await r.json() : { success:false, message:'Erro inesperado ('+r.status+').' }; return { ok:r.ok, status:r.status, data }; })
+            .then(({ok,status,data}) => {
+                if (ok && data && data.success){
+                    alert('Agendamento realizado com sucesso!');
+                    resetBooking();
+                    closeDrawer();
+                } else {
+                    if (status === 409){ alert('Este horário acabou de ser reservado. Tente outro horário.'); return; }
+                    const msg = (data && (data.message || (data.errors && Object.values(data.errors).flat().join('\n')))) || 'Não foi possível realizar o agendamento.';
+                    alert(msg);
+                }
+            })
+            .catch(() => alert('Erro de rede ao enviar o agendamento.'))
+            .finally(() => { if (btn) { btn.disabled = false; btn.textContent = 'Confirmar agendamento'; } });
+    }
 
     function resetBooking(){
         // clear selected services
@@ -286,6 +389,14 @@
         if (form) form.style.display = 'none';
         // re-render calendar to a clean state
         const calRoot = document.getElementById('calendarContainer'); if (calRoot && calRoot.firstChild) { renderCalendar(new Date()); }
+    }
+
+    function showToast(message){
+        const t = document.getElementById('toast');
+        if (!t) { alert(message); return; }
+        t.textContent = message;
+        t.classList.add('show');
+        setTimeout(()=> t.classList.remove('show'), 2500);
     }
     </script>
 </body>

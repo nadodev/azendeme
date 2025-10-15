@@ -156,9 +156,12 @@
                 <div id="links" class="space-y-3">
                     @php $oldLinks = old('links', $links->toArray()); @endphp
                     @foreach($oldLinks as $i => $link)
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 p-3 bg-gray-50 rounded-lg">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 p-3 bg-gray-50 rounded-lg items-start" data-row-index="{{ $i }}">
                             <input type="text" name="links[{{ $i }}][label]" value="{{ $link['label'] ?? '' }}" placeholder="Título do link" class="px-3 py-2 border border-gray-300 rounded-lg">
-                            <input type="url" name="links[{{ $i }}][url]" value="{{ $link['url'] ?? '' }}" placeholder="https://..." class="px-3 py-2 border border-gray-300 rounded-lg">
+                            <div class="flex gap-2">
+                                <input type="url" name="links[{{ $i }}][url]" value="{{ $link['url'] ?? '' }}" placeholder="https://..." class="flex-1 px-3 py-2 border border-gray-300 rounded-lg">
+                                <button type="button" class="px-3 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200" onclick="removeLink(this)">Remover</button>
+                            </div>
                         </div>
                     @endforeach
                 </div>
@@ -192,13 +195,21 @@ let linkIndex = {{ count(old('links', $links)) }};
 function addLink(){
     const c = document.getElementById('links');
     const row = document.createElement('div');
-    row.className = 'grid grid-cols-1 md:grid-cols-2 gap-3 p-3 bg-gray-50 rounded-lg';
+    row.className = 'grid grid-cols-1 md:grid-cols-2 gap-3 p-3 bg-gray-50 rounded-lg items-start';
+    row.setAttribute('data-row-index', linkIndex);
     row.innerHTML = `
         <input type="text" name="links[${linkIndex}][label]" placeholder="Título do link" class="px-3 py-2 border border-gray-300 rounded-lg">
-        <input type="url" name="links[${linkIndex}][url]" placeholder="https://..." class="px-3 py-2 border border-gray-300 rounded-lg">
+        <div class="flex gap-2">
+            <input type="url" name="links[${linkIndex}][url]" placeholder="https://..." class="flex-1 px-3 py-2 border border-gray-300 rounded-lg">
+            <button type="button" class="px-3 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200" onclick="removeLink(this)">Remover</button>
+        </div>
     `;
     c.appendChild(row);
     linkIndex++;
+}
+function removeLink(btn){
+    const row = btn.closest('[data-row-index]');
+    if (row){ row.remove(); }
 }
 </script>
 @endsection
