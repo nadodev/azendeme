@@ -168,7 +168,7 @@
         @endif
 
         <div class="footer">
-            <a class="join-btn" href="{{ url('/#demo') }}" target="_blank" rel="noopener">Junte-se a  {{ $page->title }} no aZendeMe</a>
+            <a class="join-btn" href="{{ url('/registrar') }}" target="_blank" rel="noopener">Junte-se a  {{ $page->title }} no aZendeMe</a>
             <div class="qr-code"><img alt="QR Code" src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data={{ urlencode($publicUrl) }}" /></div>
         </div>
     </div>
