@@ -335,65 +335,84 @@
         <header class="modern-header sticky top-0 z-50">
            
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="relative flex items-center justify-between h-20">
+                <div class="relative flex items-center justify-between h-16 lg:h-20">
                     @if(($isDemo ?? true))
-                        <div class="absolute top-2 right-2 sm:top-3 sm:right-3">
-                            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-yellow-100 text-yellow-800 border border-yellow-200 shadow-sm">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>
-                                Versão de Demonstração
+                        <div class="absolute top-1 right-1 sm:top-2 sm:right-2 lg:top-3 lg:right-3">
+                            <span class="inline-flex items-center gap-1 lg:gap-2 px-2 lg:px-3 py-1 lg:py-1.5 rounded-full text-xs lg:text-sm font-semibold bg-yellow-100 text-yellow-800 border border-yellow-200 shadow-sm">
+                                <svg class="w-3 h-3 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>
+                                <span class="hidden sm:inline">Versão de Demonstração</span>
+                                <span class="sm:hidden">Demo</span>
                             </span>
                         </div>
                     @endif
-                    <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2 lg:gap-4">
                         @if($professional->logo)
-                            <img src="{{ asset('storage/' . $professional->logo) }}" alt="Logo" class="w-14 h-14 rounded-full object-cover border-2 border-[var(--brand)]" style="box-shadow: 0 0 20px rgba(201, 160, 80, 0.4);">
+                            <img src="{{ asset('storage/' . $professional->logo) }}" alt="Logo" class="w-10 h-10 lg:w-14 lg:h-14 rounded-full object-cover border-2 border-[var(--brand)]" style="box-shadow: 0 0 20px rgba(201, 160, 80, 0.4);">
                         @else
-                            <div class="w-14 h-14 rounded-full grid place-content-center font-black text-xl border-2 border-[var(--brand)]" style="background: linear-gradient(135deg, var(--brand-light) 0%, var(--brand) 100%); color: var(--darker); box-shadow: 0 0 20px rgba(201, 160, 80, 0.4);">
+                            <div class="w-10 h-10 lg:w-14 lg:h-14 rounded-full grid place-content-center font-black text-lg lg:text-xl border-2 border-[var(--brand)]" style="background: linear-gradient(135deg, var(--brand-light) 0%, var(--brand) 100%); color: var(--darker); box-shadow: 0 0 20px rgba(201, 160, 80, 0.4);">
                                 {{ substr($professional->business_name, 0, 1) }}
                             </div>
                         @endif
                         <div>
-                            <h1 class="font-black text-xl uppercase tracking-wide text-white">
+                            <h1 class="font-black text-lg lg:text-xl uppercase tracking-wide text-white">
                                 {{ $professional->business_name }}
                             </h1>
                             @if($professional->phone)
-                                <a href="tel:{{ $professional->phone }}" class="text-sm text-[var(--brand)] hover:text-[var(--brand-light)] transition-colors flex items-center gap-1">
+                                <a href="tel:{{ $professional->phone }}" class="text-xs lg:text-sm text-[var(--brand)] hover:text-[var(--brand-light)] transition-colors flex items-center gap-1">
                                     <span>📞</span> {{ $professional->phone }}
                                 </a>
                             @endif
                         </div>
                     </div>
                     
-                    <nav class="hidden md:flex items-center gap-8">
+                    <!-- Desktop Navigation -->
+                    <nav class="hidden md:flex items-center gap-6 lg:gap-8">
                         <a href="#inicio" class="nav-link text-gray-300 hover:text-white font-semibold text-sm tracking-wide transition active">Início</a>
                         <a href="#servicos" class="nav-link text-gray-300 hover:text-white font-semibold text-sm tracking-wide transition">Serviços</a>
                         <a href="#galeria" class="nav-link text-gray-300 hover:text-white font-semibold text-sm tracking-wide transition">Galeria</a>
                         {{-- <a href="{{ route('blog.index', $professional->slug) }}" class="nav-link text-gray-300 hover:text-white font-semibold text-sm tracking-wide transition">Blog</a> --}}
                         <a href="#agendar" class="nav-link text-gray-300 hover:text-white font-semibold text-sm tracking-wide transition">Agendar</a>
                     </nav>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800/50 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Mobile Navigation -->
+                <div id="mobile-menu" class="hidden md:hidden border-t border-gray-800/50 bg-gray-900/95 backdrop-blur-md">
+                    <nav class="py-4 space-y-2">
+                        <a href="#inicio" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800/50 font-semibold transition nav-link active">Início</a>
+                        <a href="#servicos" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800/50 font-semibold transition nav-link">Serviços</a>
+                        <a href="#galeria" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800/50 font-semibold transition nav-link">Galeria</a>
+                        <a href="#agendar" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800/50 font-semibold transition nav-link">Agendar</a>
+                    </nav>
                 </div>
             </div>
         </header>
 
         <!-- Hero -->
-        <section id="inicio" class="min-h-screen flex items-center relative overflow-hidden py-20" style="background: var(--hero-bg, #0F0F10)">
+        <section id="inicio" class="min-h-screen flex items-center relative overflow-hidden py-12 lg:py-20" style="background: var(--hero-bg, #0F0F10)">
             <!-- Efeitos de fundo -->
             <div class="absolute inset-0 opacity-10">
-                <div class="absolute top-1/4 right-1/4 w-96 h-96 bg-[var(--brand)] rounded-full filter blur-3xl" style="animation: float-gentle 8s ease-in-out infinite;"></div>
-                <div class="absolute bottom-1/3 left-1/3 w-96 h-96 bg-[var(--brand-dark)] rounded-full filter blur-3xl" style="animation: float-gentle 10s ease-in-out infinite; animation-delay: 1s;"></div>
+                <div class="absolute top-1/4 right-1/4 w-64 h-64 lg:w-96 lg:h-96 bg-[var(--brand)] rounded-full filter blur-3xl" style="animation: float-gentle 8s ease-in-out infinite;"></div>
+                <div class="absolute bottom-1/3 left-1/3 w-64 h-64 lg:w-96 lg:h-96 bg-[var(--brand-dark)] rounded-full filter blur-3xl" style="animation: float-gentle 10s ease-in-out infinite; animation-delay: 1s;"></div>
             </div>
             
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
                     <div style="animation: fade-slide 0.8s ease-out;">
-                        <div class="modern-badge inline-flex items-center gap-2 mb-8">
-                            <span class="text-xl">💈</span>
+                        <div class="modern-badge inline-flex items-center gap-1 lg:gap-2 mb-6 lg:mb-8 text-xs lg:text-sm px-3 lg:px-4 py-1.5 lg:py-2">
+                            <span class="text-lg lg:text-xl">💈</span>
                             <span>Excelência em Cada Detalhe</span>
                         </div>
                         
-                        <h2 class="text-6xl lg:text-7xl font-black mb-6 leading-tight">
-                            <span class="block text-white">Bem-vindo à</span>
-                            <span class="block gradient-title text-7xl lg:text-8xl uppercase">
+                        <h2 class="text-4xl lg:text-6xl xl:text-7xl font-black mb-4 lg:mb-6 leading-tight">
+                            <span class="block text-white text-3xl lg:text-4xl xl:text-5xl">Bem-vindo à</span>
+                            <span class="block gradient-title text-4xl lg:text-6xl xl:text-7xl 2xl:text-8xl uppercase">
                                 {{ $professional->business_name }}
                             </span>
                         </h2>
@@ -593,6 +612,34 @@
                     this.classList.add('active');
                 }
             });
+        });
+
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn')?.addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu) {
+                mobileMenu.classList.toggle('hidden');
+            }
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (mobileMenu) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            
+            if (mobileMenu && !mobileMenu.contains(event.target) && !mobileMenuBtn?.contains(event.target)) {
+                mobileMenu.classList.add('hidden');
+            }
         });
     </script>
 </body>

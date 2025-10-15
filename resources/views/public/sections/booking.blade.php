@@ -1,39 +1,39 @@
 <!-- Agendamento -->
-<section id="agendar" class="py-20 bg-gradient-to-br from-gray-50 to-white">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
-            <span class="inline-block px-4 py-2 rounded-full text-sm font-semibold mb-4 text-white shadow-lg" style="background: var(--brand)">
+<section id="agendar" class="py-12 lg:py-20 bg-gradient-to-br from-gray-50 to-white">
+    <div class="md:max-w-5xl md:mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div class="text-center mb-8 lg:mb-12">
+            <span class="inline-block px-3 lg:px-4 py-1.5 lg:py-2 rounded-full text-xs lg:text-sm font-semibold mb-3 lg:mb-4 text-white shadow-lg" style="background: var(--brand)">
                 📅 Agendamento Online
             </span>
-            <h3 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Agende Seu Horário</h3>
-            <p class="text-gray-600 text-lg max-w-2xl mx-auto">Selecione o serviço, escolha a data no calendário e confirme seu agendamento</p>
+            <h3 class="text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 mb-3 lg:mb-4">Agende Seu Horário</h3>
+            <p class="text-gray-600 text-base lg:text-lg max-w-2xl mx-auto">Selecione o serviço, escolha a data no calendário e confirme seu agendamento</p>
         </div>
         
-        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
+        <div class="bg-white rounded-2xl lg:rounded-3xl shadow-2xl overflow-hidden">
             <div class="grid lg:grid-cols-2 gap-0">
                 <!-- Calendário -->
-                <div class="p-8 bg-gradient-to-br from-purple-50 to-pink-50">
-                    <h4 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
-                        <span class="w-10 h-10 rounded-xl flex items-center justify-center text-white mr-3 shadow-lg" style="background: var(--brand)">
+                <div class="p-4 lg:p-8 bg-gradient-to-br from-purple-50 to-pink-50">
+                    <h4 class="text-lg lg:text-xl font-bold text-gray-900 mb-4 lg:mb-6 flex items-center">
+                        <span class="w-8 h-8 lg:w-10 lg:h-10 rounded-lg lg:rounded-xl flex items-center justify-center text-white mr-2 lg:mr-3 shadow-lg text-sm lg:text-base" style="background: var(--brand)">
                             📅
                         </span>
                         Escolha a Data
                     </h4>
-                    <div id="calendar-container" class="bg-white rounded-2xl p-6 shadow-lg">
-                        <div class="flex items-center justify-between mb-6">
-                            <button type="button" id="prev-month" class="p-2 hover:bg-gray-100 rounded-lg transition">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div id="calendar-container" class="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-lg">
+                        <div class="flex items-center justify-between mb-4 lg:mb-6">
+                            <button type="button" id="prev-month" class="p-1.5 lg:p-2 hover:bg-gray-100 rounded-lg transition">
+                                <svg class="w-5 h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                                 </svg>
                             </button>
-                            <h5 id="calendar-month" class="text-lg font-bold text-gray-900"></h5>
-                            <button type="button" id="next-month" class="p-2 hover:bg-gray-100 rounded-lg transition">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <h5 id="calendar-month" class="text-base lg:text-lg font-bold text-gray-900"></h5>
+                            <button type="button" id="next-month" class="p-1.5 lg:p-2 hover:bg-gray-100 rounded-lg transition">
+                                <svg class="w-5 h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                                 </svg>
                             </button>
                         </div>
-                        <div class="grid grid-cols-7 gap-2 mb-2">
+                        <div class="grid grid-cols-7 gap-1 lg:gap-2 mb-2">
                             <div class="text-center text-xs font-semibold text-gray-500">Dom</div>
                             <div class="text-center text-xs font-semibold text-gray-500">Seg</div>
                             <div class="text-center text-xs font-semibold text-gray-500">Ter</div>
@@ -42,14 +42,14 @@
                             <div class="text-center text-xs font-semibold text-gray-500">Sex</div>
                             <div class="text-center text-xs font-semibold text-gray-500">Sáb</div>
                         </div>
-                        <div id="calendar-days" class="grid grid-cols-7 gap-2"></div>
-                        <div class="mt-6 flex items-center justify-center gap-6 text-xs">
-                            <div class="flex items-center gap-2">
-                                <div class="w-4 h-4 rounded border-2 border-[var(--brand)] bg-[var(--brand)]/10"></div>
+                        <div id="calendar-days" class="grid grid-cols-7 gap-1 lg:gap-2"></div>
+                        <div class="mt-4 lg:mt-6 flex items-center justify-center gap-3 lg:gap-6 text-xs">
+                            <div class="flex items-center gap-1 lg:gap-2">
+                                <div class="w-3 h-3 lg:w-4 lg:h-4 rounded border-2 border-[var(--brand)] bg-[var(--brand)]/10"></div>
                                 <span class="text-gray-600">Disponível</span>
                             </div>
-                            <div class="flex items-center gap-2">
-                                <div class="w-4 h-4 rounded bg-gray-200"></div>
+                            <div class="flex items-center gap-1 lg:gap-2">
+                                <div class="w-3 h-3 lg:w-4 lg:h-4 rounded bg-gray-200"></div>
                                 <span class="text-gray-600">Indisponível</span>
                             </div>
                         </div>
@@ -57,27 +57,27 @@
                 </div>
 
                 <!-- Formulário -->
-                <div class="p-8">
-                    <form id="booking-form" class="space-y-6">
+                <div class="p-4 lg:p-8">
+                    <form id="booking-form" class="space-y-4 lg:space-y-6">
                         <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-3">Selecione o(s) Serviço(s) *</label>
-                            <div class="space-y-3 max-h-80 overflow-y-auto pr-2">
+                            <label class="block text-sm font-bold text-gray-700 mb-2 lg:mb-3">Selecione o(s) Serviço(s) *</label>
+                            <div class="space-y-2 lg:space-y-3 max-h-60 lg:max-h-80 overflow-y-auto pr-1 lg:pr-2">
                                 @foreach($services as $service)
-                                    <label class="flex items-start p-4 border-2 border-gray-200 rounded-xl hover:border-[var(--brand)] transition-all cursor-pointer group">
+                                    <label class="flex items-start p-3 lg:p-4 border-2 border-gray-200 rounded-lg lg:rounded-xl hover:border-[var(--brand)] transition-all cursor-pointer group">
                                         <input 
                                             type="checkbox" 
                                             name="service_ids[]" 
                                             value="{{ $service->id }}" 
                                             data-duration="{{ $service->duration }}"
                                             data-price="{{ $service->price }}"
-                                            class="service-checkbox mt-1 w-5 h-5 rounded border-gray-300 text-[var(--brand)] focus:ring-[var(--brand)] focus:ring-offset-0"
+                                            class="service-checkbox mt-1 w-4 h-4 lg:w-5 lg:h-5 rounded border-gray-300 text-[var(--brand)] focus:ring-[var(--brand)] focus:ring-offset-0"
                                             onchange="updateServiceSelection()"
                                         >
-                                        <div class="ml-3 flex-1">
-                                            <div class="font-bold text-gray-900 group-hover:text-[var(--brand)] transition-colors">{{ $service->name }}</div>
-                                            <div class="text-sm text-gray-600 mt-1">
-                                                <span class="inline-flex items-center mr-3">
-                                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        <div class="ml-2 lg:ml-3 flex-1">
+                                            <div class="font-bold text-gray-900 group-hover:text-[var(--brand)] transition-colors text-sm lg:text-base">{{ $service->name }}</div>
+                                            <div class="text-xs lg:text-sm text-gray-600 mt-1">
+                                                <span class="inline-flex items-center mr-2 lg:mr-3">
+                                                    <svg class="w-3 h-3 lg:w-4 lg:h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                                                     {{ $service->duration }}min
                                                 </span>
                                                 <span class="font-bold text-[var(--brand)]">R$ {{ number_format($service->price, 2, ',', '.') }}</span>

@@ -308,34 +308,52 @@
         <header class="tattoo-header sticky top-0 z-50">
            
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="relative flex items-center justify-between h-24">
+                <div class="relative flex items-center justify-between h-16 lg:h-24">
                   
-                    <div class="flex items-center gap-5">
+                    <div class="flex items-center gap-3 lg:gap-5">
                         @if($professional->logo)
-                            <img src="{{ asset('storage/' . $professional->logo) }}" alt="Logo" class="w-16 h-16 object-cover" style="clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px); filter: drop-shadow(0 0 10px var(--brand));">
+                            <img src="{{ asset('storage/' . $professional->logo) }}" alt="Logo" class="w-12 h-12 lg:w-16 lg:h-16 object-cover" style="clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px); filter: drop-shadow(0 0 10px var(--brand));">
                         @else
-                            <div class="w-16 h-16 grid place-content-center font-black text-3xl text-white bg-[var(--brand)] relative" style="clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px); box-shadow: 0 0 20px var(--brand);">
+                            <div class="w-12 h-12 lg:w-16 lg:h-16 grid place-content-center font-black text-xl lg:text-3xl text-white bg-[var(--brand)] relative" style="clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px); box-shadow: 0 0 20px var(--brand);">
                                 {{ substr($professional->business_name, 0, 1) }}
                             </div>
                         @endif
                         <div>
-                            <h1 class="font-black text-2xl uppercase tracking-widest text-white">
+                            <h1 class="font-black text-lg lg:text-2xl uppercase tracking-widest text-white">
                                 {{ $professional->business_name }}
                             </h1>
                             @if($professional->phone)
-                                <a href="tel:{{ $professional->phone }}" class="text-sm text-gray-400 hover:text-[var(--brand)] transition-colors flex items-center gap-2 mt-1">
+                                <a href="tel:{{ $professional->phone }}" class="text-xs lg:text-sm text-gray-400 hover:text-[var(--brand)] transition-colors flex items-center gap-1 lg:gap-2 mt-1">
                                     <span>📞</span> {{ $professional->phone }}
                                 </a>
                             @endif
                         </div>
                     </div>
                     
-                    <nav class="hidden md:flex items-center gap-10">
+                    <!-- Desktop Navigation -->
+                    <nav class="hidden md:flex items-center gap-6 lg:gap-10">
                         <a href="#inicio" class="nav-link-tattoo text-gray-300 hover:text-white font-bold uppercase text-sm tracking-widest transition active">Início</a>
                         <a href="#servicos" class="nav-link-tattoo text-gray-300 hover:text-white font-bold uppercase text-sm tracking-widest transition">Trabalhos</a>
                         <a href="#galeria" class="nav-link-tattoo text-gray-300 hover:text-white font-bold uppercase text-sm tracking-widest transition">Portfolio</a>
                         {{-- <a href="{{ route('blog.index', $professional->slug) }}" class="nav-link-tattoo text-gray-300 hover:text-white font-bold uppercase text-sm tracking-widest transition">Blog</a> --}}
                         <a href="#agendar" class="nav-link-tattoo text-gray-300 hover:text-white font-bold uppercase text-sm tracking-widest transition">Agendar</a>
+                    </nav>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800/50 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Mobile Navigation -->
+                <div id="mobile-menu" class="hidden md:hidden border-t border-gray-800/50 bg-gray-900/95 backdrop-blur-md">
+                    <nav class="py-4 space-y-2">
+                        <a href="#inicio" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800/50 font-bold uppercase text-sm tracking-widest transition nav-link-tattoo active">Início</a>
+                        <a href="#servicos" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800/50 font-bold uppercase text-sm tracking-widest transition nav-link-tattoo">Trabalhos</a>
+                        <a href="#galeria" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800/50 font-bold uppercase text-sm tracking-widest transition nav-link-tattoo">Portfolio</a>
+                        <a href="#agendar" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800/50 font-bold uppercase text-sm tracking-widest transition nav-link-tattoo">Agendar</a>
                     </nav>
                 </div>
             </div>
@@ -345,23 +363,23 @@
         <section id="inicio" class="min-h-screen flex items-center relative overflow-hidden" style="background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 50%, #0a0a0a 100%);">
             <!-- Efeitos de fundo -->
             <div class="absolute inset-0 opacity-20">
-                <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-[var(--brand)] rounded-full filter blur-3xl animate-pulse" style="animation-duration: 4s;"></div>
-                <div class="absolute bottom-1/3 right-1/3 w-96 h-96 bg-red-900 rounded-full filter blur-3xl" style="animation: float 6s ease-in-out infinite;"></div>
+                <div class="absolute top-1/4 left-1/4 w-64 h-64 lg:w-96 lg:h-96 bg-[var(--brand)] rounded-full filter blur-3xl animate-pulse" style="animation-duration: 4s;"></div>
+                <div class="absolute bottom-1/3 right-1/3 w-64 h-64 lg:w-96 lg:h-96 bg-red-900 rounded-full filter blur-3xl" style="animation: float 6s ease-in-out infinite;"></div>
             </div>
             
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10">
-                <div class="grid lg:grid-cols-2 gap-20 items-center">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-24 relative z-10">
+                <div class="grid lg:grid-cols-2 gap-8 lg:gap-20 items-center">
                     <div style="animation: slide-up 0.8s ease-out;">
                         @if($settings->show_hero_badge && ($settings->hero_badge || true))
-                        <div class="inline-flex items-center gap-3 px-8 py-3 bg-white/5 border border-[var(--brand)]/30 mb-10 backdrop-blur-sm" style="clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);">
-                            <span class="text-3xl">🎨</span>
-                            <span class="text-white font-black uppercase tracking-widest text-sm">{{ $settings->hero_badge ?? 'Arte & Identidade' }}</span>
+                        <div class="inline-flex items-center gap-2 lg:gap-3 px-4 lg:px-8 py-2 lg:py-3 bg-white/5 border border-[var(--brand)]/30 mb-6 lg:mb-10 backdrop-blur-sm" style="clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);">
+                            <span class="text-2xl lg:text-3xl">🎨</span>
+                            <span class="text-white font-black uppercase tracking-widest text-xs lg:text-sm">{{ $settings->hero_badge ?? 'Arte & Identidade' }}</span>
                         </div>
                         @endif
                         
-                        <h2 class="text-7xl lg:text-8xl font-black mb-6 leading-none uppercase">
-                            <span class="block text-white">{{ $settings->hero_title ?? 'INK' }}</span>
-                            <span class="block gradient-title">
+                        <h2 class="text-4xl lg:text-7xl xl:text-8xl font-black mb-4 lg:mb-6 leading-none uppercase">
+                            <span class="block text-white text-3xl lg:text-4xl xl:text-5xl">{{ $settings->hero_title ?? 'INK' }}</span>
+                            <span class="block gradient-title text-4xl lg:text-6xl xl:text-7xl 2xl:text-8xl">
                                 {{ $professional->business_name }}
                             </span>
                         </h2>
@@ -569,6 +587,34 @@
                     this.classList.add('active');
                 }
             });
+        });
+
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn')?.addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu) {
+                mobileMenu.classList.toggle('hidden');
+            }
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (mobileMenu) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            
+            if (mobileMenu && !mobileMenu.contains(event.target) && !mobileMenuBtn?.contains(event.target)) {
+                mobileMenu.classList.add('hidden');
+            }
         });
     </script>
 </body>

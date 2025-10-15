@@ -186,68 +186,68 @@
     </header>
     
     <!-- Hero -->
-    <section id="inicio" class="py-24 lg:py-32" style="background: var(--hero-bg, #FAFBFC)">
+    <section id="inicio" class="py-12 lg:py-24 xl:py-32" style="background: var(--hero-bg, #FAFBFC)">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-16 items-center">
+            <div class="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
                 <div>
                     @if($professional->templateSetting->show_hero_badge && $professional->templateSetting->hero_badge)
-                        <div class="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold mb-6" style="background: var(--hero-primary, #8B5CF6)20; color: var(--hero-primary, #8B5CF6); border: 1px solid var(--hero-primary, #8B5CF6)40">
-                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                        <div class="inline-flex items-center px-3 lg:px-4 py-1.5 lg:py-2 rounded-full text-xs lg:text-sm font-semibold mb-4 lg:mb-6" style="background: var(--hero-primary, #8B5CF6)20; color: var(--hero-primary, #8B5CF6); border: 1px solid var(--hero-primary, #8B5CF6)40">
+                            <svg class="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
                             {{ $professional->templateSetting->hero_badge }}
                         </div>
                     @endif
-                    <h2 class="text-5xl lg:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
+                    <h2 class="text-3xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 mb-4 lg:mb-6 leading-tight">
                         {{ $professional->templateSetting->hero_title ?? $professional->business_name }}
                     </h2>
                     @if($professional->templateSetting->hero_subtitle)
-                        <p class="text-xl text-gray-600 mb-8 leading-relaxed">{{ $professional->templateSetting->hero_subtitle }}</p>
+                        <p class="text-lg lg:text-xl text-gray-600 mb-6 lg:mb-8 leading-relaxed">{{ $professional->templateSetting->hero_subtitle }}</p>
                     @elseif($professional->bio)
-                        <p class="text-xl text-gray-600 mb-8 leading-relaxed">{{ $professional->bio }}</p>
+                        <p class="text-lg lg:text-xl text-gray-600 mb-6 lg:mb-8 leading-relaxed">{{ $professional->bio }}</p>
                     @else
-                        <p class="text-xl text-gray-600 mb-8 leading-relaxed">Cuidado profissional e atendimento de excelência para sua saúde e bem-estar.</p>
+                        <p class="text-lg lg:text-xl text-gray-600 mb-6 lg:mb-8 leading-relaxed">Cuidado profissional e atendimento de excelência para sua saúde e bem-estar.</p>
                     @endif
-                    <div class="flex flex-wrap gap-4">
-                        <a href="#agendar" class="inline-flex items-center px-8 py-4 rounded-xl text-white font-bold text-lg shadow-lg hover:shadow-xl transition-all hover:scale-105" style="background: linear-gradient(135deg, var(--hero-primary, #8B5CF6) 0%, var(--accent, #7C3AED) 100%)">
+                    <div class="flex flex-wrap gap-3 lg:gap-4">
+                        <a href="#agendar" class="inline-flex items-center px-6 lg:px-8 py-3 lg:py-4 rounded-lg lg:rounded-xl text-white font-bold text-base lg:text-lg shadow-lg hover:shadow-xl transition-all hover:scale-105" style="background: linear-gradient(135deg, var(--hero-primary, #8B5CF6) 0%, var(--accent, #7C3AED) 100%)">
                             Agendar Consulta
-                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                            <svg class="w-4 h-4 lg:w-5 lg:h-5 ml-1 lg:ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                         </a>
-                        <a href="#servicos" class="inline-flex items-center px-8 py-4 rounded-xl bg-white border-2 border-gray-200 text-gray-700 font-bold text-lg hover:border-[var(--brand)] hover:text-[var(--brand)] transition-all">
+                        <a href="#servicos" class="inline-flex items-center px-6 lg:px-8 py-3 lg:py-4 rounded-lg lg:rounded-xl bg-white border-2 border-gray-200 text-gray-700 font-bold text-base lg:text-lg hover:border-[var(--brand)] hover:text-[var(--brand)] transition-all">
                             Nossos Serviços
                         </a>
                     </div>
                 </div>
                 
-                <div class="grid grid-cols-2 gap-6">
-                    <div class="trust-badge rounded-2xl p-6 text-center">
-                        <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4 icon-float">
-                            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                <div class="grid grid-cols-2 gap-3 lg:gap-6">
+                    <div class="trust-badge rounded-xl lg:rounded-2xl p-4 lg:p-6 text-center">
+                        <div class="w-12 h-12 lg:w-16 lg:h-16 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-3 lg:mb-4 icon-float">
+                            <svg class="w-6 h-6 lg:w-8 lg:h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                         </div>
-                        <h4 class="font-bold text-gray-900 mb-2">Segurança</h4>
-                        <p class="text-sm text-gray-600">Protocolos rigorosos</p>
+                        <h4 class="font-bold text-gray-900 mb-1 lg:mb-2 text-sm lg:text-base">Segurança</h4>
+                        <p class="text-xs lg:text-sm text-gray-600">Protocolos rigorosos</p>
                     </div>
                     
-                    <div class="trust-badge rounded-2xl p-6 text-center" style="margin-top: 2rem;">
-                        <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4 icon-float" style="animation-delay: 0.2s;">
-                            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    <div class="trust-badge rounded-xl lg:rounded-2xl p-4 lg:p-6 text-center" style="margin-top: 1rem;">
+                        <div class="w-12 h-12 lg:w-16 lg:h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-3 lg:mb-4 icon-float" style="animation-delay: 0.2s;">
+                            <svg class="w-6 h-6 lg:w-8 lg:h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                         </div>
-                        <h4 class="font-bold text-gray-900 mb-2">Qualidade</h4>
-                        <p class="text-sm text-gray-600">Excelência garantida</p>
+                        <h4 class="font-bold text-gray-900 mb-1 lg:mb-2 text-sm lg:text-base">Qualidade</h4>
+                        <p class="text-xs lg:text-sm text-gray-600">Excelência garantida</p>
                     </div>
                     
-                    <div class="trust-badge rounded-2xl p-6 text-center">
-                        <div class="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-4 icon-float" style="animation-delay: 0.4s;">
-                            <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    <div class="trust-badge rounded-xl lg:rounded-2xl p-4 lg:p-6 text-center">
+                        <div class="w-12 h-12 lg:w-16 lg:h-16 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-3 lg:mb-4 icon-float" style="animation-delay: 0.4s;">
+                            <svg class="w-6 h-6 lg:w-8 lg:h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                         </div>
-                        <h4 class="font-bold text-gray-900 mb-2">Equipe</h4>
-                        <p class="text-sm text-gray-600">Profissionais experientes</p>
+                        <h4 class="font-bold text-gray-900 mb-1 lg:mb-2 text-sm lg:text-base">Equipe</h4>
+                        <p class="text-xs lg:text-sm text-gray-600">Profissionais experientes</p>
                     </div>
                     
-                    <div class="trust-badge rounded-2xl p-6 text-center" style="margin-top: 2rem;">
-                        <div class="w-16 h-16 rounded-full bg-orange-100 flex items-center justify-center mx-auto mb-4 icon-float" style="animation-delay: 0.6s;">
-                            <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <div class="trust-badge rounded-xl lg:rounded-2xl p-4 lg:p-6 text-center" style="margin-top: 1rem;">
+                        <div class="w-12 h-12 lg:w-16 lg:h-16 rounded-full bg-orange-100 flex items-center justify-center mx-auto mb-3 lg:mb-4 icon-float" style="animation-delay: 0.6s;">
+                            <svg class="w-6 h-6 lg:w-8 lg:h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         </div>
-                        <h4 class="font-bold text-gray-900 mb-2">Pontualidade</h4>
-                        <p class="text-sm text-gray-600">Respeito ao seu tempo</p>
+                        <h4 class="font-bold text-gray-900 mb-1 lg:mb-2 text-sm lg:text-base">Pontualidade</h4>
+                        <p class="text-xs lg:text-sm text-gray-600">Respeito ao seu tempo</p>
                     </div>
                 </div>
             </div>
@@ -255,44 +255,44 @@
     </section>
 
     <!-- Serviços -->
-    <section id="servicos" class="py-24" style="background: var(--services-bg, #FFFFFF)">
+    <section id="servicos" class="py-12 lg:py-24" style="background: var(--services-bg, #FFFFFF)">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <div class="inline-flex items-center px-4 py-2 rounded-full bg-blue-50 text-sm font-semibold text-blue-600 mb-4">
+            <div class="text-center mb-8 lg:mb-16">
+                <div class="inline-flex items-center px-3 lg:px-4 py-1.5 lg:py-2 rounded-full bg-blue-50 text-xs lg:text-sm font-semibold text-blue-600 mb-3 lg:mb-4">
                     O que oferecemos
                 </div>
-                <h3 class="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
+                <h3 class="text-3xl lg:text-4xl xl:text-5xl font-extrabold text-gray-900 mb-3 lg:mb-4">
                     {{ $professional->templateSetting->services_title ?? 'Nossos Serviços' }}
                 </h3>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                <p class="text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto">
                     {{ $professional->templateSetting->services_subtitle ?? 'Atendimento especializado com foco no seu bem-estar' }}
                 </p>
             </div>
             
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                 @forelse($services as $service)
-                    <div class="clinic-card service-card-clinic rounded-2xl p-8">
-                        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center mb-6">
-                            <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    <div class="clinic-card service-card-clinic rounded-xl lg:rounded-2xl p-6 lg:p-8">
+                        <div class="w-12 h-12 lg:w-14 lg:h-14 rounded-lg lg:rounded-xl bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center mb-4 lg:mb-6">
+                            <svg class="w-6 h-6 lg:w-7 lg:h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                         </div>
-                        <h4 class="text-2xl font-bold text-gray-900 mb-3">{{ $service->name }}</h4>
-                        <p class="text-gray-600 mb-6 leading-relaxed">{{ $service->description }}</p>
-                        <div class="flex items-center justify-between mb-6 pb-6 border-b border-gray-100">
+                        <h4 class="text-xl lg:text-2xl font-bold text-gray-900 mb-2 lg:mb-3">{{ $service->name }}</h4>
+                        <p class="text-gray-600 mb-4 lg:mb-6 leading-relaxed text-sm lg:text-base">{{ $service->description }}</p>
+                        <div class="flex items-center justify-between mb-4 lg:mb-6 pb-4 lg:pb-6 border-b border-gray-100">
                             <div class="flex items-center text-gray-500">
-                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                <span class="font-semibold">{{ $service->duration }} min</span>
+                                <svg class="w-4 h-4 lg:w-5 lg:h-5 mr-1 lg:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                <span class="font-semibold text-sm lg:text-base">{{ $service->duration }} min</span>
                             </div>
-                            <div class="text-2xl font-extrabold text-[var(--brand)]">
+                            <div class="text-xl lg:text-2xl font-extrabold text-[var(--brand)]">
                                 R$ {{ number_format($service->price, 2, ',', '.') }}
                             </div>
                         </div>
-                        <a href="#agendar" onclick="selectService({{ $service->id }})" class="block w-full text-center px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 text-white font-bold hover:from-blue-700 hover:to-blue-600 transition-all shadow-lg hover:shadow-xl">
+                        <a href="#agendar" onclick="selectService({{ $service->id }})" class="block w-full text-center px-4 lg:px-6 py-2.5 lg:py-3 rounded-lg lg:rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 text-white font-bold hover:from-blue-700 hover:to-blue-600 transition-all shadow-lg hover:shadow-xl text-sm lg:text-base">
                             Agendar Agora
                         </a>
                     </div>
                 @empty
-                    <div class="col-span-full text-center py-12">
-                        <p class="text-gray-500 text-lg">Nenhum serviço disponível no momento.</p>
+                    <div class="col-span-full text-center py-8 lg:py-12">
+                        <p class="text-gray-500 text-base lg:text-lg">Nenhum serviço disponível no momento.</p>
                     </div>
                 @endforelse
             </div>
@@ -333,5 +333,35 @@
     </div>
 
     @include('public.sections.scripts', ['professional' => $professional])
+    
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn')?.addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu) {
+                mobileMenu.classList.toggle('hidden');
+            }
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (mobileMenu) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            
+            if (mobileMenu && !mobileMenu.contains(event.target) && !mobileMenuBtn?.contains(event.target)) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+    </script>
 </body>
 </html>

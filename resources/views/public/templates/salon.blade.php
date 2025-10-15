@@ -153,29 +153,30 @@
     <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-pink-100 shadow-lg">
        
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="relative flex items-center justify-between h-24">
+            <div class="relative flex items-center justify-between h-16 lg:h-24">
                
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2 lg:gap-4">
                     @if($professional->logo)
-                        <img src="{{ asset('storage/' . $professional->logo) }}" alt="Logo" class="w-16 h-16 rounded-full object-cover ring-4 ring-pink-100">
+                        <img src="{{ asset('storage/' . $professional->logo) }}" alt="Logo" class="w-10 h-10 lg:w-16 lg:h-16 rounded-full object-cover ring-2 lg:ring-4 ring-pink-100">
                     @else
-                        <div class="w-16 h-16 rounded-full grid place-content-center font-bold text-2xl text-white shadow-xl" style="background: linear-gradient(135deg, var(--brand) 0%, #a855f7 100%)">
+                        <div class="w-10 h-10 lg:w-16 lg:h-16 rounded-full grid place-content-center font-bold text-lg lg:text-2xl text-white shadow-xl" style="background: linear-gradient(135deg, var(--brand) 0%, #a855f7 100%)">
                             {{ substr($professional->business_name, 0, 1) }}
                         </div>
                     @endif
                     <div>
-                        <h1 class="font-bold text-2xl bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+                        <h1 class="font-bold text-lg lg:text-2xl bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
                             {{ $professional->business_name }}
                         </h1>
                         @if($professional->phone)
-                            <a href="tel:{{ $professional->phone }}" class="text-sm text-gray-600 hover:text-pink-600 transition-colors flex items-center gap-1">
+                            <a href="tel:{{ $professional->phone }}" class="text-xs lg:text-sm text-gray-600 hover:text-pink-600 transition-colors flex items-center gap-1">
                                 <span>💅</span> {{ $professional->phone }}
                             </a>
                         @endif
                     </div>
                 </div>
                 
-                <nav class="hidden md:flex items-center gap-10">
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center gap-6 lg:gap-10">
                     <a href="#inicio" class="nav-link active">Início</a>
                     <a href="#servicos" class="nav-link">Serviços</a>
                     <a href="#galeria" class="nav-link">Galeria</a>
@@ -183,57 +184,75 @@
                     <a href="#agendar" class="nav-link">Agendar</a>
                     <a href="#contato" class="nav-link">Contato</a>
                 </nav>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-gray-700 hover:text-pink-600 hover:bg-pink-50 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div id="mobile-menu" class="hidden md:hidden border-t border-pink-100 bg-white/95 backdrop-blur-md">
+                <nav class="py-4 space-y-2">
+                    <a href="#inicio" class="block px-4 py-3 text-gray-700 hover:text-pink-600 hover:bg-pink-50 font-semibold transition nav-link active">Início</a>
+                    <a href="#servicos" class="block px-4 py-3 text-gray-700 hover:text-pink-600 hover:bg-pink-50 font-semibold transition nav-link">Serviços</a>
+                    <a href="#galeria" class="block px-4 py-3 text-gray-700 hover:text-pink-600 hover:bg-pink-50 font-semibold transition nav-link">Galeria</a>
+                    <a href="#agendar" class="block px-4 py-3 text-gray-700 hover:text-pink-600 hover:bg-pink-50 font-semibold transition nav-link">Agendar</a>
+                    <a href="#contato" class="block px-4 py-3 text-gray-700 hover:text-pink-600 hover:bg-pink-50 font-semibold transition nav-link">Contato</a>
+                </nav>
             </div>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section id="inicio" class="py-24 relative" style="background: var(--hero-bg, #FDF2F8)">
+    <section id="inicio" class="py-12 lg:py-24 relative" style="background: var(--hero-bg, #FDF2F8)">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-16 items-center relative z-10">
+            <div class="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center relative z-10">
                 <div class="text-center lg:text-left">
-                    <div class="inline-block px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full text-sm font-semibold text-pink-600 mb-6 shadow-lg">
+                    <div class="inline-block px-3 lg:px-4 py-1.5 lg:py-2 bg-white/80 backdrop-blur-sm rounded-full text-xs lg:text-sm font-semibold text-pink-600 mb-4 lg:mb-6 shadow-lg">
                         ✨ Beleza & Bem-estar
                     </div>
-                    <h2 class="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                    <h2 class="text-3xl lg:text-5xl xl:text-6xl font-bold mb-4 lg:mb-6 leading-tight">
                         <span class="bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
                             {{ $professional->business_name }}
                         </span>
                     </h2>
                     @if($professional->bio)
-                        <p class="text-xl text-gray-700 mb-10 leading-relaxed">{{ $professional->bio }}</p>
+                        <p class="text-lg lg:text-xl text-gray-700 mb-6 lg:mb-10 leading-relaxed">{{ $professional->bio }}</p>
                     @endif
-                    <div class="flex flex-wrap gap-6 justify-center lg:justify-start">
-                        <a href="#agendar" class="btn-primary inline-block">Agendar Agora</a>
-                        <a href="#servicos" class="px-8 py-4 border-3 border-pink-300 rounded-full font-bold text-gray-800 hover:bg-white hover:shadow-xl transition-all">
+                    <div class="flex flex-wrap gap-3 lg:gap-6 justify-center lg:justify-start">
+                        <a href="#agendar" class="btn-primary inline-block text-sm lg:text-base px-6 lg:px-8 py-2 lg:py-4">Agendar Agora</a>
+                        <a href="#servicos" class="px-6 lg:px-8 py-2 lg:py-4 border-2 lg:border-3 border-pink-300 rounded-full font-bold text-sm lg:text-base text-gray-800 hover:bg-white hover:shadow-xl transition-all">
                             Nossos Serviços
                         </a>
                     </div>
                 </div>
                 
                 <div class="relative">
-                    <div class="salon-card p-10 sparkle">
-                        <h3 class="text-3xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent mb-6">
+                    <div class="salon-card p-6 lg:p-10 sparkle">
+                        <h3 class="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent mb-4 lg:mb-6">
                             Sua transformação começa aqui
                         </h3>
-                        <div class="space-y-5">
-                            <div class="flex items-center gap-4 p-4 bg-gradient-to-r from-pink-50 to-purple-50 rounded-2xl">
-                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 grid place-content-center text-white text-xl">
+                        <div class="space-y-3 lg:space-y-5">
+                            <div class="flex items-center gap-3 lg:gap-4 p-3 lg:p-4 bg-gradient-to-r from-pink-50 to-purple-50 rounded-2xl">
+                                <div class="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 grid place-content-center text-white text-lg lg:text-xl">
                                     💇
                                 </div>
-                                <span class="text-gray-800 font-semibold">Cabelos com estilo único</span>
+                                <span class="text-gray-800 font-semibold text-sm lg:text-base">Cabelos com estilo único</span>
                             </div>
-                            <div class="flex items-center gap-4 p-4 bg-gradient-to-r from-pink-50 to-purple-50 rounded-2xl">
-                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 grid place-content-center text-white text-xl">
+                            <div class="flex items-center gap-3 lg:gap-4 p-3 lg:p-4 bg-gradient-to-r from-pink-50 to-purple-50 rounded-2xl">
+                                <div class="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 grid place-content-center text-white text-lg lg:text-xl">
                                     💅
                                 </div>
-                                <span class="text-gray-800 font-semibold">Unhas impecáveis</span>
+                                <span class="text-gray-800 font-semibold text-sm lg:text-base">Unhas impecáveis</span>
                             </div>
-                            <div class="flex items-center gap-4 p-4 bg-gradient-to-r from-pink-50 to-purple-50 rounded-2xl">
-                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 grid place-content-center text-white text-xl">
+                            <div class="flex items-center gap-3 lg:gap-4 p-3 lg:p-4 bg-gradient-to-r from-pink-50 to-purple-50 rounded-2xl">
+                                <div class="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 grid place-content-center text-white text-lg lg:text-xl">
                                     ✨
                                 </div>
-                                <span class="text-gray-800 font-semibold">Tratamentos exclusivos</span>
+                                <span class="text-gray-800 font-semibold text-sm lg:text-base">Tratamentos exclusivos</span>
                             </div>
                         </div>
                     </div>
@@ -275,6 +294,36 @@
 
 
     @include('public.sections.scripts', ['professional' => $professional])
+    
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn')?.addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu) {
+                mobileMenu.classList.toggle('hidden');
+            }
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (mobileMenu) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            
+            if (mobileMenu && !mobileMenu.contains(event.target) && !mobileMenuBtn?.contains(event.target)) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+    </script>
 </body>
 </html>
 

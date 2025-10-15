@@ -93,11 +93,11 @@ $user = User::where('id', $professional->user_id)->firstOrFail();
         $year = $request->get('year', now()->year);
         
         // Pega todos os dias da semana que o profissional trabalha
-        $availabilities = Availability::where('professional_id', $this->professionalId)->get();
+        $availabilities = Availability::where('professional_id', $professional->id)->get();
         $workingDays = $availabilities->pluck('day_of_week')->toArray();
         
         // Pega datas bloqueadas
-        $blockedDates = BlockedDate::where('professional_id', $this->professionalId)
+        $blockedDates = BlockedDate::where('professional_id', $professional->id)
             ->whereMonth('blocked_date', $month)
             ->whereYear('blocked_date', $year)
             ->pluck('blocked_date')
@@ -140,7 +140,7 @@ $user = User::where('id', $professional->user_id)->firstOrFail();
         $dayOfWeek = $date->dayOfWeek;
 
         // Verifica se a data está bloqueada
-        $isBlocked = BlockedDate::where('professional_id', $this->professionalId)
+        $isBlocked = BlockedDate::where('professional_id', $professional->id)
             ->where('blocked_date', $date->format('Y-m-d'))
             ->exists();
 
@@ -149,7 +149,7 @@ $user = User::where('id', $professional->user_id)->firstOrFail();
         }
 
         // Busca disponibilidade para o dia da semana
-        $availability = Availability::where('professional_id', $this->professionalId)
+        $availability = Availability::where('professional_id', $professional->id)
             ->where('day_of_week', $dayOfWeek)
             ->first();
 
@@ -173,7 +173,7 @@ $user = User::where('id', $professional->user_id)->firstOrFail();
                 $slotEndDateTime = $slotDateTime->copy()->addMinutes($duration);
                 
                 // Verifica se há conflito com algum agendamento existente
-                $hasConflict = Appointment::where('professional_id', $this->professionalId)
+                $hasConflict = Appointment::where('professional_id', $professional->id)
                     ->where('start_time', '<', $slotEndDateTime)
                     ->where('end_time', '>', $slotDateTime)
                     ->exists();
@@ -344,7 +344,7 @@ $user = User::where('id', $professional->user_id)->firstOrFail();
         $professional = Professional::where('slug', $slug)->firstOrFail();
         
         // Busca cliente por telefone ou email
-        $customer = Customer::where('professional_id', $this->professionalId)
+        $customer = Customer::where('professional_id', $professional->id)
             ->where(function($q) use ($request) {
                 if ($request->input('phone')) {
                     $q->where('phone', $request->input('phone'));
@@ -363,7 +363,7 @@ $user = User::where('id', $professional->user_id)->firstOrFail();
         }
         
         // Busca pontos de fidelidade
-        $loyaltyPoints = \App\Models\LoyaltyPoint::where('professional_id', $this->professionalId)
+        $loyaltyPoints = \App\Models\LoyaltyPoint::where('professional_id', $professional->id)
             ->where('customer_id', $customer->id)
             ->first();
         
@@ -375,7 +375,7 @@ $user = User::where('id', $professional->user_id)->firstOrFail();
         }
         
         // Busca recompensas ativas
-        $rewards = \App\Models\LoyaltyReward::where('professional_id', $this->professionalId)
+        $rewards = \App\Models\LoyaltyReward::where('professional_id', $professional->id)
             ->where('active', true)
             ->where(function($q) {
                 $q->whereNull('valid_until')
