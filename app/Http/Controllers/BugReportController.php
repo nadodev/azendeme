@@ -49,9 +49,10 @@ class BugReportController extends Controller
                 'ip_address' => $request->ip()
             ];
 
-            // Enviar e-mail para suporte
-            Mail::send('emails.bug-report', $bugData, function ($message) use ($bugData) {
-                $message->to('suporte@azendeme.com.br')
+            // Enviar e-mail para suporte (usar o mesmo e-mail configurado no .env)
+            $supportEmail = config('mail.from.address');
+            Mail::send('emails.bug-report', $bugData, function ($message) use ($bugData, $supportEmail) {
+                $message->to($supportEmail)
                         ->subject('[BUG REPORT] ' . $bugData['subject'])
                         ->replyTo($bugData['email'], $bugData['name']);
             });

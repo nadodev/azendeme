@@ -30,8 +30,13 @@ class SendEventReminders extends Command
             $confirmUrl = route('event.confirm', ['token' => $event->confirmation_token]);
 
             if ($event->customer && $event->customer->email) {
-                Mail::to($event->customer->email)->queue(new EventReminder($event, $confirmUrl));
-                $this->info("Lembrete enviado para evento #{$event->id} - {$event->customer->email}");
+                try {
+                    Mail::to($event->customer->email)->queue(new EventReminder($event, $confirmUrl));
+                    $this->info("Lembrete enviado para evento #{$event->id} - {$event->customer->email}");
+                } catch (\Exception $e) {
+                    \Log::error('Erro ao enviar lembrete de evento: ' . $e->getMessage());
+                    $this->error("Erro ao enviar lembrete para evento #{$event->id}: " . $e->getMessage());
+                }
             }
         }
 

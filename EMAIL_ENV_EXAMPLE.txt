@@ -1,0 +1,70 @@
+# ============================================
+# CONFIGURAÇÃO DE E-MAIL - AZENDEME
+# ============================================
+
+# Copie estas configurações para seu arquivo .env
+# e ajuste conforme seu provedor de e-mail
+
+# ============================================
+# OPÇÃO 1: GMAIL (Recomendado para desenvolvimento)
+# ============================================
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=seu-email@gmail.com
+MAIL_PASSWORD=sua-senha-de-app-gmail
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=seu-email@gmail.com
+MAIL_FROM_NAME="AzendeMe"
+
+# ============================================
+# OPÇÃO 2: OUTLOOK/HOTMAIL
+# ============================================
+# MAIL_MAILER=smtp
+# MAIL_HOST=smtp-mail.outlook.com
+# MAIL_PORT=587
+# MAIL_USERNAME=seu-email@outlook.com
+# MAIL_PASSWORD=sua-senha
+# MAIL_ENCRYPTION=tls
+# MAIL_FROM_ADDRESS=seu-email@outlook.com
+# MAIL_FROM_NAME="AzendeMe"
+
+# ============================================
+# OPÇÃO 3: MAILTRAP (Para testes - Recomendado)
+# ============================================
+# MAIL_MAILER=smtp
+# MAIL_HOST=sandbox.smtp.mailtrap.io
+# MAIL_PORT=2525
+# MAIL_USERNAME=seu-username-mailtrap
+# MAIL_PASSWORD=sua-senha-mailtrap
+# MAIL_ENCRYPTION=tls
+# MAIL_FROM_ADDRESS=teste@azendeme.com
+# MAIL_FROM_NAME="AzendeMe"
+
+# ============================================
+# OPÇÃO 4: SENDGRID (Para produção)
+# ============================================
+# MAIL_MAILER=smtp
+# MAIL_HOST=smtp.sendgrid.net
+# MAIL_PORT=587
+# MAIL_USERNAME=apikey
+# MAIL_PASSWORD=sua-api-key-sendgrid
+# MAIL_ENCRYPTION=tls
+# MAIL_FROM_ADDRESS=noreply@seudominio.com
+# MAIL_FROM_NAME="AzendeMe"
+
+# ============================================
+# OPÇÃO 5: LOG (Para debug - e-mails salvos em storage/logs)
+# ============================================
+# MAIL_MAILER=log
+# MAIL_FROM_ADDRESS=teste@azendeme.com
+# MAIL_FROM_NAME="AzendeMe"
+
+# ============================================
+# INSTRUÇÕES:
+# ============================================
+# 1. Descomente a opção que deseja usar
+# 2. Comente as outras opções
+# 3. Substitua os valores pelos seus dados reais
+# 4. Execute: php artisan config:clear
+# 5. Teste com: php artisan email:test seu-email@teste.com

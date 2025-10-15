@@ -258,7 +258,8 @@ class AgendaController extends Controller
                     );
                 }
             } catch (\Exception $e) {
-                \Log::error('Erro ao enviar e-mail: ' . $e->getMessage());
+                \Log::error('Erro ao enviar e-mail de agendamento: ' . $e->getMessage());
+                // Não falha o processo se o e-mail não for enviado
             }
         }
 
