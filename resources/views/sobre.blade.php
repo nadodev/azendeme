@@ -56,12 +56,12 @@
     <!-- Header Fixo -->
     <header class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200">
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <a href="{{ url('/') }}" class="flex items-center gap-3">
-                    <div class="w-12 h-12 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 rounded-xl flex items-center justify-center shadow-lg">
-                        <img src="{{ asset('logo.png') }}" alt="aZendeMe" class="w-8 h-8">
+            <div class="flex justify-between items-center h-16 lg:h-20">
+                <a href="{{ url('/') }}" class="flex items-center gap-2 lg:gap-3">
+                    <div class="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 rounded-lg lg:rounded-xl flex items-center justify-center shadow-lg">
+                        <img src="{{ asset('logo.png') }}" alt="aZendeMe" class="w-6 h-6 lg:w-8 lg:h-8">
                     </div>
-                    <span class="text-2xl font-black">
+                    <span class="text-lg lg:text-2xl font-black">
                         <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">aZendeMe</span>
                     </span>
                 </a>
@@ -76,8 +76,8 @@
                     {{-- <a href="{{ url('/#depoimentos') }}" class="text-gray-700 hover:text-blue-600 font-medium transition">Depoimentos</a> --}}
                 </div>
                 
-                <div class="flex items-center gap-4">
-                    <a href="{{ url('/registrar') }}" class="px-6 py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition">
+                <div class="flex items-center gap-2 lg:gap-4">
+                    <a href="{{ url('/registrar') }}" class="px-4 lg:px-6 py-2 lg:py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-lg lg:rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition text-sm lg:text-base">
                        Começar Grátis
                     </a>
                 </div>
@@ -86,7 +86,7 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="relative pt-32 pb-20 overflow-hidden">
+    <section class="relative pt-24 lg:pt-32 pb-16 lg:pb-20 overflow-hidden">
         <!-- Background -->
         <div class="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50"></div>
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(37,99,235,0.1),transparent_50%),radial-gradient(circle_at_70%_60%,rgba(139,92,246,0.1),transparent_50%)]"></div>
@@ -97,14 +97,14 @@
                     🚀 Sistema Completo de Agendamentos
                 </div>
                 
-                <h1 class="text-5xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight">
+                <h1 class="text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-black mb-4 lg:mb-6 leading-tight">
                     Conheça o
                     <span class="block bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-gradient">
                         aZendeme
                     </span>
                 </h1>
                 
-                <p class="text-xl text-gray-600 mb-8 leading-relaxed max-w-4xl mx-auto">
+                <p class="text-lg lg:text-xl text-gray-600 mb-6 lg:mb-8 leading-relaxed max-w-4xl mx-auto">
                     O sistema mais completo e intuitivo para gerenciar agendamentos, clientes e todo o seu negócio. 
                     Desenvolvido para profissionais que buscam excelência e praticidade.
                 </p>

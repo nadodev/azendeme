@@ -9,11 +9,11 @@
 <body class="bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 min-h-screen">
     
     <div class="min-h-screen flex items-center justify-center p-4">
-        <div class="max-w-6xl w-full grid md:grid-cols-2 gap-8 items-center">
+        <div class="max-w-6xl w-full grid lg:grid-cols-2 gap-6 lg:gap-8 items-center">
             
             <!-- Left Side - Branding -->
-            <div class="hidden md:block">
-                <div class="bg-gradient-to-br from-purple-600 to-pink-600 rounded-3xl p-12 text-white shadow-2xl">
+            <div class="hidden lg:block">
+                <div class="bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl lg:rounded-3xl p-8 lg:p-12 text-white shadow-2xl">
                         <div class="flex items-center gap-4 mb-8">
                             <div class="relative">
                                 <img src="{{ asset('logo.png') }}" alt="aZendeMe" class="w-16 h-16 drop-shadow-2xl">
@@ -24,11 +24,11 @@
                                 <p class="text-white/80 text-sm font-medium">Sistema de Agendamentos</p>
                             </div>
                         </div>
-                    <h1 class="text-4xl font-black mb-6 leading-tight">
+                    <h1 class="text-3xl lg:text-4xl font-black mb-4 lg:mb-6 leading-tight">
                         Gerencie seu negócio com profissionalismo
                     </h1>
                     
-                    <p class="text-xl text-purple-100 mb-8 leading-relaxed">
+                    <p class="text-lg lg:text-xl text-purple-100 mb-6 lg:mb-8 leading-relaxed">
                         Sistema completo de agendamento, fidelidade, promoções e muito mais!
                     </p>
                     
@@ -70,27 +70,27 @@
 
             <!-- Right Side - Login Form -->
             <div class="w-full">
-                <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12">
+                <div class="bg-white rounded-2xl lg:rounded-3xl shadow-2xl p-6 lg:p-8 xl:p-12">
                     
                     <!-- Mobile Logo -->
-                    <div class="md:hidden mb-8 text-center">
+                    <div class="lg:hidden mb-6 lg:mb-8 text-center">
                         <a href="{{ url('/') }}" class="inline-block">
-                            <div class="flex items-center gap-4 justify-center">
+                            <div class="flex items-center gap-3 lg:gap-4 justify-center">
                                 <div class="relative">
-                                    <img src="{{ asset('logo.png') }}" alt="aZendeMe" class="w-12 h-12 drop-shadow-xl">
+                                    <img src="{{ asset('logo.png') }}" alt="aZendeMe" class="w-10 h-10 lg:w-12 lg:h-12 drop-shadow-xl">
                                     <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full blur-lg opacity-30"></div>
                                 </div>
                                 <div class="text-center">
-                                    <span class="text-3xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent drop-shadow-sm">aZendeMe</span>
+                                    <span class="text-2xl lg:text-3xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent drop-shadow-sm">aZendeMe</span>
                                     <p class="text-gray-600 text-xs font-medium">Sistema de Agendamentos</p>
                                 </div>
                             </div>
                         </a>
                     </div>
 
-                    <div class="mb-8">
-                        <h2 class="text-3xl font-black text-gray-900 mb-2">Bem-vindo de volta!</h2>
-                        <p class="text-gray-600">Faça login para acessar seu painel</p>
+                    <div class="mb-6 lg:mb-8">
+                        <h2 class="text-2xl lg:text-3xl font-black text-gray-900 mb-2">Bem-vindo de volta!</h2>
+                        <p class="text-sm lg:text-base text-gray-600">Faça login para acessar seu painel</p>
                     </div>
 
     <!-- Session Status -->
@@ -116,7 +116,7 @@
                                 required 
                                 autofocus 
                                 autocomplete="username"
-                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-600 focus:ring-4 focus:ring-purple-100 transition @error('email') border-red-500 @enderror"
+                                class="w-full px-3 lg:px-4 py-2 lg:py-3 border-2 border-gray-300 rounded-lg lg:rounded-xl focus:border-purple-600 focus:ring-4 focus:ring-purple-100 transition @error('email') border-red-500 @enderror text-sm lg:text-base"
                                 placeholder="seu@email.com"
                             />
                             @error('email')
@@ -135,7 +135,7 @@
                             name="password"
                                 required 
                                 autocomplete="current-password"
-                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-600 focus:ring-4 focus:ring-purple-100 transition @error('password') border-red-500 @enderror"
+                                class="w-full px-3 lg:px-4 py-2 lg:py-3 border-2 border-gray-300 rounded-lg lg:rounded-xl focus:border-purple-600 focus:ring-4 focus:ring-purple-100 transition @error('password') border-red-500 @enderror text-sm lg:text-base"
                                 placeholder="••••••••"
                             />
                             @error('password')
@@ -165,7 +165,7 @@
                         <!-- Submit Button -->
                         <button 
                             type="submit"
-                            class="w-full px-6 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-lg rounded-xl hover:shadow-2xl transform hover:scale-[1.02] transition"
+                            class="w-full px-6 py-3 lg:py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-base lg:text-lg rounded-lg lg:rounded-xl hover:shadow-2xl transform hover:scale-[1.02] transition"
                         >
                             Entrar
                         </button>

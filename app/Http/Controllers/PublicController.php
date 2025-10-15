@@ -10,25 +10,22 @@ use App\Models\Gallery;
 use App\Models\Professional;
 use App\Models\Service;
 use App\Helpers\TemplateColors;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PublicController extends Controller
 {
-    protected $professionalId;
-    public function __construct()
-    {
-        $this->professionalId = auth()->user()->id;
-    }
+   
 
     public function show($slug)
     {
+        $professional = Professional::where('slug', $slug)->firstOrFail();
      
-        $professional = Professional::with('templateSetting', 'galleries')->where('slug', $slug)->firstOrFail();
-        $services = Service::where('professional_id', $this->professionalId)
+        $services = Service::where('professional_id', $professional->id)
             ->where('active', true)
             ->get();
-        $gallery = Gallery::where('professional_id', auth()->user()->id)
+        $gallery = Gallery::where('professional_id', $professional->id)
             ->with('album')
             ->orderBy('album_id')
             ->orderBy('order')
@@ -37,7 +34,7 @@ class PublicController extends Controller
         // Buscar todos os profissionais disponíveis para seleção no agendamento
         $professionals = Professional::orderBy('user_id', 'desc')
             ->orderBy('name')
-            ->where('user_id', auth()->user()->id)
+            ->where('user_id', $professional->id)
             ->get();
 
         
@@ -74,11 +71,11 @@ class PublicController extends Controller
             $templateView = 'public.templates.clinic';
         }
 
+$user = User::where('id', $professional->user_id)->firstOrFail();
+        $isPlan = $user->isFree();
+        $planLimits = $user->planLimits();
 
-        $isPlan = auth()->user()->isFree();
-        $planLimits = auth()->user()->planLimits();
-
-        $appointments = Appointment::where('professional_id', $this->professionalId)->get();
+        $appointments = Appointment::where('professional_id', $professional->id)->get();
 
         $appointmentsCount = $appointments->count();
         $appointmentsLimit = $planLimits['appointments_per_month'];
