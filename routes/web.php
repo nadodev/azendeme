@@ -468,6 +468,10 @@ Route::prefix('panel')->name('panel.')->middleware(['auth', 'verified'])->group(
                 Route::post('/{contract}/assinar', [App\Http\Controllers\Panel\EventContractController::class, 'sign'])->name('sign');
             });
 
+            // Bio (admin)
+            Route::get('/bio', [App\Http\Controllers\Panel\BioPageController::class, 'edit'])->name('bio.edit');
+            Route::put('/bio', [App\Http\Controllers\Panel\BioPageController::class, 'update'])->name('bio.update');
+
             // Notas de Serviço
             Route::prefix('notas-servico')->name('service-notes.')->group(function () {
                 Route::get('/', [App\Http\Controllers\Panel\EventServiceNoteController::class, 'index'])->name('index');
@@ -551,6 +555,9 @@ Route::post('/agendar/{token}', [App\Http\Controllers\QuickBookingPublicControll
 // Sistema de Feedback Público
 Route::get('/feedback/{token}', [App\Http\Controllers\FeedbackController::class, 'show'])->name('feedback.show');
 Route::post('/feedback/{token}', [App\Http\Controllers\FeedbackController::class, 'store'])->name('feedback.store');
+
+// Página pública de Bio (antes da rota dinâmica do perfil)
+Route::get('/bio/{slug}', [App\Http\Controllers\PublicBioController::class, 'show'])->name('public.bio');
 
 // Página pública do profissional (DEVE SER A ÚLTIMA rota pois é dinâmica)
 // Constraint: aceita apenas letras, números, hífens e underscores

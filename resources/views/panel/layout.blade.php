@@ -158,6 +158,14 @@
                                 class="block px-4 py-2 text-sm {{ request()->routeIs('panel.social.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
                                 Redes Sociais
                             </a>
+                            {{-- <a href="{{ route('panel.events.analytics.index') }}"
+                                class="block px-4 py-2 text-sm {{ request()->routeIs('panel.events.analytics.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
+                                Analytics de Eventos
+                            </a> --}}
+                            <a href="{{ route('panel.events.bio.edit') }}"
+                                class="block px-4 py-2 text-sm {{ request()->routeIs('panel.bio.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
+                                Página Bio
+                            </a>
                             <a href="{{ route('panel.feedbacks.index') }}"
                                 class="block px-4 py-2 text-sm {{ request()->routeIs('panel.feedbacks.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
                                 Feedbacks
@@ -249,7 +257,7 @@
                         </div>
                     </div>
 
-                    <a href="{{ route('panel.alerts.index') }}"
+                    {{-- <a href="{{ route('panel.alerts.index') }}"
                         class="flex items-center space-x-3 px-4 py-3 rounded-lg {{ request()->routeIs('panel.alerts.*') ? 'bg-purple-50 text-purple-600' : 'text-gray-700 hover:bg-gray-50' }} transition">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -265,7 +273,7 @@
                                 {{ $unreadCount }}
                             </span>
                         @endif
-                    </a>
+                    </a> --}}
 
                     <!-- Seção: Ferramentas -->
                     <div class="border-t border-gray-200 my-3"></div>
