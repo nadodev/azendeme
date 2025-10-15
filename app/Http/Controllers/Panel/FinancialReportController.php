@@ -15,7 +15,13 @@ use Carbon\Carbon;
 
 class FinancialReportController extends Controller
 {
-    private int $professionalId = 1; // Hardcoded por enquanto
+
+    protected $professionalId;
+
+    public function __construct()
+    {
+        $this->professionalId = auth()->user()->id;
+    }
 
     /**
      * Dashboard Financeiro Principal
@@ -25,7 +31,7 @@ class FinancialReportController extends Controller
         $dateFrom = $request->get('date_from', now()->startOfMonth()->format('Y-m-d'));
         $dateTo = $request->get('date_to', now()->endOfMonth()->format('Y-m-d'));
 
-        // Receita total no período
+        // Receita total: apenas pagamentos de agendamentos do profissional logado no período
         $totalRevenue = Payment::whereHas('appointment', function ($query) {
                 $query->where('professional_id', $this->professionalId);
             })

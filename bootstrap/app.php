@@ -14,7 +14,10 @@ return Application::configure(basePath: dirname(__DIR__))
         'serviceOrder' => \App\Models\EventServiceOrder::class,
     ])
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->appendToGroup('web', [\App\Http\Middleware\SetTenantFromAuth::class]);
+        $middleware->alias([
+            'plan.limits' => \App\Http\Middleware\EnforcePlanLimits::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

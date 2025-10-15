@@ -61,8 +61,8 @@
 
                         <!-- Cliente e Serviço -->
                         <div class="border-t border-gray-200 pt-4 mt-4">
-                            <p class="font-semibold text-gray-900">{{ $feedback->customer->name }}</p>
-                            <p class="text-sm text-gray-500">{{ $feedback->service->name }}</p>
+                            <p class="font-semibold text-gray-900">{{ $feedback->customer->name ?? 'Cliente não encontrado' }}</p>
+                            <p class="text-sm text-gray-500">{{ $feedback->service->name ?? 'Serviço não encontrado' }}</p>
                             <p class="text-xs text-gray-400 mt-1">{{ $feedback->created_at->diffForHumans() }}</p>
                         </div>
 

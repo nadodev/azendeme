@@ -86,7 +86,6 @@
         <div class="mt-6 pt-6 border-t border-gray-200">
             <h4 class="font-semibold text-gray-900 mb-3">Horários Cadastrados</h4>
             @php
-                $availabilities = \App\Models\Availability::where('professional_id', 1)->orderBy('day_of_week')->get();
                 $daysOfWeek = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
             @endphp
 

@@ -9,7 +9,11 @@ use Illuminate\Http\Request;
 
 class SocialController extends Controller
 {
-    protected $professionalId = 1;
+    protected $professionalId;
+    public function __construct()
+    {
+        $this->professionalId = auth()->user()->id;
+    }
 
     public function index()
     {

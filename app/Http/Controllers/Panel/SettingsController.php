@@ -11,17 +11,24 @@ use Illuminate\Support\Str;
 
 class SettingsController extends Controller
 {
+    protected $professionalId;
+    public function __construct()
+    {
+        $this->professionalId = auth()->user()->id;
+    }
+
     public function index()
     {
-        $professionalId = 1;
+        $professionalId = auth()->user()->professional->id;
         $professional = Professional::findOrFail($professionalId);
+
 
         return view('panel.configuracoes', compact('professional'));
     }
 
     public function update(Request $request)
     {
-        $professionalId = 1;
+        $professionalId = $this->professionalId;
         $professional = Professional::findOrFail($professionalId);
 
         $validated = $request->validate([
@@ -64,7 +71,7 @@ class SettingsController extends Controller
 
     public function customizeTemplate()
     {
-        $professionalId = 1;
+        $professionalId = $this->professionalId;
         $professional = Professional::with('templateSetting')->findOrFail($professionalId);
         
         // Se não existir configuração, criar uma padrão baseada no template
@@ -86,7 +93,7 @@ class SettingsController extends Controller
 
     public function updateTemplate(Request $request)
     {
-        $professionalId = 1;
+        $professionalId = $this->professionalId;
         $professional = Professional::findOrFail($professionalId);
 
         $validated = $request->validate([

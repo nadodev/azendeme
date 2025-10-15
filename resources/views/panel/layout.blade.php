@@ -484,6 +484,13 @@
                             $professional = \App\Models\Professional::find(1);
                             $publicUrl = $professional ? url('/' . $professional->slug) : url('/');
                         @endphp
+                        <a href="{{ route('panel.profile') }}"
+                            class="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg font-semibold hover:bg-gray-300 transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A7 7 0 1118.88 7.196M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            Meu Perfil
+                        </a>
                         <a href="{{ $publicUrl }}" target="_blank"
                             class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-lg font-semibold hover:shadow-lg transition">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -6,6 +6,7 @@ use App\Models\Appointment;
 use App\Models\Availability;
 use App\Models\BlockedDate;
 use App\Models\Customer;
+use App\Models\Gallery;
 use App\Models\Professional;
 use App\Models\Service;
 use App\Helpers\TemplateColors;
@@ -14,22 +15,35 @@ use Illuminate\Http\Request;
 
 class PublicController extends Controller
 {
+    protected $professionalId;
+    public function __construct()
+    {
+        $this->professionalId = auth()->user()->id;
+    }
+
     public function show($slug)
     {
-        $professional = Professional::with('templateSetting')->where('slug', $slug)->firstOrFail();
-        $services = Service::where('professional_id', $professional->id)
+     
+        $professional = Professional::with('templateSetting', 'galleries')->where('slug', $slug)->firstOrFail();
+        $services = Service::where('professional_id', $this->professionalId)
             ->where('active', true)
             ->get();
-        $gallery = $professional->galleries()->orderBy('order')->get();
+        $gallery = Gallery::where('professional_id', auth()->user()->id)
+            ->with('album')
+            ->orderBy('album_id')
+            ->orderBy('order')
+            ->get();
         
         // Buscar todos os profissionais disponíveis para seleção no agendamento
-        $professionals = Professional::orderBy('is_main', 'desc')
+        $professionals = Professional::orderBy('user_id', 'desc')
             ->orderBy('name')
+            ->where('user_id', auth()->user()->id)
             ->get();
+
         
         // Buscar feedbacks públicos
         try {
-            $feedbacks = \App\Models\Feedback::where('professional_id', $professional->id)
+            $feedbacks = \App\Models\Feedback::where('professional_id', $this->professionalId)
                 ->where('visible_public', true)
                 ->where('approved', true)
                 ->with(['customer', 'service'])
@@ -60,7 +74,18 @@ class PublicController extends Controller
             $templateView = 'public.templates.clinic';
         }
 
-        return view($templateView, compact('professional', 'services', 'gallery', 'settings', 'feedbacks', 'professionals'));
+
+        $isPlan = auth()->user()->isFree();
+        $planLimits = auth()->user()->planLimits();
+
+        $appointments = Appointment::where('professional_id', $this->professionalId)->get();
+
+        $appointmentsCount = $appointments->count();
+        $appointmentsLimit = $planLimits['appointments_per_month'];
+
+        $isPlanOver = $appointmentsCount >= $appointmentsLimit;
+
+        return view($templateView, compact('professional', 'services', 'gallery', 'settings', 'feedbacks', 'professionals', 'isPlan', 'planLimits', 'appointmentsCount', 'appointmentsLimit', 'isPlanOver'));
     }
 
     public function getMonthAvailability(Request $request, $slug)
@@ -71,11 +96,11 @@ class PublicController extends Controller
         $year = $request->get('year', now()->year);
         
         // Pega todos os dias da semana que o profissional trabalha
-        $availabilities = Availability::where('professional_id', $professional->id)->get();
+        $availabilities = Availability::where('professional_id', $this->professionalId)->get();
         $workingDays = $availabilities->pluck('day_of_week')->toArray();
         
         // Pega datas bloqueadas
-        $blockedDates = BlockedDate::where('professional_id', $professional->id)
+        $blockedDates = BlockedDate::where('professional_id', $this->professionalId)
             ->whereMonth('blocked_date', $month)
             ->whereYear('blocked_date', $year)
             ->pluck('blocked_date')
@@ -118,7 +143,7 @@ class PublicController extends Controller
         $dayOfWeek = $date->dayOfWeek;
 
         // Verifica se a data está bloqueada
-        $isBlocked = BlockedDate::where('professional_id', $professional->id)
+        $isBlocked = BlockedDate::where('professional_id', $this->professionalId)
             ->where('blocked_date', $date->format('Y-m-d'))
             ->exists();
 
@@ -127,10 +152,11 @@ class PublicController extends Controller
         }
 
         // Busca disponibilidade para o dia da semana
-        $availability = Availability::where('professional_id', $professional->id)
+        $availability = Availability::where('professional_id', $this->professionalId)
             ->where('day_of_week', $dayOfWeek)
             ->first();
 
+            
         if (!$availability) {
             return response()->json(['slots' => []]);
         }
@@ -150,7 +176,7 @@ class PublicController extends Controller
                 $slotEndDateTime = $slotDateTime->copy()->addMinutes($duration);
                 
                 // Verifica se há conflito com algum agendamento existente
-                $hasConflict = Appointment::where('professional_id', $professional->id)
+                $hasConflict = Appointment::where('professional_id', $this->professionalId)
                     ->where('start_time', '<', $slotEndDateTime)
                     ->where('end_time', '>', $slotDateTime)
                     ->exists();
@@ -186,7 +212,7 @@ class PublicController extends Controller
         // Busca ou cria o cliente
         $customer = Customer::firstOrCreate(
             [
-                'professional_id' => $professional->id,
+                'professional_id' => $this->professionalId,
                 'phone' => $validated['phone'],
             ],
             [
@@ -215,7 +241,7 @@ class PublicController extends Controller
         $baseEnd = $baseStart->copy()->addMinutes($totalDuration);
 
         // Impede conflito: se já existir agendamento que comece antes do fim e termine após o início
-        $hasConflict = Appointment::where('professional_id', $professional->id)
+        $hasConflict = Appointment::where('professional_id', $this->professionalId)
             ->where('start_time', '<', $baseEnd)
             ->where('end_time', '>', $baseStart)
             ->exists();
@@ -230,7 +256,7 @@ class PublicController extends Controller
         $endTime = $baseEnd;
 
         $appointment = Appointment::create([
-            'professional_id' => $professional->id,
+            'professional_id' => $this->professionalId,
             'service_id' => $serviceIds[0], // Serviço principal
             'customer_id' => $customer->id,
             'start_time' => $startTime,
@@ -246,7 +272,6 @@ class PublicController extends Controller
         ]);
 
       
-
         // Se tem múltiplos serviços, cria os registros na tabela pivot
         if ($hasMultiple) {
             foreach ($services as $service) {
@@ -274,7 +299,7 @@ class PublicController extends Controller
         $professional = Professional::where('slug', $slug)->firstOrFail();
         
         $promotion = \App\Models\Promotion::where('promo_code', $code)
-            ->where('professional_id', $professional->id)
+            ->where('professional_id', $this->professionalId)
             ->where('active', true)
             ->where('valid_from', '<=', now())
             ->where('valid_until', '>=', now())
@@ -322,7 +347,7 @@ class PublicController extends Controller
         $professional = Professional::where('slug', $slug)->firstOrFail();
         
         // Busca cliente por telefone ou email
-        $customer = Customer::where('professional_id', $professional->id)
+        $customer = Customer::where('professional_id', $this->professionalId)
             ->where(function($q) use ($request) {
                 if ($request->input('phone')) {
                     $q->where('phone', $request->input('phone'));
@@ -341,7 +366,7 @@ class PublicController extends Controller
         }
         
         // Busca pontos de fidelidade
-        $loyaltyPoints = \App\Models\LoyaltyPoint::where('professional_id', $professional->id)
+        $loyaltyPoints = \App\Models\LoyaltyPoint::where('professional_id', $this->professionalId)
             ->where('customer_id', $customer->id)
             ->first();
         
@@ -353,7 +378,7 @@ class PublicController extends Controller
         }
         
         // Busca recompensas ativas
-        $rewards = \App\Models\LoyaltyReward::where('professional_id', $professional->id)
+        $rewards = \App\Models\LoyaltyReward::where('professional_id', $this->professionalId)
             ->where('active', true)
             ->where(function($q) {
                 $q->whereNull('valid_until')

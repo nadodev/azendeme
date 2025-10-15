@@ -303,6 +303,9 @@
                 </div>
                 
                 <div class="flex items-center gap-2">
+                    <a href="{{ url('/registrar') }}" class="lg:flex hidden sm:text-sm px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition">
+                        🚀 Começar Grátis
+                    </a>
                     <a href="#demo" class="lg:flex hidden sm:text-sm px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition">
                         Solicitar Demonstração
                     </a>
@@ -323,6 +326,7 @@
                     <a href="#templates" class="px-3 py-2 rounded-lg text-gray-800 hover:bg-gray-100 font-medium">Templates</a>
                     <a href="#precos" class="px-3 py-2 rounded-lg text-gray-800 hover:bg-gray-100 font-medium">Preços</a>
                     <a href="/sobre" class="px-3 py-2 rounded-lg text-gray-800 hover:bg-gray-100 font-medium">Sobre</a>
+                    <a href="{{ url('/registrar') }}" class="mt-2 px-4 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-semibold text-center">🚀 Começar Grátis</a>
                     <a href="#demo" class="mt-2 px-4 py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl font-semibold text-center">Solicitar Demonstração</a>
                 </div>
             </div>
@@ -355,8 +359,11 @@
                         </p>
                     
                     <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
+                        <a href="{{ url('/registrar') }}" class="px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition">
+                            🚀 Começar Grátis Agora
+                        </a>
                         <a href="#demo" class="px-8 py-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition">
-                            🚀 Solicitar Demonstração
+                            📞 Solicitar Demonstração
                         </a>
                         <a href="#funcionalidades" class="px-8 py-4 bg-white text-purple-600 rounded-xl font-bold text-lg border-2 border-purple-600 hover:bg-purple-50 transition">
                             📋 Ver Todas as Funcionalidades

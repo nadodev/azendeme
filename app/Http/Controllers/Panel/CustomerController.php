@@ -5,16 +5,17 @@ namespace App\Http\Controllers\Panel;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+ 
 
 class CustomerController extends Controller
 {
     public function index(Request $request)
     {
-        $professionalId = 1;
-        
         $search = $request->get('search');
+        $professionalId = auth()->user()->id;
 
-        $query = Customer::where('professional_id', $professionalId)
+        $query = Customer::query()
+            ->where('professional_id', $professionalId)
             ->withCount('appointments');
 
         if ($search) {
@@ -26,18 +27,36 @@ class CustomerController extends Controller
         }
 
         $customers = $query->orderBy('name')->get();
+     
+        // Flag de limite (escopo pelo professional_id do usuário)
+        $limits = auth()->user()->planLimits();
+        $customerLimit = (int) (($limits['customers'] ?? 1));
+        $reachedLimit = Customer::where('professional_id', $professionalId)->count() >= $customerLimit;
 
-        return view('panel.clientes', compact('customers'));
+        return view('panel.clientes', compact('customers', 'reachedLimit'));
     }
 
     public function create()
     {
+        $limits = auth()->user()->planLimits();
+        $professionalId = auth()->user()->id;
+        $customerLimit = (int) (($limits['customers'] ?? 1));
+        if (Customer::where('professional_id', $professionalId)->count() >= $customerLimit) {
+            return redirect()->route('panel.clientes.index')
+                ->withErrors(['plan' => 'Você atingiu o limite de clientes do seu plano. Faça upgrade para adicionar mais.']);
+        }
         return view('panel.clientes-create');
     }
 
     public function store(Request $request)
     {
-        $professionalId = 1;
+        $limits = auth()->user()->planLimits();
+        $professionalId = auth()->user()->id;
+        $customerLimit = (int) (($limits['customers'] ?? 1));
+        if (Customer::where('professional_id', $professionalId)->count() >= $customerLimit) {
+            return redirect()->route('panel.clientes.index')
+                ->withErrors(['plan' => 'Você atingiu o limite de clientes do seu plano. Faça upgrade para adicionar mais.']);
+        }
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',

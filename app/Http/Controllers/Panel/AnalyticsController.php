@@ -9,12 +9,13 @@ use Carbon\Carbon;
 
 class AnalyticsController extends Controller
 {
-    protected $professionalId = 1;
+    protected $professionalId;
     protected $analyticsService;
 
     public function __construct(AnalyticsService $analyticsService)
     {
         $this->analyticsService = $analyticsService;
+        $this->professionalId = auth()->user()->id;
     }
 
     /**
@@ -30,6 +31,7 @@ class AnalyticsController extends Controller
             $startDate,
             $endDate
         );
+
 
         return view('panel.analytics.dashboard', compact('metrics', 'startDate', 'endDate'));
     }

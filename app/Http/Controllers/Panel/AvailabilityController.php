@@ -11,12 +11,14 @@ class AvailabilityController extends Controller
 {
     public function index()
     {
-        $professionalId = 1;
+        $professionalId = auth()->user()->id;
+
         
         $availabilities = Availability::where('professional_id', $professionalId)
             ->orderBy('day_of_week')
             ->orderBy('start_time')
             ->get();
+
 
         $blockedDates = BlockedDate::where('professional_id', $professionalId)
             ->where('blocked_date', '>=', now())
@@ -53,7 +55,7 @@ class AvailabilityController extends Controller
 
     public function store(Request $request)
     {
-        $professionalId = 1;
+        $professionalId = auth()->user()->id;
 
         $validated = $request->validate([
             'day_of_week' => 'required|integer|between:0,6',

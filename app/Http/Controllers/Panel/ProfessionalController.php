@@ -10,15 +10,13 @@ use Illuminate\Support\Str;
 
 class ProfessionalController extends Controller
 {
-    protected $mainProfessionalId = 1;
-
     /**
-     * Lista todos os profissionais da equipe
+     * Lista os profissionais pertencentes ao usuário (tenant)
      */
     public function index()
     {
-        // Busca todos os profissionais (por enquanto sistema single-tenant)
-        $professionals = Professional::orderBy('is_main', 'desc')
+        $professionals = Professional::where('is_main', auth()->id())
+            ->orderBy('is_main', 'desc')
             ->orderBy('name')
             ->get();
 
@@ -54,8 +52,9 @@ class ProfessionalController extends Controller
             $photoPath = $request->file('photo')->store('professionals', 'public');
         }
 
-        // Criar profissional
+        // Criar profissional do tenant atual
         $professional = Professional::create([
+            'user_id' => auth()->id(),
             'name' => $validated['name'],
             'email' => $validated['email'],
             'phone' => $validated['phone'] ?? null,
@@ -64,10 +63,12 @@ class ProfessionalController extends Controller
             'commission_percentage' => $validated['commission_percentage'] ?? 0,
             'photo' => $photoPath,
             'slug' => Str::slug($validated['name']) . '-' . Str::random(6),
-            'is_main' => false,
+            'is_main' => auth()->user()->id,
             'brand_color' => '#8B5CF6',
             'template' => 'clinic',
         ]);
+
+
 
         return redirect()->route('panel.professionals.index')
             ->with('success', 'Profissional cadastrado com sucesso!');
@@ -78,7 +79,8 @@ class ProfessionalController extends Controller
      */
     public function edit($id)
     {
-        $professional = Professional::findOrFail($id);
+        $professional = Professional::where('is_main', auth()->id())->findOrFail($id);
+
         return view('panel.professionals.edit', compact('professional'));
     }
 
@@ -87,7 +89,7 @@ class ProfessionalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $professional = Professional::findOrFail($id);
+        $professional = Professional::where('is_main', auth()->id())->findOrFail($id);
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -116,7 +118,7 @@ class ProfessionalController extends Controller
      */
     public function destroy($id)
     {
-        $professional = Professional::findOrFail($id);
+        $professional = Professional::where('is_main', auth()->id())->findOrFail($id);
 
         if ($professional->is_main) {
             return redirect()->back()

@@ -10,6 +10,23 @@
 
         <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
             <div class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Álbum</label>
+                <select name="album_id" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                    <option value="">Sem álbum</option>
+                    @isset($albums)
+                        @foreach($albums as $album)
+                            <option value="{{ $album->id }}">{{ $album->name }}</option>
+                        @endforeach
+                    @endisset
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Ou criar novo álbum</label>
+                <input type="text" name="new_album_name" value="{{ old('new_album_name') }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="Nome do novo álbum">
+            </div>
+        </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Imagem *</label>
                     <div class="flex items-center justify-center w-full">

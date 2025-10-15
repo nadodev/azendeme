@@ -8,7 +8,11 @@ use Illuminate\Http\Request;
 
 class SeoController extends Controller
 {
-    private $professionalId = 1; // Temporário
+    protected $professionalId;
+    public function __construct()
+    {
+        $this->professionalId = auth()->user()->id;
+    }
 
     public function index()
     {

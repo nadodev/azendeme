@@ -11,7 +11,11 @@ use Illuminate\View\View;
 
 class ActivityLogController extends Controller
 {
-    private int $professionalId = 1; // Hardcoded por enquanto
+    protected $professionalId;
+    public function __construct()
+    {
+        $this->professionalId = auth()->user()->id;
+    }
 
     /**
      * Exibir lista de logs de atividade

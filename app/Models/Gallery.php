@@ -9,6 +9,7 @@ class Gallery extends Model
 {
     protected $fillable = [
         'professional_id',
+        'album_id',
         'image_path',
         'title',
         'description',
@@ -18,5 +19,10 @@ class Gallery extends Model
     public function professional(): BelongsTo
     {
         return $this->belongsTo(Professional::class);
+    }
+
+    public function album(): BelongsTo
+    {
+        return $this->belongsTo(GalleryAlbum::class, 'album_id');
     }
 }

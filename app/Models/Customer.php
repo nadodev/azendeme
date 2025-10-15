@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\BelongsToTenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Customer extends Model
 {
+    use BelongsToTenant;
+
     protected $fillable = [
         'professional_id',
         'name',
@@ -44,5 +47,10 @@ class Customer extends Model
     public function waitlistEntries(): HasMany
     {
         return $this->hasMany(Waitlist::class);
+    }
+
+    public function appointmentsCount(): int
+    {
+        return $this->appointments()->count();
     }
 }

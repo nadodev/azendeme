@@ -14,10 +14,16 @@ use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
+    protected $professionalId;
+    public function __construct()
+    {
+        $this->professionalId = auth()->user()->id;
+    }
+
     public function index()
     {
         // Por enquanto usando professional_id = 1 (single-tenant)
-        $professionalId = 1;
+        $professionalId = $this->professionalId;
 
         // Estatísticas de Agendamentos
         $stats = [

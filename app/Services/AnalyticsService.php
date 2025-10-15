@@ -65,6 +65,7 @@ class AnalyticsService
             ->where('status', 'completed')
             ->get();
 
+
         $income = $transactions->where('type', 'income')->sum('amount');
         $expense = $transactions->where('type', 'expense')->sum('amount');
         $profit = $income - $expense;

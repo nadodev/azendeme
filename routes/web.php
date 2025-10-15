@@ -45,6 +45,10 @@ Route::get('/sobre', function () {
     return view('sobre');
 })->name('sobre');
 
+// Self-service signup (multi-tenant)
+Route::get('/registrar', [\App\Http\Controllers\Auth\TenantRegisterController::class, 'showForm'])->name('tenant.register');
+Route::post('/registrar', [\App\Http\Controllers\Auth\TenantRegisterController::class, 'store'])->name('tenant.register.store');
+
 // Templates de Demonstração
 Route::get('/templates/clinic', function () {
     return view('templates.clinic');
@@ -119,6 +123,16 @@ Route::middleware('auth')->group(function () {
 Route::prefix('panel')->name('panel.')->middleware(['auth', 'verified'])->group(function () {
     // Dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Perfil/Plano
+    Route::get('/perfil', function(){ return view('panel.profile'); })->name('profile');
+    Route::get('/perfil/editar', [\App\Http\Controllers\Panel\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/perfil', [\App\Http\Controllers\Panel\ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/perfil/senha', [\App\Http\Controllers\Panel\ProfileController::class, 'updatePassword'])->name('profile.password');
+    Route::get('/planos', [\App\Http\Controllers\Panel\PlanController::class, 'index'])->name('plans.index');
+    Route::put('/planos', [\App\Http\Controllers\Panel\PlanController::class, 'update'])->name('plans.update');
+    Route::post('/planos/checkout', [\App\Http\Controllers\Panel\PlanCheckoutController::class, 'checkout'])->name('plans.checkout');
+    Route::post('/planos/billing-portal', [\App\Http\Controllers\Panel\PlanCheckoutController::class, 'billingPortal'])->name('plans.billing-portal');
 
     // Agenda
     Route::resource('agenda', AgendaController::class);
@@ -542,6 +556,15 @@ Route::prefix('panel')->name('panel.')->middleware(['auth', 'verified'])->group(
             Route::resource('/', App\Http\Controllers\Panel\EventController::class)->parameters(['' => 'event']);
         });
 });
+
+// Stripe Webhook (public, signed by Stripe) — disable CSRF and session
+Route::post('/stripe/webhook', [\App\Http\Controllers\WebhookController::class, 'handleStripe'])
+    ->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class, \Illuminate\Session\Middleware\StartSession::class, \Illuminate\View\Middleware\ShareErrorsFromSession::class])
+    ->name('stripe.webhook');
+// Alternate path to match external configuration (ngrok etc.)
+Route::post('/webhook/stripe', [\App\Http\Controllers\WebhookController::class, 'handleStripe'])
+    ->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class, \Illuminate\Session\Middleware\StartSession::class, \Illuminate\View\Middleware\ShareErrorsFromSession::class])
+    ->name('stripe.webhook.alt');
 
 
 // Confirmação de presença de evento (link público)

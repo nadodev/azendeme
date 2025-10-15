@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -21,6 +22,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'plan',
+        'avatar',
     ];
 
     /**
@@ -52,5 +55,30 @@ class User extends Authenticatable
     public function professional()
     {
         return $this->hasOne(Professional::class);
+    }
+
+    // Helpers de plano
+    public function isFree(): bool { return $this->plan === 'free'; }
+    public function isPremium(): bool { return $this->plan === 'premium'; }
+    public function isMaster(): bool { return $this->plan === 'master'; }
+
+    public function planLimits(): array
+    {
+        return (array) config('plans.' . ($this->plan ?? 'free') . '.limits', []);
+    }
+
+    public function getAvatarUrlAttribute(): string
+    {
+        if ($this->avatar) {
+            return Storage::disk('public')->url($this->avatar);
+        }
+        
+        // Generate default avatar with initials
+        $initials = collect(explode(' ', $this->name))
+            ->map(fn($word) => strtoupper(substr($word, 0, 1)))
+            ->take(2)
+            ->join('');
+            
+        return "https://ui-avatars.com/api/?name={$initials}&background=6366f1&color=ffffff&size=128";
     }
 }

@@ -11,28 +11,45 @@ class ServiceController extends Controller
 {
     public function index()
     {
-        $professionalId = 1;
-        $services = Service::where('professional_id', $professionalId)
-            ->with('assignedProfessional')
+        $services = Service::with('assignedProfessional')
             ->orderBy('name')
             ->get();
 
-        return view('panel.servicos', compact('services'));
+        // Flag de limite para desabilitar botão
+        $limits = auth()->user()->planLimits();
+        $serviceLimit = (int) ($limits['services'] ?? PHP_INT_MAX);
+        $reachedLimit = Service::count() >= $serviceLimit;
+
+        return view('panel.servicos', compact('services', 'reachedLimit'));
     }
 
     public function create()
     {
-        // Busca todos os profissionais disponíveis
-        $professionals = Professional::orderBy('is_main', 'desc')
+        $professionals = Professional::where('user_id', auth()->id())
+            ->orderBy('is_main', 'desc')
             ->orderBy('name')
             ->get();
         
+        // Checa limite e bloqueia formulário se necessário
+        $limits = auth()->user()->planLimits();
+        $serviceLimit = (int) ($limits['services'] ?? PHP_INT_MAX);
+        if (Service::count() >= $serviceLimit) {
+            return redirect()->route('panel.servicos.index')
+                ->withErrors(['plan' => 'Você atingiu o limite de serviços do seu plano. Faça upgrade para adicionar mais.']);
+        }
+
         return view('panel.servicos-create', compact('professionals'));
     }
 
     public function store(Request $request)
     {
-        $professionalId = 1;
+        // Enforce limite
+        $limits = auth()->user()->planLimits();
+        $serviceLimit = (int) ($limits['services'] ?? PHP_INT_MAX);
+        if (Service::count() >= $serviceLimit) {
+            return redirect()->route('panel.servicos.index')
+                ->withErrors(['plan' => 'Você atingiu o limite de serviços do seu plano. Faça upgrade para adicionar mais.']);
+        }
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -45,7 +62,6 @@ class ServiceController extends Controller
         ]);
 
         Service::create([
-            'professional_id' => $professionalId,
             'name' => $validated['name'],
             'description' => $validated['description'] ?? null,
             'duration' => $validated['duration'],
@@ -66,8 +82,8 @@ class ServiceController extends Controller
 
     public function edit(Service $servico)
     {
-        // Busca todos os profissionais disponíveis
-        $professionals = Professional::orderBy('is_main', 'desc')
+        $professionals = Professional::where('user_id', auth()->id())
+            ->orderBy('is_main', 'desc')
             ->orderBy('name')
             ->get();
         

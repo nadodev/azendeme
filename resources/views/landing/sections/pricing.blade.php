@@ -15,196 +15,159 @@
         </div>
 
         <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <!-- Plano Iniciante -->
-            <div class="bg-white rounded-3xl p-8 border-2 border-gray-200 hover:border-purple-300 hover:shadow-xl transition-all">
-                <div class="text-center mb-8">
-                    <div class="inline-block p-4 bg-gray-100 rounded-2xl mb-4">
-                        <span class="text-4xl">🚀</span>
-                    </div>
-                    <h3 class="text-2xl font-black mb-2">Iniciante</h3>
-                    <p class="text-gray-600 mb-6">Até 50 agendamentos/mês</p>
-                    <div class="mb-6">
-                        <span class="text-5xl font-black text-gray-900">R$ 79</span>
-                        <span class="text-lg text-gray-600">/mês</span>
-                    </div>
-                    <a href="#demo" class="block w-full px-6 py-4 bg-gray-900 text-white rounded-xl font-bold hover:bg-gray-800 transition">
-                        Solicitar Demonstração
-                    </a>
-                </div>
-                
-                <div class="space-y-4">
-                    <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span class="text-gray-700">Até <strong>50 agendamentos/mês</strong></span>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span class="text-gray-700">1 profissional</span>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span class="text-gray-700">2 templates</span>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span class="text-gray-700">Lembretes por e-mail</span>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span class="text-gray-700">Galeria de fotos</span>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span class="text-gray-700">subdominio (azendeme.com.br/seu_nome)</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Plano Profissional -->
-            <div class="bg-gradient-to-br from-purple-600 to-pink-600 rounded-3xl p-8 border-2 border-purple-600 shadow-2xl transform scale-105 relative">
+            @php
+                $plans = config('plans');
+                $planOrder = ['free', 'premium', 'master'];
+            @endphp
+            
+            @foreach($planOrder as $planKey)
+                @php
+                    $plan = $plans[$planKey];
+                    $isPopular = $planKey === 'premium';
+                    $isFree = $planKey === 'free';
+                @endphp
+                <!-- Plano {{ ucfirst($planKey) }} -->
+                <div class="{{ $isPopular ? 'bg-gradient-to-br from-purple-600 to-pink-600 rounded-3xl p-8 border-2 border-purple-600 shadow-2xl transform scale-105 relative' : 'bg-white rounded-3xl p-8 border-2 border-gray-200 hover:border-purple-300 hover:shadow-xl transition-all' }}">
+                    @if($isPopular)
                 <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-yellow-400 text-yellow-900 rounded-full text-sm font-black">
                     MAIS POPULAR
                 </div>
-                
-                <div class="text-center mb-8 text-white">
-                    <div class="inline-block p-4 bg-white/20 rounded-2xl mb-4">
-                        <span class="text-4xl">⭐</span>
+                    @endif
+                    
+                    <div class="text-center mb-8 {{ $isPopular ? 'text-white' : '' }}">
+                        <div class="inline-block p-4 {{ $isPopular ? 'bg-white/20' : 'bg-gray-100' }} rounded-2xl mb-4">
+                            <span class="text-4xl">
+                                @if($planKey === 'free') 🚀
+                                @elseif($planKey === 'premium') ⭐
+                                @else 🏢
+                                @endif
+                            </span>
                     </div>
-                    <h3 class="text-2xl font-black mb-2">Profissional</h3>
-                    <p class="text-purple-100 mb-6">Para negócios em crescimento</p>
+                        <h3 class="text-2xl font-black mb-2">{{ $plan['name'] }}</h3>
+                        <p class="{{ $isPopular ? 'text-purple-100' : 'text-gray-600' }} mb-6">
+                            @if($planKey === 'free') Perfeito para começar
+                            @elseif($planKey === 'premium') Para negócios em crescimento
+                            @else Para grandes equipes
+                            @endif
+                        </p>
                     <div class="mb-6">
-                        <span class="text-5xl font-black">R$ 129</span>
-                        <span class="text-lg">/mês</span>
-                    </div>
-                    <a href="#demo" class="block w-full px-6 py-4 bg-white text-purple-600 rounded-xl font-bold hover:bg-gray-100 transition">
-                        Solicitar Demonstração
-                    </a>
+                            <span class="text-5xl font-black {{ $isPopular ? '' : 'text-gray-900' }}">
+                                @if($isFree)
+                                    Grátis
+                                @else
+                                    R$ {{ number_format($plan['price'], 0, ',', '.') }}
+                                @endif
+                            </span>
+                            @if(!$isFree)
+                                <span class="{{ $isPopular ? 'text-lg' : 'text-lg text-gray-600' }}">/mês</span>
+                            @endif
                 </div>
                 
-                <div class="space-y-4 text-white">
-                    <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-yellow-300 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span><strong>Agendamentos ilimitados</strong></span>
+                        @if($isFree)
+                            <a href="{{ url('/registrar') }}" class="block w-full px-6 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-bold hover:shadow-lg transform hover:scale-105 transition">
+                                🚀 Começar Grátis
+                            </a>
+                        @else
+                            <a href="{{ url('/registrar') }}" class="block w-full px-6 py-4 {{ $isPopular ? 'bg-white text-purple-600 hover:bg-gray-100' : 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:shadow-lg' }} rounded-xl font-bold transition">
+                                💳 Começar Agora
+                            </a>
+                        @endif
                     </div>
+                    
+                    <!-- Limites do Plano -->
+                    <div class="space-y-4 {{ $isPopular ? 'text-white' : '' }}">
+                        @foreach($plan['limits'] as $limit => $value)
                     <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-yellow-300 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span>Até 4 profissionais</span>
+                                <svg class="w-6 h-6 {{ $isPopular ? 'text-yellow-300' : 'text-green-500' }} shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span class="{{ $isPopular ? '' : 'text-gray-700' }}">
+                                    <strong>{{ config('plans.limit_labels.' . $limit, ucfirst(str_replace('_', ' ', $limit))) }}:</strong> {{ $value }}
+                                </span>
                     </div>
-                    <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-yellow-300 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span>Todos os 4 templates</span>
+                        @endforeach
                     </div>
-                    <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-yellow-300 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span>Lembretes E-mail</span>
+                    
+                    <!-- Features do Plano -->
+                    @if(!empty($plan['features']))
+                        <div class="mt-6 pt-6 border-t {{ $isPopular ? 'border-white/20' : 'border-gray-200' }}">
+                            <h4 class="font-bold mb-3 {{ $isPopular ? 'text-white' : 'text-gray-900' }}">Recursos inclusos:</h4>
+                            <div class="space-y-2">
+                                @foreach($plan['features'] as $feature)
+                                    <div class="flex items-start gap-2">
+                                        <svg class="w-4 h-4 {{ $isPopular ? 'text-yellow-300' : 'text-green-500' }} shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                        <span class="text-sm {{ $isPopular ? 'text-purple-100' : 'text-gray-600' }}">{{ $feature }}</span>
                     </div>
-                    <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-yellow-300 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span>subdominio (azendeme.com.br/seu_nome)</span>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-yellow-300 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span>Programa de Fidelidade</span>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-yellow-300 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span>Promoções & Cupons</span>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-yellow-300 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span>Centro Financeiro Completo</span>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-yellow-300 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span>Relatórios & Analytics</span>
+                                @endforeach
                     </div>
                 </div>
-            </div>
-
-            <!-- Plano Enterprise -->
-            <div class="bg-white rounded-3xl p-8 border-2 border-gray-200 hover:border-blue-300 hover:shadow-xl transition-all">
-                <div class="text-center mb-8">
-                    <div class="inline-block p-4 bg-blue-100 rounded-2xl mb-4">
-                        <span class="text-4xl">🏢</span>
-                    </div>
-                    <h3 class="text-2xl font-black mb-2">Enterprise</h3>
-                    <p class="text-gray-600 mb-6">Para grandes equipes</p>
-                    <div class="mb-6">
-                        <span class="text-5xl font-black text-gray-900">R$ 199</span>
-                        <span class="text-lg text-gray-600">/mês</span>
-                    </div>
-                    <a href="{{ url('/#demo') }}" class="block w-full px-6 py-4 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition">
-                        Falar com Vendas
-                    </a>
+                    @endif
                 </div>
-                
-                <div class="space-y-4">
-                    <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span class="text-gray-700"><strong>Tudo do Profissional +</strong></span>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span class="text-gray-700">Profissionais ilimitados</span>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span class="text-gray-700">Multi-unidades</span>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span class="text-gray-700">API de integração</span>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span class="text-gray-700">domínio proprio (www.seunome.com.br)</span>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span class="text-gray-700">Subdomínio personalizado</span>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span class="text-gray-700">Suporte prioritário 24/7</span>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span class="text-gray-700">Treinamento personalizado</span>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span class="text-gray-700">Templates personalizados</span>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
 
         <!-- FAQ de Preços -->
-        {{-- <div class="mt-20 max-w-4xl mx-auto">
-            <h3 class="text-3xl font-black text-center mb-12">Perguntas Frequentes sobre Preços</h3>
+        <div class="mt-20 max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl md:text-4xl font-black mb-4">
+                    Perguntas Frequentes sobre
+                    <span class="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Preços</span>
+                </h3>
+                <p class="text-lg text-gray-600">Tire suas dúvidas sobre nossos planos e funcionalidades</p>
+            </div>
             
-            <div class="space-y-6">
-                <div class="bg-white rounded-2xl p-6 border-2 border-gray-100">
-                    <h4 class="font-bold text-lg mb-2">💳 Quais formas de pagamento aceitam?</h4>
-                    <p class="text-gray-600">Aceitamos cartão de crédito (Visa, Mastercard, Amex), boleto bancário e Pix.</p>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-purple-200 transition">
+                    <h4 class="font-bold text-lg mb-3 flex items-center gap-2">
+                        <span class="text-2xl">💳</span>
+                        Quais formas de pagamento aceitam?
+                    </h4>
+                    <p class="text-gray-600">Aceitamos cartão de crédito (Visa, Mastercard, Amex) através do Stripe, com total segurança e criptografia.</p>
                 </div>
                 
-                <div class="bg-white rounded-2xl p-6 border-2 border-gray-100">
-                    <h4 class="font-bold text-lg mb-2">🔄 Posso mudar de plano depois?</h4>
-                    <p class="text-gray-600">Sim! Você pode fazer upgrade ou downgrade a qualquer momento. As mudanças são aplicadas no próximo ciclo de cobrança.</p>
+                <div class="bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-purple-200 transition">
+                    <h4 class="font-bold text-lg mb-3 flex items-center gap-2">
+                        <span class="text-2xl">🔄</span>
+                        Posso mudar de plano depois?
+                    </h4>
+                    <p class="text-gray-600">Sim! Você pode fazer upgrade ou downgrade a qualquer momento. As mudanças são aplicadas imediatamente.</p>
                 </div>
                 
-                <div class="bg-white rounded-2xl p-6 border-2 border-gray-100">
-                    <h4 class="font-bold text-lg mb-2">🎁 Tem desconto para pagamento anual?</h4>
-                    <p class="text-gray-600">Sim! Pagando anualmente você ganha 20% de desconto (2 meses grátis).</p>
+                <div class="bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-purple-200 transition">
+                    <h4 class="font-bold text-lg mb-3 flex items-center gap-2">
+                        <span class="text-2xl">🚀</span>
+                        O plano gratuito tem limitações?
+                    </h4>
+                    <p class="text-gray-600">O plano gratuito inclui 4 serviços, 1 funcionário, 10 agendamentos/mês, 20MB de armazenamento e 5 clientes.</p>
                 </div>
                 
-                <div class="bg-white rounded-2xl p-6 border-2 border-gray-100">
-                    <h4 class="font-bold text-lg mb-2">❌ Posso cancelar a qualquer momento?</h4>
+                <div class="bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-purple-200 transition">
+                    <h4 class="font-bold text-lg mb-3 flex items-center gap-2">
+                        <span class="text-2xl">❌</span>
+                        Posso cancelar a qualquer momento?
+                    </h4>
                     <p class="text-gray-600">Sim, sem multas ou taxas. Você pode cancelar quando quiser e manter o acesso até o fim do período pago.</p>
                 </div>
+                
+                <div class="bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-purple-200 transition">
+                    <h4 class="font-bold text-lg mb-3 flex items-center gap-2">
+                        <span class="text-2xl">📱</span>
+                        Posso personalizar com minha marca?
+                    </h4>
+                    <p class="text-gray-600">Sim! Todos os planos incluem personalização completa com suas cores, logo e informações do negócio.</p>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-purple-200 transition">
+                    <h4 class="font-bold text-lg mb-3 flex items-center gap-2">
+                        <span class="text-2xl">🆘</span>
+                        Tem suporte técnico?
+                    </h4>
+                    <p class="text-gray-600">Oferecemos suporte por e-mail para todos os planos. Planos pagos têm prioridade no atendimento.</p>
+                </div>
             </div>
-        </div> --}}
+        </div>
     </div>
 </section>
 

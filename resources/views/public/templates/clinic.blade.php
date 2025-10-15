@@ -132,14 +132,7 @@
     
     <!-- Header -->
     <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
-        @if(($isDemo ?? true))
-        <div class="absolute top-2 left-3 sm:top-6 sm:left-3">
-            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-yellow-100 text-yellow-800 border border-yellow-200 shadow-sm">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>
-                Versão de Demonstração
-            </span>
-        </div>
-    @endif
+      
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="relative flex items-center justify-between h-16 sm:h-20">
               
@@ -191,20 +184,7 @@
             </div>
         </div>
     </header>
-    @php $isDemo = $isDemo ?? true; @endphp
-    @if($isDemo)
-        <div class="fixed top-0 left-0 right-0 z-150">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="mt-3 flex justify-center">
-                    <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-semibold bg-yellow-100 text-yellow-800 border border-yellow-200 shadow-sm">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>
-                        Versão de Demonstração
-                    </span>
-                </div>
-            </div>
-        </div>
-        <div class="h-10"></div>
-    @endif
+    
     <!-- Hero -->
     <section id="inicio" class="py-24 lg:py-32" style="background: var(--hero-bg, #FAFBFC)">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -320,72 +300,10 @@
     </section>
 
     <!-- Galeria -->
-    <section id="galeria" class="py-24 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <div class="inline-flex items-center px-4 py-2 rounded-full bg-blue-50 text-sm font-semibold text-blue-600 mb-4">
-                    Conheça nosso trabalho
-                </div>
-                <h3 class="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
-                    {{ $professional->templateSetting->gallery_title ?? 'Galeria' }}
-                </h3>
-                <p class="text-xl text-gray-600">
-                    {{ $professional->templateSetting->gallery_subtitle ?? 'Resultados que transformam vidas' }}
-                </p>
-            </div>
-            
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
-                @forelse($gallery as $photo)
-                    <div class="gallery-item clinic-card rounded-2xl overflow-hidden group cursor-pointer">
-                        <img src="{{ $photo->image_path }}" alt="{{ $photo->title }}" class="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                            <div class="text-white">
-                                <h5 class="font-bold text-lg mb-1">{{ $photo->title }}</h5>
-                                @if($photo->description)
-                                    <p class="text-sm text-blue-100">{{ $photo->description }}</p>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                @empty
-                    @php
-                        $galleryItems = [
-                            ['title' => 'Design de Sobrancelhas', 'description' => 'Técnicas avançadas para realçar sua beleza natural'],
-                            ['title' => 'Micropigmentação', 'description' => 'Resultados duradouros e naturais'],
-                            ['title' => 'Cílios Fio a Fio', 'description' => 'Olhar marcante e expressivo'],
-                            ['title' => 'Limpeza de Pele', 'description' => 'Cuidados especializados para sua pele'],
-                            ['title' => 'Depilação', 'description' => 'Técnicas modernas e eficazes'],
-                            ['title' => 'Antes e Depois', 'description' => 'Transformações incríveis']
-                        ];
-                    @endphp
-                    @foreach($galleryItems as $index => $item)
-                        <div class="gallery-item clinic-card rounded-2xl overflow-hidden group cursor-pointer">
-                            <div class="w-full h-80 bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100 flex items-center justify-center relative overflow-hidden">
-                                <div class="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20"></div>
-                                <div class="text-center z-10">
-                                    <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center text-white shadow-lg" style="background: linear-gradient(135deg, var(--gallery-primary, #EC4899) 0%, var(--accent, #7C3AED) 100%)">
-                                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
-                                        </svg>
-                                    </div>
-                                    <h5 class="font-bold text-lg text-gray-700 mb-2">{{ $item['title'] }}</h5>
-                                    <p class="text-sm text-gray-500">{{ $item['description'] }}</p>
-                                </div>
-                            </div>
-                            <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                                <div class="text-white">
-                                    <h5 class="font-bold text-lg mb-1">{{ $item['title'] }}</h5>
-                                    <p class="text-sm text-blue-100">{{ $item['description'] }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                @endforelse
-            </div>
-        </div>
-    </section>
-
-    @include('public.sections.booking', ['services' => $services, 'professional' => $professional])
+    @include('public.sections.gallery', ['gallery' => $gallery])
+    @if($isPlan && !$isPlanOver)
+        @include('public.sections.booking', ['services' => $services, 'professional' => $professional])
+    @endif
     @include('public.sections.feedbacks', ['feedbacks' => $feedbacks])
     @include('public.sections.contact', ['professional' => $professional])
     @include('public.sections.footer', ['professional' => $professional])

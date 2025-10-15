@@ -4,12 +4,18 @@
 @section('page-subtitle', 'Gerencie sua base de clientes')
 
 @section('header-actions')
-    <a href="{{ route('panel.clientes.create') }}" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition inline-flex items-center space-x-2">
+    @if($errors->has('plan'))
+        <div class="mr-3 px-3 py-2 bg-yellow-100 text-yellow-800 rounded">{{ $errors->first('plan') }}</div>
+    @endif
+    <a href="{{ route('panel.clientes.create') }}" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition inline-flex items-center space-x-2 {{ ($reachedLimit ?? false) ? 'opacity-50 pointer-events-none' : '' }}">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
         </svg>
         <span>Novo Cliente</span>
     </a>
+    @if($reachedLimit ?? false)
+        <a href="{{ route('panel.plans.index') }}" class="ml-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Upgrade</a>
+    @endif
 @endsection
 
 @section('content')
@@ -39,7 +45,10 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
+                  
                     @forelse($customers as $customer)
+
+                  
                         <tr class="hover:bg-gray-50 transition">
                             <td class="px-6 py-4">
                                 <div class="flex items-center space-x-3">
@@ -62,7 +71,7 @@
                             </td>
                             <td class="px-6 py-4">
                                 <span class="px-3 py-1 text-xs font-semibold text-purple-700 bg-purple-100 rounded-full">
-                                    {{ $customer->appointments_count }} agendamento(s)
+                                    {{ $customer->appointmentsCount() }} agendamento(s)
                                 </span>
                             </td>
                             <td class="px-6 py-4 text-right space-x-2">

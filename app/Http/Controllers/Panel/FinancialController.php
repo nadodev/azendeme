@@ -15,12 +15,21 @@ use Illuminate\Http\Request;
 
 class FinancialController extends Controller
 {
-    protected $professionalId = 1; // Temporário
+
+
+    protected $professionalId;
+
+    public function __construct()
+    {
+        $this->professionalId = auth()->user()->id;
+    }
 
     public function dashboard()
     {
 
-        $professional = Professional::findOrFail($this->professionalId);
+        $professional = Professional::where('user_id', auth()->user()->id)->first();
+
+      
         
         // Estatísticas do mês atual
         $currentMonth = Carbon::now()->month;
@@ -109,13 +118,11 @@ class FinancialController extends Controller
 
     public function createTransaction()
     {
-        $categories = TransactionCategory::where('professional_id', $this->professionalId)
-            ->where('active', true)
+        $categories = TransactionCategory::where('active', true)
             ->orderBy('name')
             ->get();
-            
-        $paymentMethods = PaymentMethod::where('professional_id', $this->professionalId)
-            ->where('active', true)
+
+        $paymentMethods = PaymentMethod::where('active', true)
             ->orderBy('order')
             ->get();
 
@@ -229,6 +236,8 @@ class FinancialController extends Controller
     {
         $transaction = FinancialTransaction::where('professional_id', $this->professionalId)
             ->findOrFail($transactionId);
+
+     
 
         if ($transaction->type !== 'income') {
             return back()->with('error', 'Recibos só podem ser gerados para receitas!');

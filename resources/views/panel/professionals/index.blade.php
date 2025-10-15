@@ -52,9 +52,6 @@
                             @endif
                         </div>
                     </div>
-                    @if($professional->is_main)
-                        <span class="px-2 py-1 bg-purple-100 text-purple-700 text-xs font-semibold rounded-full">Principal</span>
-                    @endif
                 </div>
 
                 <!-- Informações -->
