@@ -300,8 +300,8 @@
                 <h3>🔄 Deseja Reagendar?</h3>
                 <p>Não se preocupe! Estamos à disposição para atendê-lo em outro horário.</p>
                 <p>Entre em contato conosco e encontraremos um novo horário que se adeque à sua agenda.</p>
-                <a href="tel:{{ $professional->phone ?? '' }}" class="reschedule-button">
-                    📞 Entrar em Contato
+                <a href="https://azendeme.com.br{{ $professional->slug }}/#agendar" class="reschedule-button">
+                    Agendar Novamente
                 </a>
             </div>
         </div>
