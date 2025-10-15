@@ -5,36 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- SEO Meta Tags -->
-    <title>{{ $seoData['title'] }}</title>
-    <meta name="description" content="{{ $seoData['description'] }}">
-    <meta name="keywords" content="{{ $seoData['keywords'] }}">
-    <meta name="author" content="{{ $seoData['professional_name'] }}">
+    <title>{{ $seoData['title'] ?? $page->title }}</title>
+    <meta name="description" content="{{ $seoData['description'] ?? 'Conheça ' . $page->title . ' e agende seus serviços online.' }}">
+    <meta name="keywords" content="{{ $seoData['keywords'] ?? 'agendamento online,serviços profissionais' }}">
+    <meta name="author" content="{{ $seoData['professional_name'] ?? $page->title }}">
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
     <meta name="googlebot" content="index,follow">
     <meta name="bingbot" content="index,follow">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="{{ $seoData['url'] }}">
+    <link rel="canonical" href="{{ $seoData['url'] ?? route('public.bio', $page->slug) }}">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="profile">
-    <meta property="og:url" content="{{ $seoData['url'] }}">
-    <meta property="og:title" content="{{ $seoData['title'] }}">
-    <meta property="og:description" content="{{ $seoData['description'] }}">
-    <meta property="og:image" content="{{ $seoData['image'] }}">
+    <meta property="og:url" content="{{ $seoData['url'] ?? route('public.bio', $page->slug) }}">
+    <meta property="og:title" content="{{ $seoData['title'] ?? $page->title }}">
+    <meta property="og:description" content="{{ $seoData['description'] ?? 'Conheça ' . $page->title . ' e agende seus serviços online.' }}">
+    <meta property="og:image" content="{{ $seoData['image'] ?? asset('logo.png') }}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="{{ $seoData['business_name'] }}">
+    <meta property="og:image:alt" content="{{ $seoData['business_name'] ?? $page->title }}">
     <meta property="og:site_name" content="aZendeMe">
     <meta property="og:locale" content="pt_BR">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="{{ $seoData['url'] }}">
-    <meta name="twitter:title" content="{{ $seoData['title'] }}">
-    <meta name="twitter:description" content="{{ $seoData['description'] }}">
-    <meta name="twitter:image" content="{{ $seoData['image'] }}">
-    <meta name="twitter:image:alt" content="{{ $seoData['business_name'] }}">
+    <meta name="twitter:url" content="{{ $seoData['url'] ?? route('public.bio', $page->slug) }}">
+    <meta name="twitter:title" content="{{ $seoData['title'] ?? $page->title }}">
+    <meta name="twitter:description" content="{{ $seoData['description'] ?? 'Conheça ' . $page->title . ' e agende seus serviços online.' }}">
+    <meta name="twitter:image" content="{{ $seoData['image'] ?? asset('logo.png') }}">
+    <meta name="twitter:image:alt" content="{{ $seoData['business_name'] ?? $page->title }}">
     <meta name="twitter:creator" content="@azendeme">
     <meta name="twitter:site" content="@azendeme">
     
@@ -43,12 +43,12 @@
     <meta name="msapplication-TileColor" content="{{ $page->theme_color ?? '#8B5CF6' }}">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="{{ $seoData['business_name'] }}">
+    <meta name="apple-mobile-web-app-title" content="{{ $seoData['business_name'] ?? $page->title }}">
     
     <!-- Geo Tags -->
     <meta name="geo.region" content="BR">
     <meta name="geo.country" content="Brasil">
-    @if($seoData['address'])
+    @if(isset($seoData['address']) && $seoData['address'])
         <meta name="geo.placename" content="{{ $seoData['address'] }}">
     @endif
     
@@ -84,13 +84,13 @@
         $structuredData = [
             '@context' => 'https://schema.org',
             '@type' => 'LocalBusiness',
-            'name' => $seoData['business_name'],
-            'description' => $seoData['description'],
-            'url' => $seoData['url'],
-            'image' => $seoData['image'],
-            'telephone' => $seoData['phone'],
-            'email' => $seoData['email'],
-            'address' => $seoData['address'] ? [
+            'name' => $seoData['business_name'] ?? $page->title,
+            'description' => $seoData['description'] ?? 'Conheça ' . $page->title . ' e agende seus serviços online.',
+            'url' => $seoData['url'] ?? route('public.bio', $page->slug),
+            'image' => $seoData['image'] ?? asset('logo.png'),
+            'telephone' => $seoData['phone'] ?? null,
+            'email' => $seoData['email'] ?? null,
+            'address' => (isset($seoData['address']) && $seoData['address']) ? [
                 '@type' => 'PostalAddress',
                 'streetAddress' => $seoData['address']
             ] : null,
@@ -115,7 +115,7 @@
                             'description' => $service->name,
                             'provider' => [
                                 '@type' => 'LocalBusiness',
-                                'name' => $seoData['business_name']
+                                'name' => $seoData['business_name'] ?? $page->title
                             ]
                         ],
                         'price' => $service->price,
