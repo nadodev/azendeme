@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Appointment;
+use App\Models\Professional;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
@@ -38,11 +39,14 @@ class AppointmentConfirmed extends Mailable
      */
     public function content(): Content
     {
+        $professional = Professional::where('user_id', auth()->user()->id)->firstOrFail();
+        
         return new Content(
             view: 'emails.appointment-confirmed',
             with: [
                 'appointment' => $this->appointment,
                 'customer' => $this->appointment->customer,
+                'slug' => $professional->slug,
                 'service' => $this->appointment->service,
                 'professional' => $this->appointment->professional,
             ],
