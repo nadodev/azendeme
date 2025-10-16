@@ -209,7 +209,7 @@ $user = User::where('id', $professional->user_id)->firstOrFail();
         // Busca ou cria o cliente
         $customer = Customer::firstOrCreate(
             [
-                'professional_id' => $this->professionalId,
+                'professional_id' => $professional->id,
                 'phone' => $validated['phone'],
             ],
             [
@@ -344,7 +344,7 @@ $user = User::where('id', $professional->user_id)->firstOrFail();
         $professional = Professional::where('slug', $slug)->firstOrFail();
         
         // Busca cliente por telefone ou email
-        $customer = Customer::where('professional_id', $professional->id)
+        $customer = Customer::where('professional_id', $this->professionalId)
             ->where(function($q) use ($request) {
                 if ($request->input('phone')) {
                     $q->where('phone', $request->input('phone'));
@@ -363,7 +363,7 @@ $user = User::where('id', $professional->user_id)->firstOrFail();
         }
         
         // Busca pontos de fidelidade
-        $loyaltyPoints = \App\Models\LoyaltyPoint::where('professional_id', $professional->id)
+        $loyaltyPoints = \App\Models\LoyaltyPoint::where('professional_id', $this->professionalId)
             ->where('customer_id', $customer->id)
             ->first();
         
@@ -375,7 +375,7 @@ $user = User::where('id', $professional->user_id)->firstOrFail();
         }
         
         // Busca recompensas ativas
-        $rewards = \App\Models\LoyaltyReward::where('professional_id', $professional->id)
+        $rewards = \App\Models\LoyaltyReward::where('professional_id', $this->professionalId)
             ->where('active', true)
             ->where(function($q) {
                 $q->whereNull('valid_until')
