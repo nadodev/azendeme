@@ -20,7 +20,7 @@ class PublicController extends Controller
 {
    
 
-    public function show($slug)
+    public function show(Request $request, $slug)
     {
         $professional = Professional::withoutGlobalScopes()->where('slug', $slug)->with('user')->firstOrFail();
         
@@ -84,7 +84,18 @@ class PublicController extends Controller
         $settings = $professional->templateSetting;
 
         // Determine which template to use
-        $template = $professional->template ?? 'clinic';
+        // Permite preview de templates via parâmetro ?preview_template=nome
+        $previewTemplate = $request->query('preview_template');
+        $allowedTemplates = ['clinic', 'clinic-modern', 'salon', 'salon-luxury', 'tattoo', 'tattoo-dark', 'barber', 'barber-vintage', 'spa', 'gym'];
+        
+        $isPreview = false;
+        if ($previewTemplate && in_array($previewTemplate, $allowedTemplates)) {
+            $template = $previewTemplate;
+            $isPreview = true;
+        } else {
+            $template = $professional->template ?? 'clinic';
+        }
+        
         $templateView = "public.templates.{$template}";
         
         // Fallback to clinic if template doesn't exist
@@ -104,7 +115,7 @@ class PublicController extends Controller
 
         $isPlanOver = $appointmentsCount >= $appointmentsLimit;
 
-        return view($templateView, compact('professional', 'services', 'employees', 'gallery', 'settings', 'feedbacks', 'professionals', 'isPlan', 'planLimits', 'appointmentsCount', 'appointmentsLimit', 'isPlanOver'));
+        return view($templateView, compact('professional', 'services', 'employees', 'gallery', 'settings', 'feedbacks', 'professionals', 'isPlan', 'planLimits', 'appointmentsCount', 'appointmentsLimit', 'isPlanOver', 'isPreview', 'template'));
     }
 
     public function getMonthAvailability(Request $request, $slug)

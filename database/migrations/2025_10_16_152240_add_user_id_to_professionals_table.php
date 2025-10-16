@@ -6,24 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
         Schema::table('professionals', function (Blueprint $table) {
-            if (!Schema::hasColumn('professionals', 'user_id')) {
-                $table->foreignId('user_id')->after('id')->constrained('users')->onDelete('cascade');
-                $table->index('user_id');
-            }
+            //
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::table('professionals', function (Blueprint $table) {
-            if (Schema::hasColumn('professionals', 'user_id')) {
-                $table->dropForeign(['user_id']);
-                $table->dropIndex(['user_id']);
-                $table->dropColumn('user_id');
-            }
+            //
         });
     }
 };

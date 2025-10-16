@@ -40,7 +40,7 @@
                 <!-- Navigation -->
                 <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
                     <!-- Dashboard -->
-                    <a href="{{ route('panel.dashboard') }}"
+                    <a href="{{ route('panel.dashboard') }}" id="dashboard-link"
                         class="flex items-center space-x-3 px-4 py-3 rounded-lg {{ request()->routeIs('panel.dashboard') ? 'bg-purple-50 text-purple-600' : 'text-gray-700 hover:bg-gray-50' }} transition">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -55,7 +55,7 @@
                         <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Gestão de Negócio</h3>
                     </div>
 
-                    <div
+                    <div id="appointments-menu"
                         x-data="{ open: {{ request()->routeIs('panel.agenda.*') || request()->routeIs('panel.clientes.*') || request()->routeIs('panel.servicos.*') || request()->routeIs('panel.professionals.*') || request()->routeIs('panel.disponibilidade.*') ? 'true' : 'false' }} }">
                         <button @click="open = !open"
                             class="w-full flex items-center justify-between space-x-3 px-4 py-3 rounded-lg {{ request()->routeIs('panel.agenda.*') || request()->routeIs('panel.clientes.*') || request()->routeIs('panel.servicos.*') || request()->routeIs('panel.professionals.*') || request()->routeIs('panel.disponibilidade.*') ? 'bg-purple-50 text-purple-600' : 'text-gray-700 hover:bg-gray-50' }} transition">
@@ -81,12 +81,12 @@
                                 class="block px-4 py-2 text-sm {{ request()->routeIs('panel.clientes.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
                                 Clientes
                             </a>
-                            <a href="{{ route('panel.servicos.index') }}"
+                            <a href="{{ route('panel.servicos.index') }}" id="services-menu"
                                 class="block px-4 py-2 text-sm {{ request()->routeIs('panel.servicos.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
                                 Serviços
                             </a>
                           
-                            <a href="{{ route('panel.disponibilidade.index') }}"
+                            <a href="{{ route('panel.disponibilidade.index') }}" id="availability-menu"
                                 class="block px-4 py-2 text-sm {{ request()->routeIs('panel.disponibilidade.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
                                 Disponibilidade
                             </a>
@@ -305,7 +305,7 @@
                         <span class="font-medium">Galeria</span>
                     </a>
 
-                    <a href="{{ route('panel.employees.index') }}"
+                    <a href="{{ route('panel.employees.index') }}" id="employees-menu"
                         class="flex items-center space-x-3 px-4 py-3 rounded-lg {{ request()->routeIs('panel.employees.*') ? 'bg-purple-50 text-purple-600' : 'text-gray-700 hover:bg-gray-50' }} transition">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -440,7 +440,7 @@
                             </svg>
                         </button>
                         <div x-show="open" x-collapse class="ml-8 mt-1 space-y-1">
-                            <a href="{{ route('panel.configuracoes.index') }}"
+                            <a href="{{ route('panel.configuracoes.index') }}" id="profile-menu"
                                 class="block px-4 py-2 text-sm {{ request()->routeIs('panel.configuracoes.*') ? 'text-purple-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
                                 Gerais
                             </a>
@@ -540,7 +540,7 @@
 
             <!-- Page Content -->
             <main class="flex-1 overflow-y-auto p-4 lg:p-8">
-                @include('components.panel.onboarding-banner')
+                {{-- Onboarding antigo removido - agora usa Driver.js --}}
                 @if(session('success'))
                     <div
                         class="mb-6 bg-green-50 border border-green-200 text-green-800 px-6 py-4 rounded-lg flex items-center justify-between">
@@ -644,6 +644,9 @@
             });
         });
     </script>
+
+    <!-- Tour de Onboarding -->
+    <x-onboarding-tour />
 </body>
 
 </html>

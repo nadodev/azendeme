@@ -24,8 +24,8 @@ class ActivityLogger
         ?Request $request = null
     ): ActivityLog {
         // Se não foi fornecido professionalId, tentar obter do contexto atual
-        if (!$professionalId) {
-            $professionalId = 1; // Por enquanto hardcoded, depois pode ser obtido da sessão
+        if (!$professionalId && auth()->check() && auth()->user()->professional) {
+            $professionalId = auth()->user()->professional->id;
         }
 
         // Obter informações da requisição se disponível

@@ -9,22 +9,22 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         :root {
-            /* Cores globais */
-            --brand: {{ $professional->templateSetting->primary_color ?? $professional->brand_color ?? '#E91E63' }};
-            --brand-light: {{ $professional->templateSetting->primary_color ?? $professional->brand_color ?? '#E91E63' }}33;
-            --secondary: {{ $professional->templateSetting->secondary_color ?? '#F8BBD9' }};
-            --accent: {{ $professional->templateSetting->accent_color ?? '#E91E63' }};
+            /* Cores Salão - Rosa Elegante + Dourado Luxo + Roxo */
+            --brand: {{ $professional->templateSetting->primary_color ?? '#EC4899' }};
+            --brand-light: {{ $professional->templateSetting->primary_color ?? '#EC4899' }}30;
+            --secondary: {{ $professional->templateSetting->secondary_color ?? '#F59E0B' }};
+            --accent: {{ $professional->templateSetting->accent_color ?? '#A855F7' }};
             --background: {{ $professional->templateSetting->background_color ?? '#FDF2F8' }};
             --text: {{ $professional->templateSetting->text_color ?? '#1F2937' }};
             
             /* Cores por seção */
-            --hero-primary: {{ $professional->templateSetting->hero_primary_color ?? $professional->templateSetting->primary_color ?? '#E91E63' }};
+            --hero-primary: {{ $professional->templateSetting->hero_primary_color ?? '#EC4899' }};
             --hero-bg: {{ $professional->templateSetting->hero_background_color ?? '#FDF2F8' }};
-            --services-primary: {{ $professional->templateSetting->services_primary_color ?? '#E91E63' }};
+            --services-primary: {{ $professional->templateSetting->services_primary_color ?? '#F59E0B' }};
             --services-bg: {{ $professional->templateSetting->services_background_color ?? '#FFFFFF' }};
-            --gallery-primary: {{ $professional->templateSetting->gallery_primary_color ?? '#E91E63' }};
+            --gallery-primary: {{ $professional->templateSetting->gallery_primary_color ?? '#A855F7' }};
             --gallery-bg: {{ $professional->templateSetting->gallery_background_color ?? '#FDF2F8' }};
-            --booking-primary: {{ $professional->templateSetting->booking_primary_color ?? '#E91E63' }};
+            --booking-primary: {{ $professional->templateSetting->booking_primary_color ?? '#EC4899' }};
             --booking-bg: {{ $professional->templateSetting->booking_background_color ?? '#FCE7F3' }};
         }
         
@@ -149,6 +149,8 @@
     </style>
 </head>
 <body class="antialiased bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 text-gray-900">
+    @include('components.preview-banner')
+    
     <!-- Header -->
     <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-pink-100 shadow-lg">
        

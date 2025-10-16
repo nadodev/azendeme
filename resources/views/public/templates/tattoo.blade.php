@@ -9,25 +9,25 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         :root {
-            /* Cores globais */
-            --brand: {{ $professional->templateSetting->primary_color ?? $professional->brand_color ?? '#8B5CF6' }};
-            --brand-light: {{ $professional->templateSetting->secondary_color ?? '#A78BFA' }};
-            --brand-dark: {{ $professional->templateSetting->accent_color ?? '#7C3AED' }};
-            --brand-glow: {{ $professional->templateSetting->primary_color ?? $professional->brand_color ?? '#8B5CF6' }}40;
-            --secondary: {{ $professional->templateSetting->secondary_color ?? '#A78BFA' }};
-            --accent: {{ $professional->templateSetting->accent_color ?? '#7C3AED' }};
-            --background: {{ $professional->templateSetting->background_color ?? '#0F0F10' }};
-            --text: {{ $professional->templateSetting->text_color ?? '#F5F5F5' }};
+            /* Cores Tattoo - Vermelho Intenso + Índigo Neon + Laranja */
+            --brand: {{ $professional->templateSetting->primary_color ?? '#EF4444' }};
+            --brand-light: {{ $professional->templateSetting->secondary_color ?? '#6366F1' }};
+            --brand-dark: {{ $professional->templateSetting->accent_color ?? '#F97316' }};
+            --brand-glow: {{ $professional->templateSetting->primary_color ?? '#EF4444' }}40;
+            --secondary: {{ $professional->templateSetting->secondary_color ?? '#6366F1' }};
+            --accent: {{ $professional->templateSetting->accent_color ?? '#F97316' }};
+            --background: {{ $professional->templateSetting->background_color ?? '#0F172A' }};
+            --text: {{ $professional->templateSetting->text_color ?? '#F1F5F9' }};
             
             /* Cores por seção */
-            --hero-primary: {{ $professional->templateSetting->hero_primary_color ?? $professional->templateSetting->primary_color ?? '#8B5CF6' }};
-            --hero-bg: {{ $professional->templateSetting->hero_background_color ?? '#0F0F10' }};
-            --services-primary: {{ $professional->templateSetting->services_primary_color ?? '#8B5CF6' }};
-            --services-bg: {{ $professional->templateSetting->services_background_color ?? '#1A1520' }};
-            --gallery-primary: {{ $professional->templateSetting->gallery_primary_color ?? '#8B5CF6' }};
-            --gallery-bg: {{ $professional->templateSetting->gallery_background_color ?? '#0F0F10' }};
-            --booking-primary: {{ $professional->templateSetting->booking_primary_color ?? '#8B5CF6' }};
-            --booking-bg: {{ $professional->templateSetting->booking_background_color ?? '#1A1520' }};
+            --hero-primary: {{ $professional->templateSetting->hero_primary_color ?? '#EF4444' }};
+            --hero-bg: {{ $professional->templateSetting->hero_background_color ?? '#1E293B' }};
+            --services-primary: {{ $professional->templateSetting->services_primary_color ?? '#6366F1' }};
+            --services-bg: {{ $professional->templateSetting->services_background_color ?? '#0F172A' }};
+            --gallery-primary: {{ $professional->templateSetting->gallery_primary_color ?? '#F97316' }};
+            --gallery-bg: {{ $professional->templateSetting->gallery_background_color ?? '#1E293B' }};
+            --booking-primary: {{ $professional->templateSetting->booking_primary_color ?? '#EF4444' }};
+            --booking-bg: {{ $professional->templateSetting->booking_background_color ?? '#334155' }};
             
             /* Compatibilidade com variáveis antigas */
             --bg-color: var(--background);
@@ -292,7 +292,8 @@
     </style>
 </head>
 <body>
-  
+    @include('components.preview-banner')
+    
     <div class="content-wrapper">
         <!-- SVG Filter para efeito de tinta -->
         <svg width="0" height="0" style="position: absolute;">

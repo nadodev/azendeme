@@ -14,7 +14,8 @@ class ActivityLogController extends Controller
     protected $professionalId;
     public function __construct()
     {
-        $this->professionalId = auth()->user()->id;
+        $user = auth()->user();
+        $this->professionalId = $user && $user->professional ? $user->professional->id : null;
     }
 
     /**

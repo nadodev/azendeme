@@ -9,24 +9,24 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         :root {
-            /* Cores globais */
-            --brand: {{ $professional->templateSetting->primary_color ?? $professional->brand_color ?? '#C9A050' }};
-            --brand-light: {{ $professional->templateSetting->primary_color ?? $professional->brand_color ?? '#C9A050' }}40;
-            --brand-dark: {{ $professional->templateSetting->primary_color ?? $professional->brand_color ?? '#C9A050' }}CC;
-            --secondary: {{ $professional->templateSetting->secondary_color ?? '#E5C576' }};
-            --accent: {{ $professional->templateSetting->accent_color ?? '#C9A050' }};
-            --background: {{ $professional->templateSetting->background_color ?? '#0F0F10' }};
-            --text: {{ $professional->templateSetting->text_color ?? '#F8F8F8' }};
+            /* Cores Vintage Barbearia - Marrom + Dourado */
+            --brand: {{ $professional->templateSetting->primary_color ?? '#78350F' }};
+            --brand-light: {{ $professional->templateSetting->primary_color ?? '#78350F' }}30;
+            --brand-dark: {{ $professional->templateSetting->primary_color ?? '#78350F' }}CC;
+            --secondary: {{ $professional->templateSetting->secondary_color ?? '#D97706' }};
+            --accent: {{ $professional->templateSetting->accent_color ?? '#DC2626' }};
+            --background: {{ $professional->templateSetting->background_color ?? '#FAFAF9' }};
+            --text: {{ $professional->templateSetting->text_color ?? '#1C1917' }};
             
             /* Cores por seção */
-            --hero-primary: {{ $professional->templateSetting->hero_primary_color ?? $professional->templateSetting->primary_color ?? '#C9A050' }};
-            --hero-bg: {{ $professional->templateSetting->hero_background_color ?? '#0F0F10' }};
-            --services-primary: {{ $professional->templateSetting->services_primary_color ?? '#C9A050' }};
-            --services-bg: {{ $professional->templateSetting->services_background_color ?? '#1A1A1D' }};
-            --gallery-primary: {{ $professional->templateSetting->gallery_primary_color ?? '#C9A050' }};
-            --gallery-bg: {{ $professional->templateSetting->gallery_background_color ?? '#0F0F10' }};
-            --booking-primary: {{ $professional->templateSetting->booking_primary_color ?? '#C9A050' }};
-            --booking-bg: {{ $professional->templateSetting->booking_background_color ?? '#1A1A1D' }};
+            --hero-primary: {{ $professional->templateSetting->hero_primary_color ?? '#78350F' }};
+            --hero-bg: {{ $professional->templateSetting->hero_background_color ?? '#FEF3C7' }};
+            --services-primary: {{ $professional->templateSetting->services_primary_color ?? '#D97706' }};
+            --services-bg: {{ $professional->templateSetting->services_background_color ?? '#FFFFFF' }};
+            --gallery-primary: {{ $professional->templateSetting->gallery_primary_color ?? '#78350F' }};
+            --gallery-bg: {{ $professional->templateSetting->gallery_background_color ?? '#FEF3C7' }};
+            --booking-primary: {{ $professional->templateSetting->booking_primary_color ?? '#DC2626' }};
+            --booking-bg: {{ $professional->templateSetting->booking_background_color ?? '#FDE68A' }};
             
             /* Cores específicas do template barber */
             --dark: #1A1A1D;
@@ -329,7 +329,8 @@
     </style>
 </head>
 <body>
-
+    @include('components.preview-banner')
+    
     <div class="wrapper">
         <!-- Header -->
         <header class="modern-header sticky top-0 z-50">

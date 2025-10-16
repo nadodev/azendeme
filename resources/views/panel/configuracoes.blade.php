@@ -4,13 +4,33 @@
 @section('page-subtitle', 'Personalize seu perfil e preferências')
 
 @section('content')
-<div class="mb-4 lg:mb-6">
-    <a href="{{ route('panel.template.customize') }}" class="inline-flex items-center px-4 lg:px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl text-sm lg:text-base">
-        <svg class="w-4 h-4 lg:w-5 lg:h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
-        </svg>
-        <span class="hidden sm:inline">Personalizar Cores & Textos do Template</span>
-        <span class="sm:hidden">Personalizar Template</span>
+<div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+    <!-- Botão para Selecionar Template por Categoria -->
+    <a href="{{ route('panel.template.select') }}" class="group relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 p-1 transition-all hover:shadow-2xl hover:scale-105">
+        <div class="bg-white rounded-lg p-4 h-full transition-all group-hover:bg-opacity-95">
+            <div class="flex items-center gap-3 mb-2">
+                <div class="p-2 bg-gradient-to-br from-blue-100 to-purple-100 rounded-lg">
+                    <span class="text-2xl">🎨</span>
+                </div>
+                <h3 class="font-bold text-gray-900">Escolher Template</h3>
+            </div>
+            <p class="text-sm text-gray-600">Navegue por categorias e escolha o template ideal para seu negócio</p>
+        </div>
+    </a>
+
+    <!-- Botão para Personalizar Cores -->
+    <a href="{{ route('panel.template.customize') }}" class="group relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 p-1 transition-all hover:shadow-2xl hover:scale-105">
+        <div class="bg-white rounded-lg p-4 h-full transition-all group-hover:bg-opacity-95">
+            <div class="flex items-center gap-3 mb-2">
+                <div class="p-2 bg-gradient-to-br from-purple-100 to-pink-100 rounded-lg">
+                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+                    </svg>
+                </div>
+                <h3 class="font-bold text-gray-900">Personalizar Cores</h3>
+            </div>
+            <p class="text-sm text-gray-600">Ajuste cores e personalize cada detalhe do seu template atual</p>
+        </div>
     </a>
 </div>
 
@@ -78,67 +98,74 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Template da Página</label>
-                    <div class="grid grid-cols-3 gap-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Template da Página (Seleção Rápida)</label>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
                         <div class="relative">
                             <input type="radio" name="template" value="clinic" id="template-clinic" {{ old('template', $professional->template) == 'clinic' ? 'checked' : '' }} class="peer hidden">
-                            <label for="template-clinic" class="block p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-purple-500 peer-checked:border-purple-600 peer-checked:bg-purple-50 transition">
+                            <label for="template-clinic" class="block p-3 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 peer-checked:border-blue-600 peer-checked:bg-blue-50 transition">
                                 <div class="flex flex-col items-center">
-                                    <div class="w-12 h-12 mb-2 bg-gradient-to-br from-blue-100 to-cyan-100 rounded-lg flex items-center justify-center">
-                                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                        </svg>
-                                    </div>
+                                    <span class="text-3xl mb-1">🏥</span>
                                     <span class="font-semibold text-sm">Clínica</span>
-                                    <span class="text-xs text-gray-500 text-center mt-1">Design limpo e profissional</span>
                                 </div>
                             </label>
                         </div>
 
                         <div class="relative">
                             <input type="radio" name="template" value="salon" id="template-salon" {{ old('template', $professional->template) == 'salon' ? 'checked' : '' }} class="peer hidden">
-                            <label for="template-salon" class="block p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-purple-500 peer-checked:border-purple-600 peer-checked:bg-purple-50 transition">
+                            <label for="template-salon" class="block p-3 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-pink-500 peer-checked:border-pink-600 peer-checked:bg-pink-50 transition">
                                 <div class="flex flex-col items-center">
-                                    <div class="w-12 h-12 mb-2 bg-gradient-to-br from-pink-100 to-purple-100 rounded-lg flex items-center justify-center">
-                                        <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
-                                        </svg>
-                                    </div>
-                                    <span class="font-semibold text-sm">Salão/Spa</span>
-                                    <span class="text-xs text-gray-500 text-center mt-1">Elegante e luxuoso</span>
+                                    <span class="text-3xl mb-1">💇</span>
+                                    <span class="font-semibold text-sm">Salão</span>
                                 </div>
                             </label>
                         </div>
 
                         <div class="relative">
                             <input type="radio" name="template" value="tattoo" id="template-tattoo" {{ old('template', $professional->template) == 'tattoo' ? 'checked' : '' }} class="peer hidden">
-                            <label for="template-tattoo" class="block p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-purple-500 peer-checked:border-purple-600 peer-checked:bg-purple-50 transition">
+                            <label for="template-tattoo" class="block p-3 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-red-500 peer-checked:border-red-600 peer-checked:bg-red-50 transition">
                                 <div class="flex flex-col items-center">
-                                    <div class="w-12 h-12 mb-2 bg-gradient-to-br from-gray-800 to-gray-600 rounded-lg flex items-center justify-center">
-                                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
-                                        </svg>
-                                    </div>
-                                    <span class="font-semibold text-sm">Tattoo/Arte</span>
-                                    <span class="text-xs text-gray-500 text-center mt-1">Ousado e artístico</span>
+                                    <span class="text-3xl mb-1">🎨</span>
+                                    <span class="font-semibold text-sm">Tattoo</span>
                                 </div>
                             </label>
                         </div>
 
                         <div class="relative">
                             <input type="radio" name="template" value="barber" id="template-barber" {{ old('template', $professional->template) == 'barber' ? 'checked' : '' }} class="peer hidden">
-                            <label for="template-barber" class="block p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-purple-500 peer-checked:border-purple-600 peer-checked:bg-purple-50 transition">
+                            <label for="template-barber" class="block p-3 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-amber-600 peer-checked:border-amber-700 peer-checked:bg-amber-50 transition">
                                 <div class="flex flex-col items-center">
-                                    <div class="w-12 h-12 mb-2 bg-gradient-to-br from-amber-700 to-amber-900 rounded-lg flex items-center justify-center">
-                                        <span class="text-2xl">💈</span>
-                                    </div>
+                                    <span class="text-3xl mb-1">✂️</span>
                                     <span class="font-semibold text-sm">Barbearia</span>
-                                    <span class="text-xs text-gray-500 text-center mt-1">Clássico e masculino</span>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div class="relative">
+                            <input type="radio" name="template" value="spa" id="template-spa" {{ old('template', $professional->template) == 'spa' ? 'checked' : '' }} class="peer hidden">
+                            <label for="template-spa" class="block p-3 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-green-500 peer-checked:border-green-600 peer-checked:bg-green-50 transition">
+                                <div class="flex flex-col items-center">
+                                    <span class="text-3xl mb-1">🧘</span>
+                                    <span class="font-semibold text-sm">Spa</span>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div class="relative">
+                            <input type="radio" name="template" value="gym" id="template-gym" {{ old('template', $professional->template) == 'gym' ? 'checked' : '' }} class="peer hidden">
+                            <label for="template-gym" class="block p-3 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-orange-500 peer-checked:border-orange-600 peer-checked:bg-orange-50 transition">
+                                <div class="flex flex-col items-center">
+                                    <span class="text-3xl mb-1">💪</span>
+                                    <span class="font-semibold text-sm">Academia</span>
                                 </div>
                             </label>
                         </div>
                     </div>
-                    <p class="text-xs text-gray-500 mt-2">Escolha o estilo visual que melhor representa seu negócio</p>
+                    <div class="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                        <p class="text-xs text-blue-800">
+                            💡 <strong>Dica:</strong> Para ver todos os templates com preview e cores detalhadas, 
+                            <a href="{{ route('panel.template.select') }}" class="underline font-semibold hover:text-blue-900">clique aqui</a>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

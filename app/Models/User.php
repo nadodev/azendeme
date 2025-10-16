@@ -24,7 +24,21 @@ class User extends Authenticatable
         'role',
         'password',
         'plan',
+        'onboarding_completed',
+        'onboarding_steps',
         'avatar',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'onboarding_completed' => 'boolean',
+        'onboarding_steps' => 'array',
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
     ];
 
     /**

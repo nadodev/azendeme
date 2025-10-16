@@ -9,23 +9,23 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         :root {
-            /* Cores globais */
-            --brand: {{ $professional->templateSetting->primary_color ?? $professional->brand_color ?? '#3B82F6' }};
-            --brand-light: {{ $professional->templateSetting->primary_color ?? $professional->brand_color ?? '#3B82F6' }}20;
-            --secondary: {{ $professional->templateSetting->secondary_color ?? '#A78BFA' }};
-            --accent: {{ $professional->templateSetting->accent_color ?? '#7C3AED' }};
+            /* Cores Clínica - Azul Confiança + Verde Saúde + Ciano */
+            --brand: {{ $professional->templateSetting->primary_color ?? '#0369A1' }};
+            --brand-light: {{ $professional->templateSetting->primary_color ?? '#0369A1' }}20;
+            --secondary: {{ $professional->templateSetting->secondary_color ?? '#059669' }};
+            --accent: {{ $professional->templateSetting->accent_color ?? '#06B6D4' }};
             --background: {{ $professional->templateSetting->background_color ?? '#FFFFFF' }};
-            --text: {{ $professional->templateSetting->text_color ?? '#1F2937' }};
+            --text: {{ $professional->templateSetting->text_color ?? '#0F172A' }};
             
             /* Cores por seção */
-            --hero-primary: {{ $professional->templateSetting->hero_primary_color ?? $professional->templateSetting->primary_color ?? '#8B5CF6' }};
-            --hero-bg: {{ $professional->templateSetting->hero_background_color ?? '#FAFBFC' }};
-            --services-primary: {{ $professional->templateSetting->services_primary_color ?? '#10B981' }};
+            --hero-primary: {{ $professional->templateSetting->hero_primary_color ?? '#0369A1' }};
+            --hero-bg: {{ $professional->templateSetting->hero_background_color ?? '#F0F9FF' }};
+            --services-primary: {{ $professional->templateSetting->services_primary_color ?? '#059669' }};
             --services-bg: {{ $professional->templateSetting->services_background_color ?? '#FFFFFF' }};
-            --gallery-primary: {{ $professional->templateSetting->gallery_primary_color ?? '#EC4899' }};
-            --gallery-bg: {{ $professional->templateSetting->gallery_background_color ?? '#F9FAFB' }};
-            --booking-primary: {{ $professional->templateSetting->booking_primary_color ?? '#7C3AED' }};
-            --booking-bg: {{ $professional->templateSetting->booking_background_color ?? '#F3F4F6' }};
+            --gallery-primary: {{ $professional->templateSetting->gallery_primary_color ?? '#06B6D4' }};
+            --gallery-bg: {{ $professional->templateSetting->gallery_background_color ?? '#ECFDF5' }};
+            --booking-primary: {{ $professional->templateSetting->booking_primary_color ?? '#0369A1' }};
+            --booking-bg: {{ $professional->templateSetting->booking_background_color ?? '#F0F9FF' }};
         }
         
         body {
@@ -129,6 +129,7 @@
     </style>
 </head>
 <body class="antialiased">
+    @include('components.preview-banner')
     
     <!-- Header -->
     <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">

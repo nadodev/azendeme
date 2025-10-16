@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Professional;
 use App\Models\TemplateSetting;
 use App\Helpers\TemplateColors;
+use App\Helpers\TemplateCategories;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -37,8 +38,13 @@ class SettingsController extends Controller
             'phone' => 'nullable|string|max:20',
             'bio' => 'nullable|string',
             'brand_color' => 'nullable|string|max:7',
-            'template' => 'nullable|in:clinic,salon,tattoo,barber',
+            'template' => 'nullable|in:clinic,clinic-modern,salon,salon-luxury,tattoo,tattoo-dark,barber,barber-vintage,spa,gym',
             'logo' => 'nullable|image|max:2048',
+        ], [
+            'template.in' => 'O template selecionado é inválido. Escolha entre: Clínica, Salão, Tatuagem, Barbearia, Spa ou Academia.',
+            'name.required' => 'O nome é obrigatório.',
+            'logo.image' => 'O arquivo deve ser uma imagem.',
+            'logo.max' => 'A imagem deve ter no máximo 2MB.',
         ]);
 
         $data = [
@@ -65,6 +71,48 @@ class SettingsController extends Controller
 
         return redirect()->route('panel.configuracoes.index')
             ->with('success', 'Configurações atualizadas com sucesso!');
+    }
+
+    /**
+     * Exibir página de seleção de templates por categoria
+     */
+    public function selectTemplate()
+    {
+        $professionalId = auth()->user()->professional->id;
+        $professional = Professional::findOrFail($professionalId);
+        $categories = TemplateCategories::getCategories();
+
+        return view('panel.template-select', compact('professional', 'categories'));
+    }
+
+    /**
+     * Aplicar template selecionado e suas cores padrão
+     */
+    public function applyTemplate(Request $request)
+    {
+        $request->validate([
+            'template' => 'required|in:clinic,clinic-modern,salon,salon-luxury,tattoo,tattoo-dark,barber,barber-vintage,spa,gym',
+        ]);
+
+        $professionalId = auth()->user()->professional->id;
+        $professional = Professional::findOrFail($professionalId);
+        
+        // Atualizar template
+        $professional->update([
+            'template' => $request->template
+        ]);
+
+        // Aplicar cores padrão da categoria
+        $category = TemplateCategories::getCategoryByTemplate($request->template) ?? $request->template;
+        $defaultColors = TemplateCategories::getCategoryColors($category);
+        
+        $professional->templateSetting()->updateOrCreate(
+            ['professional_id' => $professionalId],
+            $defaultColors
+        );
+
+        return redirect()->route('panel.template.customize')
+            ->with('success', 'Template aplicado com sucesso! Agora você pode personalizar as cores.');
     }
 
     public function customizeTemplate()

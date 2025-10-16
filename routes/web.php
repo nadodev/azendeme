@@ -120,9 +120,7 @@ Route::middleware('auth')->group(function () {
     // Reschedule via drag-and-drop
     Route::post('/panel/agenda/{appointment}/reschedule', [AgendaController::class, 'reschedule'])
         ->name('panel.agenda.reschedule');
-    // Onboarding (AJAX)
-    Route::get('/panel/onboarding', [OnboardingController::class, 'get'])->name('panel.onboarding.get');
-    Route::put('/panel/onboarding', [OnboardingController::class, 'update'])->name('panel.onboarding.update');
+    // Onboarding removido - agora usa Driver.js no frontend
 
     // Funcionários
     Route::get('/panel/funcionarios', [EmployeeController::class, 'index'])->name('panel.employees.index');
@@ -138,6 +136,12 @@ Route::middleware('auth')->group(function () {
 Route::prefix('panel')->name('panel.')->middleware(['auth', 'verified'])->group(function () {
     // Dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Onboarding
+    Route::post('/onboarding/complete', [App\Http\Controllers\Panel\OnboardingController::class, 'complete'])->name('onboarding.complete');
+    Route::post('/onboarding/skip', [App\Http\Controllers\Panel\OnboardingController::class, 'skip'])->name('onboarding.skip');
+    Route::post('/onboarding/reset', [App\Http\Controllers\Panel\OnboardingController::class, 'reset'])->name('onboarding.reset');
+    Route::post('/onboarding/step', [App\Http\Controllers\Panel\OnboardingController::class, 'completeStep'])->name('onboarding.step');
 
     // Perfil/Plano
     Route::get('/perfil', function(){ return view('panel.profile'); })->name('profile');
@@ -241,7 +245,9 @@ Route::prefix('panel')->name('panel.')->middleware(['auth', 'verified'])->group(
     Route::get('configuracoes', [SettingsController::class, 'index'])->name('configuracoes.index');
     Route::post('configuracoes', [SettingsController::class, 'update'])->name('configuracoes.update');
     
-    // Personalização de Template
+    // Seleção e Personalização de Template
+    Route::get('selecionar-template', [SettingsController::class, 'selectTemplate'])->name('template.select');
+    Route::post('aplicar-template', [SettingsController::class, 'applyTemplate'])->name('template.apply');
     Route::get('personalizar-template', [SettingsController::class, 'customizeTemplate'])->name('template.customize');
     Route::post('personalizar-template', [SettingsController::class, 'updateTemplate'])->name('template.update');
     
