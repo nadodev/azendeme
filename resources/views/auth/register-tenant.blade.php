@@ -113,7 +113,7 @@
                         
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">URL personalizada</label>
-                            <div class="flex flex-col lg:flex-row lg:gap-2 lg:gap-0">
+                            <div class="flex flex-col lg:flex-row">
                                 <span class="w-full lg:w-auto px-3 lg:px-4 py-2 lg:py-3 border border-gray-300 lg:border-r-0 rounded-t-lg lg:rounded-t-none lg:rounded-l-xl bg-gray-50 text-gray-600 text-xs lg:text-sm">
                                     {{ url('/') }}/
                                 </span>
