@@ -4,14 +4,16 @@ namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
 use App\Models\Service;
+use App\Models\Employee;
 use App\Models\Professional;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
     public function index()
     {
-        $services = Service::with('assignedProfessional')
+        $services = Service::with(['assignedEmployer','employees'])
             ->orderBy('name')
             ->get();
 
@@ -25,10 +27,8 @@ class ServiceController extends Controller
 
     public function create()
     {
-        $professionals = Professional::where('user_id', auth()->id())
-            ->orderBy('is_main', 'desc')
-            ->orderBy('name')
-            ->get();
+        $profId = auth()->id();
+        $employees = Employee::where('professional_id', $profId)->where('active', true)->orderBy('name')->get();
         
         // Checa limite e bloqueia formulário se necessário
         $limits = auth()->user()->planLimits();
@@ -38,7 +38,7 @@ class ServiceController extends Controller
                 ->withErrors(['plan' => 'Você atingiu o limite de serviços do seu plano. Faça upgrade para adicionar mais.']);
         }
 
-        return view('panel.servicos-create', compact('professionals'));
+        return view('panel.servicos-create', compact('employees'));
     }
 
     public function store(Request $request)
@@ -57,19 +57,25 @@ class ServiceController extends Controller
             'duration' => 'required|integer|min:1',
             'price' => 'nullable|numeric|min:0',
             'active' => 'boolean',
-            'assigned_professional_id' => 'nullable|exists:professionals,id',
+            'assigned_employer_id' => 'nullable|exists:employees,id',
             'allows_multiple' => 'boolean',
+            'employee_ids' => 'nullable|array',
+            'employee_ids.*' => 'integer|exists:employees,id',
         ]);
 
-        Service::create([
+        $service = Service::create([
             'name' => $validated['name'],
             'description' => $validated['description'] ?? null,
             'duration' => $validated['duration'],
             'price' => $validated['price'] ?? null,
             'active' => $validated['active'] ?? true,
-            'assigned_professional_id' => $validated['assigned_professional_id'] ?? null,
+            'assigned_employer_id' => $validated['assigned_employer_id'] ?? null,
             'allows_multiple' => $validated['allows_multiple'] ?? false,
         ]);
+
+        if (!empty($validated['employee_ids'])) {
+            $service->employees()->sync($validated['employee_ids']);
+        }
 
         return redirect()->route('panel.servicos.index')
             ->with('success', 'Serviço criado com sucesso!');
@@ -82,12 +88,12 @@ class ServiceController extends Controller
 
     public function edit(Service $servico)
     {
-        $professionals = Professional::where('user_id', auth()->id())
-            ->orderBy('is_main', 'desc')
-            ->orderBy('name')
-            ->get();
+
+        $profId = auth()->id();
+        $employees = Employee::where('professional_id', $profId)->orderBy('name')->get();
+
         
-        return view('panel.servicos-edit', compact('servico', 'professionals'));
+        return view('panel.servicos-edit', compact('servico','employees'));
     }
 
     public function update(Request $request, Service $servico)
@@ -98,8 +104,10 @@ class ServiceController extends Controller
             'duration' => 'required|integer|min:1',
             'price' => 'nullable|numeric|min:0',
             'active' => 'boolean',
-            'assigned_professional_id' => 'nullable|exists:professionals,id',
+            'assigned_employer_id' => 'nullable|exists:employees,id',
             'allows_multiple' => 'boolean',
+            'employee_ids' => 'nullable|array',
+            'employee_ids.*' => 'integer|exists:employees,id',
         ]);
 
         $servico->update([
@@ -108,9 +116,11 @@ class ServiceController extends Controller
             'duration' => $validated['duration'],
             'price' => $validated['price'] ?? null,
             'active' => $validated['active'] ?? $servico->active,
-            'assigned_professional_id' => $validated['assigned_professional_id'] ?? null,
+            'assigned_employer_id' => $validated['assigned_employer_id'] ?? null,
             'allows_multiple' => $validated['allows_multiple'] ?? false,
         ]);
+
+        $servico->employees()->sync($validated['employee_ids'] ?? []);
 
         return redirect()->route('panel.servicos.index')
             ->with('success', 'Serviço atualizado com sucesso!');

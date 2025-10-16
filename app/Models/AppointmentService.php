@@ -11,7 +11,7 @@ class AppointmentService extends Model
         'service_id',
         'price',
         'duration',
-        'assigned_professional_id',
+        'assigned_employer_id',
     ];
 
     protected $casts = [
@@ -28,8 +28,8 @@ class AppointmentService extends Model
         return $this->belongsTo(Service::class);
     }
 
-    public function assignedProfessional()
+    public function assignedEmployer()
     {
-        return $this->belongsTo(Professional::class, 'assigned_professional_id');
+        return $this->belongsTo(\App\Models\Employee::class, 'assigned_employer_id');
     }
 }

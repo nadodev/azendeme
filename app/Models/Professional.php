@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Professional extends Model
@@ -107,6 +108,11 @@ class Professional extends Model
 
     public function assignedServices(): HasMany
     {
-        return $this->hasMany(Service::class, 'assigned_professional_id');
+        return $this->hasMany(Service::class, 'assigned_employer_id');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

@@ -13,6 +13,7 @@ class Appointment extends Model
     protected $fillable = [
         'professional_id',
         'service_id',
+        'employee_id',
         'customer_id',
         'start_time',
         'end_time',
@@ -48,6 +49,11 @@ class Appointment extends Model
         return $this->belongsTo(Customer::class);
     }
 
+    public function employee(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class);
+    }
+
     public function appointmentServices()
     {
         return $this->hasMany(AppointmentService::class);
@@ -56,7 +62,7 @@ class Appointment extends Model
     public function services()
     {
         return $this->belongsToMany(Service::class, 'appointment_services')
-            ->withPivot('price', 'duration', 'assigned_professional_id')
+            ->withPivot('price', 'duration', 'assigned_employer_id')
             ->withTimestamps();
     }
 

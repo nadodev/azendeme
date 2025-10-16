@@ -302,7 +302,7 @@
     <!-- Galeria -->
     @include('public.sections.gallery', ['gallery' => $gallery])
     @if($isPlan && !$isPlanOver)
-        @include('public.sections.booking', ['services' => $services, 'professional' => $professional])
+        @include('public.sections.booking', ['services' => $services, 'professional' => $professional, 'employees' => $employees])
     @endif
     @include('public.sections.feedbacks', ['feedbacks' => $feedbacks])
     @include('public.sections.contact', ['professional' => $professional])

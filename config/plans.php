@@ -46,9 +46,9 @@ return [
         'price' => 135.9,
         'currency' => 'BRL',
         'limits' => [
-            'services' => 999,
+            'services' => 3,
             'staff' => 50,
-            'appointments_per_month' => 1000,
+            'appointments_per_month' => 3,
             'storage_mb' => 10240,
         ],
         'features' => [

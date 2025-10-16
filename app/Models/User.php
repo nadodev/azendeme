@@ -21,6 +21,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'role',
         'password',
         'plan',
         'avatar',
@@ -46,6 +47,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'onboarding' => 'array',
         ];
     }
 
@@ -56,6 +58,11 @@ class User extends Authenticatable
     {
         return $this->hasOne(Professional::class);
     }
+
+    // Helpers de role
+    public function isAdmin(): bool { return $this->role === 'admin'; }
+    public function isUsuario(): bool { return $this->role === 'usuario'; }
+    public function hasRole(string $role): bool { return $this->role === $role; }
 
     // Helpers de plano
     public function isFree(): bool { return $this->plan === 'free'; }

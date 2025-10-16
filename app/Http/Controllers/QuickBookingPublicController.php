@@ -8,6 +8,7 @@ use App\Models\Appointment;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Support\Tenancy;
 
 class QuickBookingPublicController extends Controller
 {
@@ -19,6 +20,7 @@ class QuickBookingPublicController extends Controller
             return view('quick-booking.expired', compact('link'));
         }
 
+        Tenancy::setTenantId($link->professional_id);
         $services = Service::where('professional_id', $link->professional_id)
             ->where('active', true)
             ->when($link->service_id, function($query) use ($link) {
@@ -32,6 +34,7 @@ class QuickBookingPublicController extends Controller
     public function store(Request $request, $token)
     {
         $link = QuickBookingLink::where('token', $token)->firstOrFail();
+        Tenancy::setTenantId($link->professional_id);
 
         if (!$link->isValid()) {
             return redirect()->back()->with('error', 'Este link não está mais válido.');

@@ -46,6 +46,21 @@
                 @enderror
             </div>
 
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Funcionário (Opcional)</label>
+                @php
+                    $employees = \App\Models\Employee::where('professional_id', auth()->user()->id )
+                        ->where('active', true)->orderBy('name')->get();
+                @endphp
+                <select name="employee_id" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                    <option value="">Disponibilidade geral</option>
+                    @foreach($employees as $emp)
+                        <option value="{{ $emp->id }}">{{ $emp->name }}</option>
+                    @endforeach
+                </select>
+                <p class="text-xs text-gray-500 mt-1">Se selecionar, a disponibilidade valerá apenas para este funcionário.</p>
+            </div>
+
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Hora Início *</label>
@@ -87,6 +102,8 @@
             <h4 class="font-semibold text-gray-900 mb-3">Horários Cadastrados</h4>
             @php
                 $daysOfWeek = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+                $employeesAll = \App\Models\Employee::where('professional_id', auth()->user()->id)
+                    ->where('active', true)->orderBy('name')->get();
             @endphp
 
             @if($availabilities->count() > 0)
@@ -94,22 +111,76 @@
                     @foreach($availabilities as $avail)
                         <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                             <div>
-                                <div class="font-medium text-gray-900">{{ $daysOfWeek[$avail->day_of_week] }}</div>
+                                <div class="font-medium text-gray-900">{{ $daysOfWeek[$avail->day_of_week] }} @if($avail->employee_id) <span class="text-xs text-gray-500">• {{ optional(\App\Models\Employee::find($avail->employee_id))->name }}</span> @endif</div>
                                 <div class="text-sm text-gray-500">
                                     {{ substr($avail->start_time, 0, 5) }} - {{ substr($avail->end_time, 0, 5) }}
                                     <span class="text-gray-400">•</span>
                                     Intervalo: {{ $avail->slot_duration }}min
                                 </div>
                             </div>
-                            <form action="{{ route('panel.disponibilidade.destroy', $avail->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja remover este horário?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-700">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                    </svg>
+                            <div class="flex items-center gap-2">
+                                <button type="button" onclick="document.getElementById('edit-availability-{{ $avail->id }}').classList.remove('hidden')" class="text-blue-600 hover:text-blue-700">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5h2m-1-1v2m-7 7h.01M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
                                 </button>
-                            </form>
+                                <form action="{{ route('panel.disponibilidade.destroy', $avail->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja remover este horário?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:text-red-700">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Modal Editar Disponibilidade -->
+                        <div id="edit-availability-{{ $avail->id }}" class="hidden fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+                            <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg">
+                                <div class="flex items-center justify-between px-5 py-3 border-b">
+                                    <h4 class="font-semibold text-gray-900">Editar Disponibilidade</h4>
+                                    <button type="button" class="text-gray-500 hover:text-gray-700" onclick="document.getElementById('edit-availability-{{ $avail->id }}').classList.add('hidden')">✕</button>
+                                </div>
+                                <form action="{{ route('panel.disponibilidade.update', $avail->id) }}" method="POST" class="p-5 space-y-4">
+                                    @csrf
+                                    @method('PUT')
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Dia da Semana *</label>
+                                        <select name="day_of_week" class="w-full px-3 py-2 border rounded-lg">
+                                            @foreach($daysOfWeek as $i => $name)
+                                                <option value="{{ $i }}" {{ $avail->day_of_week == $i ? 'selected' : '' }}>{{ $name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Hora Início *</label>
+                                            <input type="time" name="start_time" value="{{ substr($avail->start_time,0,5) }}" class="w-full px-3 py-2 border rounded-lg" required>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Hora Fim *</label>
+                                            <input type="time" name="end_time" value="{{ substr($avail->end_time,0,5) }}" class="w-full px-3 py-2 border rounded-lg" required>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Intervalo (min) *</label>
+                                        <input type="number" min="1" name="slot_duration" value="{{ $avail->slot_duration }}" class="w-full px-3 py-2 border rounded-lg" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Funcionário (Opcional)</label>
+                                        <select name="employee_id" class="w-full px-3 py-2 border rounded-lg">
+                                            <option value="">Disponibilidade geral</option>
+                                            @foreach($employeesAll as $emp)
+                                                <option value="{{ $emp->id }}" {{ $avail->employee_id == $emp->id ? 'selected' : '' }}>{{ $emp->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="flex justify-end gap-2 pt-2">
+                                        <button type="button" class="px-4 py-2 border rounded-lg" onclick="document.getElementById('edit-availability-{{ $avail->id }}').classList.add('hidden')">Cancelar</button>
+                                        <button class="px-4 py-2 bg-purple-600 text-white rounded-lg">Salvar</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     @endforeach
                 </div>

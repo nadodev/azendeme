@@ -119,6 +119,13 @@
             <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>Cancelado</option>
         </select>
 
+        <select name="employee_id" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+            <option value="">Todos os funcionários</option>
+            @foreach(($employees ?? []) as $emp)
+                <option value="{{ $emp->id }}" {{ request('employee_id') == $emp->id ? 'selected' : '' }}>{{ $emp->name }}</option>
+            @endforeach
+        </select>
+
         <button type="submit" class="px-6 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition font-medium">
             Filtrar
         </button>
@@ -287,7 +294,7 @@
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data/Hora</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cliente</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profissional</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Funcionário</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Serviço</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
@@ -309,26 +316,23 @@
                                 <div class="text-sm text-gray-500">{{ $appointment->customer->phone }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                @if($appointment->professional_id)
+                                @if($appointment->employee)
                                     <div class="flex items-center gap-2">
                                         <div class="w-8 h-8 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-white font-bold text-xs">
-                                            {{ substr($appointment->professional->name ?? 'P', 0, 1) }}
+                                            {{ substr($appointment->employee->name, 0, 1) }}
                                         </div>
                                         <div>
-                                            <div class="text-sm font-medium text-gray-900">{{ $appointment->professional->name ?? 'Profissional' }}</div>
-                                            @if($appointment->professional && $appointment->professional->specialty)
-                                                <div class="text-xs text-gray-500">{{ $appointment->professional->specialty }}</div>
-                                            @endif
+                                            <div class="text-sm font-medium text-gray-900">{{ $appointment->employee->name }}</div>
                                         </div>
                                     </div>
                                 @else
                                     <div class="flex items-center gap-2">
                                         <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 text-xs">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
                                             </svg>
                                         </div>
-                                        <div class="text-sm text-gray-500 italic">Qualquer profissional</div>
+                                        <div class="text-sm text-gray-500 italic">Qualquer funcionário</div>
                                     </div>
                                 @endif
                             </td>
@@ -691,8 +695,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     minute: '2-digit' 
                 });
                 
-                appointmentsHtml += `
+            appointmentsHtml += `
                     <div class="appointment-item ${apt.extendedProps.status}" 
+                         draggable="true"
+                         ondragstart="onAppointmentDragStart(event, ${apt.extendedProps.appointmentId})"
                          onclick="showAppointmentModal(${apt.extendedProps.appointmentId})"
                          title="${apt.extendedProps.customer} - ${apt.extendedProps.service}">
                         <div class="appointment-time">${timeStr}</div>
@@ -717,7 +723,7 @@ document.addEventListener('DOMContentLoaded', function() {
             : '';
 
         return `
-            <div class="${dayClass}" tabindex="0" role="button" aria-label="Dia ${dayNumber}" onclick="selectCalendarDay(this)">
+            <div class="${dayClass}" tabindex="0" role="button" aria-label="Dia ${dayNumber}" onclick="selectCalendarDay(this)" ondragover="onDayDragOver(event)" ondrop="onDayDrop(event, '${date.toISOString().split('T')[0]}')">
                 <div class="calendar-day-number">
                     <span>${dayNumber}</span>
                     ${countBadge}
@@ -1067,6 +1073,45 @@ document.addEventListener('DOMContentLoaded', function() {
     window.selectCalendarDay = function(el) {
         document.querySelectorAll('#calendar-grid .calendar-day.selected').forEach(d => d.classList.remove('selected'));
         el.classList.add('selected');
+    };
+
+    // Drag-and-drop
+    let draggingAppointmentId = null;
+    window.onAppointmentDragStart = function(e, appointmentId) {
+        draggingAppointmentId = appointmentId;
+        e.dataTransfer.effectAllowed = 'move';
+    };
+    window.onDayDragOver = function(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+    };
+    window.onDayDrop = async function(e, dateStr) {
+        e.preventDefault();
+        if (!draggingAppointmentId) return;
+        try {
+            const resp = await fetch(`/panel/agenda/${draggingAppointmentId}/reschedule`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ date: dateStr })
+            });
+            if (resp.status === 409) {
+                const data = await resp.json();
+                alert(data.message || 'Conflito de horário.');
+                return;
+            }
+            if (!resp.ok) throw new Error('Erro ao reagendar');
+            // Recarrega calendário rapidamente
+            renderCalendar();
+        } catch (err) {
+            console.error(err);
+            alert('Erro ao reagendar.');
+        } finally {
+            draggingAppointmentId = null;
+        }
     };
 
     // Gestos de swipe para trocar mês no mobile

@@ -2,292 +2,395 @@
 
 namespace Database\Seeders;
 
-use App\Models\Appointment;
-use App\Models\Availability;
-use App\Models\BlockedDate;
-use App\Models\Customer;
-use App\Models\Gallery;
-use App\Models\Professional;
-use App\Models\Service;
-use App\Models\User;
-use App\Models\PaymentMethod;
-use App\Models\TransactionCategory;
-use App\Models\FinancialTransaction;
-use App\Models\CashRegister;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use App\Models\Professional;
+use App\Models\Service;
+use App\Models\Employee;
+use App\Models\Customer;
+use App\Models\Availability;
+use App\Models\PaymentMethod;
+use App\Models\TransactionCategory;
+use App\Models\Appointment;
 use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Seed the application's database seguindo os Requisitos Funcionais (RF01-RF06)
      */
     public function run(): void
     {
-        // Criar usuário administrador
-        $user = User::create([
-            'name' => 'Admin Demo',
-            'email' => 'admin@AzendaMe',
+        $this->command->info('🚀 Iniciando população do banco de dados...');
+        $this->command->info('📋 Seguindo Requisitos Funcionais RF01-RF06');
+        $this->command->newLine();
+        
+        // ============================================
+        // RF01: USUÁRIO 1 + PROFESSIONAL (1:1)
+        // ============================================
+        $this->command->info('👤 USUÁRIO 1: Salão da Maria...');
+        
+        $user1 = User::create([
+            'name' => 'Maria Silva',
+            'email' => 'maria@salao.com',
             'password' => Hash::make('password'),
-            'email_verified_at' => now(),
+            'role' => 'usuario',
+            'plan' => 'premium',
         ]);
-
-        // Criar profissional
-        $professional = Professional::create([
-            'name' => 'Beleza da Ana',
-            'slug' => 'beleza-da-ana',
-            'email' => 'ana@belezadaana.com',
+        
+        $professional1 = Professional::create([
+            'user_id' => $user1->id,
+            'name' => 'Salão da Maria',
+            'slug' => 'salao-da-maria',
+            'email' => 'contato@salaodamaria.com',
             'phone' => '(11) 98765-4321',
-            'business_name' => 'Studio Beleza da Ana',
-            'bio' => 'Especializada em design de sobrancelhas, micropigmentação e cílios. Mais de 10 anos de experiência transformando a beleza natural das minhas clientes.',
             'brand_color' => '#E91E63',
             'template' => 'salon',
+            'business_name' => 'Salão da Maria - Beleza e Estilo',
+            'bio' => 'Salão especializado em cabelos, unhas e estética facial. Mais de 10 anos de experiência.',
             'active' => true,
         ]);
 
-        // Criar serviços
-        $services = [
-            [
-                'name' => 'Design de Sobrancelhas',
-                'description' => 'Modelagem completa de sobrancelhas com técnica profissional',
-                'duration' => 45,
-                'price' => 80.00,
-            ],
-            [
-                'name' => 'Micropigmentação de Sobrancelhas',
-                'description' => 'Técnica de micropigmentação fio a fio para sobrancelhas naturais',
-                'duration' => 120,
-                'price' => 450.00,
-            ],
-            [
-                'name' => 'Aplicação de Cílios Fio a Fio',
-                'description' => 'Alongamento de cílios com técnica fio a fio',
-                'duration' => 90,
-                'price' => 180.00,
-            ],
-            [
-                'name' => 'Limpeza de Pele',
-                'description' => 'Limpeza profunda facial com extração e hidratação',
-                'duration' => 60,
-                'price' => 120.00,
-            ],
-            [
-                'name' => 'Depilação Facial',
-                'description' => 'Depilação completa do rosto',
-                'duration' => 30,
-                'price' => 50.00,
-            ],
-        ];
-
-        foreach ($services as $serviceData) {
-            Service::create(array_merge($serviceData, [
-                'professional_id' => $professional->id,
-                'active' => true,
-            ]));
-        }
-
-        // Criar disponibilidade (Segunda a Sexta: 9h-18h, Sábado: 9h-14h)
-        $availabilities = [
-            ['day_of_week' => 1, 'start_time' => '09:00', 'end_time' => '18:00'], // Segunda
-            ['day_of_week' => 2, 'start_time' => '09:00', 'end_time' => '18:00'], // Terça
-            ['day_of_week' => 3, 'start_time' => '09:00', 'end_time' => '18:00'], // Quarta
-            ['day_of_week' => 4, 'start_time' => '09:00', 'end_time' => '18:00'], // Quinta
-            ['day_of_week' => 5, 'start_time' => '09:00', 'end_time' => '18:00'], // Sexta
-            ['day_of_week' => 6, 'start_time' => '09:00', 'end_time' => '14:00'], // Sábado
-        ];
-
-        foreach ($availabilities as $availability) {
-            Availability::create(array_merge($availability, [
-                'professional_id' => $professional->id,
-                'slot_duration' => 30,
-            ]));
-        }
-
-        // Criar data bloqueada (exemplo: feriado)
-        BlockedDate::create([
-            'professional_id' => $professional->id,
-            'blocked_date' => now()->addDays(15),
-            'reason' => 'Feriado - Fechado',
+        $this->command->info("  ✅ User ID: {$user1->id} → Professional ID: {$professional1->id}");
+        
+        // RF03: Cadastro de Funcionários (com CPF)
+        $this->command->info('  👥 Criando funcionários (RF03)...');
+        
+        $emp1_1 = Employee::create([
+            'professional_id' => $professional1->id,
+            'name' => 'Ana Souza',
+            'email' => 'ana@salaodamaria.com',
+            'phone' => '(11) 98888-1111',
+            'cpf' => '123.456.789-01',
+            'color' => '#FF6B9D',
+            'active' => true,
+            'show_in_booking' => true,
         ]);
-
-        // Criar fotos na galeria (usando placeholders)
-        $galleryImages = [
-            ['title' => 'Design de Sobrancelhas', 'description' => 'Resultado perfeito'],
-            ['title' => 'Micropigmentação', 'description' => 'Técnica fio a fio'],
-            ['title' => 'Cílios Fio a Fio', 'description' => 'Olhar marcante'],
-            ['title' => 'Limpeza de Pele', 'description' => 'Pele renovada'],
-            ['title' => 'Depilação', 'description' => 'Resultado impecável'],
-            ['title' => 'Antes e Depois', 'description' => 'Transformação completa'],
-        ];
-
-        foreach ($galleryImages as $index => $img) {
-            Gallery::create([
-                'professional_id' => $professional->id,
-                'image_path' => 'https://picsum.photos/400/300?random=' . ($index + 1),
-                'title' => $img['title'],
-                'description' => $img['description'],
-                'order' => $index,
+        
+        $emp1_2 = Employee::create([
+            'professional_id' => $professional1->id,
+            'name' => 'Carla Santos',
+            'email' => 'carla@salaodamaria.com',
+            'phone' => '(11) 98888-2222',
+            'cpf' => '987.654.321-09',
+            'color' => '#C44569',
+            'active' => true,
+            'show_in_booking' => true,
+        ]);
+        
+        $this->command->info("    ✅ {$emp1_1->name} (CPF: {$emp1_1->cpf})");
+        $this->command->info("    ✅ {$emp1_2->name} (CPF: {$emp1_2->cpf})");
+        
+        // RF04: Cadastro de Serviços (pode ou não ter funcionário vinculado)
+        $this->command->info('  📋 Criando serviços (RF04)...');
+        
+        // Serviço 1: VINCULADO a funcionário específico
+        $servico1_1 = Service::create([
+            'professional_id' => $professional1->id,
+            'name' => 'Corte de Cabelo Feminino',
+            'description' => 'Corte moderno com acabamento profissional',
+            'duration' => 60,
+                'price' => 80.00,
+            'active' => true,
+        ]);
+        $emp1_1->services()->attach($servico1_1->id);
+        $this->command->info("    ✅ {$servico1_1->name} → Vinculado a: {$emp1_1->name}");
+        
+        // Serviço 2: VINCULADO a outro funcionário
+        $servico1_2 = Service::create([
+            'professional_id' => $professional1->id,
+            'name' => 'Manicure e Pedicure',
+            'description' => 'Cuidados completos para mãos e pés',
+                'duration' => 90,
+            'price' => 60.00,
+            'active' => true,
+        ]);
+        $emp1_2->services()->attach($servico1_2->id);
+        $this->command->info("    ✅ {$servico1_2->name} → Vinculado a: {$emp1_2->name}");
+        
+        // Serviço 3: SEM funcionário vinculado (apenas profissional)
+        $servico1_3 = Service::create([
+            'professional_id' => $professional1->id,
+            'name' => 'Escova Progressiva',
+            'description' => 'Alisamento e hidratação profunda (feito pelo profissional)',
+            'duration' => 120,
+            'price' => 250.00,
+                'active' => true,
+        ]);
+        $this->command->info("    ✅ {$servico1_3->name} → SEM funcionário (apenas profissional)");
+        
+        // RF05: Cadastro de Disponibilidade (funcionário OU profissional)
+        $this->command->info('  ⏰ Criando disponibilidades (RF05)...');
+        
+        // Disponibilidade DO PROFISSIONAL (geral, employee_id = NULL)
+        for ($day = 1; $day <= 5; $day++) {
+            Availability::create([
+                'professional_id' => $professional1->id,
+                'employee_id' => null, // Profissional
+                'day_of_week' => $day,
+                'start_time' => '09:00:00',
+                'end_time' => '18:00:00',
+                'slot_duration' => 30,
             ]);
         }
-
-        // Criar clientes demo
-        $customers = [
-            [
-                'name' => 'Maria Silva',
-                'phone' => '(11) 98765-1111',
-                'email' => 'maria@email.com',
-                'notes' => 'Prefere horários da manhã',
-            ],
-            [
-                'name' => 'Juliana Santos',
-                'phone' => '(11) 98765-2222',
-                'email' => 'juliana@email.com',
-                'notes' => 'Pele sensível',
-            ],
-            [
-                'name' => 'Carolina Oliveira',
-                'phone' => '(11) 98765-3333',
-                'email' => 'carolina@email.com',
-            ],
-            [
-                'name' => 'Beatriz Costa',
-                'phone' => '(11) 98765-4444',
-                'email' => 'beatriz@email.com',
-            ],
-            [
-                'name' => 'Amanda Ferreira',
-                'phone' => '(11) 98765-5555',
-                'email' => 'amanda@email.com',
-                'notes' => 'Cliente VIP',
-            ],
-        ];
-
-        $createdCustomers = [];
-        foreach ($customers as $customerData) {
-            $createdCustomers[] = Customer::create(array_merge($customerData, [
-                'professional_id' => $professional->id,
-            ]));
-        }
-
-        // Criar agendamentos demo
-        $servicesList = Service::where('professional_id', $professional->id)->get();
+        $this->command->info("    ✅ Segunda a Sexta (09:00-18:00) → Profissional");
         
-        // Agendamentos passados
-        for ($i = 10; $i > 0; $i--) {
-            $date = now()->subDays($i);
-            if ($date->dayOfWeek !== 0) { // Não domingos
-                Appointment::create([
-                    'professional_id' => $professional->id,
-                    'service_id' => $servicesList->random()->id,
-                    'customer_id' => $createdCustomers[array_rand($createdCustomers)]->id,
-                    'start_time' => $date->setTime(rand(9, 16), [0, 30][rand(0, 1)]),
-                    'end_time' => $date->copy()->addMinutes($servicesList->random()->duration),
-                    'status' => ['completed', 'completed', 'completed', 'cancelled'][rand(0, 3)],
-                ]);
-            }
+        // Disponibilidade ESPECÍFICA do Funcionário 1
+        Availability::create([
+            'professional_id' => $professional1->id,
+            'employee_id' => $emp1_1->id,
+            'day_of_week' => 6, // Sábado
+            'start_time' => '09:00:00',
+            'end_time' => '14:00:00',
+            'slot_duration' => 30,
+        ]);
+        $this->command->info("    ✅ Sábado (09:00-14:00) → Funcionário: {$emp1_1->name}");
+        
+        // Clientes
+        $this->command->info('  👤 Criando clientes...');
+        
+        $customer1_1 = Customer::create([
+            'professional_id' => $professional1->id,
+            'name' => 'Juliana Oliveira',
+            'email' => 'juliana@email.com',
+            'phone' => '(11) 99999-1111',
+        ]);
+        
+        // RF06: Agendamento
+        $this->command->info('  📅 Criando agendamento exemplo (RF06)...');
+        
+        $appointment1 = Appointment::create([
+            'professional_id' => $professional1->id,
+            'service_id' => $servico1_1->id,
+            'employee_id' => $emp1_1->id, // Serviço vinculado a funcionário
+            'customer_id' => $customer1_1->id,
+            'start_time' => Carbon::now()->next('Monday')->setTime(10, 0),
+            'end_time' => Carbon::now()->next('Monday')->setTime(11, 0),
+            'status' => 'confirmed',
+            'notes' => 'Agendamento de teste para ' . $customer1_1->name,
+        ]);
+        $this->command->info("    ✅ Agendamento: {$servico1_1->name} com {$emp1_1->name}");
+        
+        // Métodos de pagamento
+        PaymentMethod::create(['professional_id' => $professional1->id, 'name' => 'Dinheiro', 'active' => true]);
+        PaymentMethod::create(['professional_id' => $professional1->id, 'name' => 'PIX', 'active' => true]);
+        
+        // Categorias de transação
+        TransactionCategory::create(['professional_id' => $professional1->id, 'name' => 'Serviços', 'type' => 'income', 'color' => '#10B981']);
+        
+        // ============================================
+        // RF01: USUÁRIO 2 + PROFESSIONAL (1:1)
+        // ============================================
+        $this->command->newLine();
+        $this->command->info('👤 USUÁRIO 2: Clínica Dr. João...');
+        
+        $user2 = User::create([
+            'name' => 'João Pereira',
+            'email' => 'joao@clinica.com',
+            'password' => Hash::make('password'),
+            'role' => 'usuario',
+            'plan' => 'master',
+        ]);
+        
+        $professional2 = Professional::create([
+            'user_id' => $user2->id,
+            'name' => 'Clínica Estética Dr. João',
+            'slug' => 'clinica-dr-joao',
+            'email' => 'contato@clinicadrjoao.com',
+            'phone' => '(11) 97654-3210',
+            'brand_color' => '#3B82F6',
+            'template' => 'clinic',
+            'business_name' => 'Clínica Estética Dr. João Pereira',
+            'bio' => 'Tratamentos estéticos avançados com tecnologia de ponta.',
+            'active' => true,
+        ]);
+        
+        $this->command->info("  ✅ User ID: {$user2->id} → Professional ID: {$professional2->id}");
+        
+        // RF03: Cadastro de Funcionários (com CPF)
+        $this->command->info('  👥 Criando funcionários (RF03)...');
+        
+        $emp2_1 = Employee::create([
+            'professional_id' => $professional2->id,
+            'name' => 'Dra. Fernanda Lima',
+            'email' => 'fernanda@clinicadrjoao.com',
+            'phone' => '(11) 97777-1111',
+            'cpf' => '111.222.333-44',
+            'color' => '#3B82F6',
+            'active' => true,
+            'show_in_booking' => true,
+        ]);
+        
+        $emp2_2 = Employee::create([
+            'professional_id' => $professional2->id,
+            'name' => 'Rafael Alves',
+            'email' => 'rafael@clinicadrjoao.com',
+            'phone' => '(11) 97777-2222',
+            'cpf' => '555.666.777-88',
+            'color' => '#8B5CF6',
+            'active' => true,
+            'show_in_booking' => true,
+        ]);
+        
+        $this->command->info("    ✅ {$emp2_1->name} (CPF: {$emp2_1->cpf})");
+        $this->command->info("    ✅ {$emp2_2->name} (CPF: {$emp2_2->cpf})");
+        
+        // RF04: Cadastro de Serviços
+        $this->command->info('  📋 Criando serviços (RF04)...');
+        
+        // Serviço 1: VINCULADO a funcionária
+        $servico2_1 = Service::create([
+            'professional_id' => $professional2->id,
+            'name' => 'Limpeza de Pele Profunda',
+            'description' => 'Limpeza completa com extração e máscara',
+            'duration' => 90,
+            'price' => 150.00,
+            'active' => true,
+        ]);
+        $emp2_1->services()->attach($servico2_1->id);
+        $this->command->info("    ✅ {$servico2_1->name} → Vinculado a: {$emp2_1->name}");
+        
+        // Serviço 2: VINCULADO a outro funcionário
+        $servico2_2 = Service::create([
+            'professional_id' => $professional2->id,
+            'name' => 'Design de Sobrancelhas',
+            'description' => 'Modelagem completa de sobrancelhas',
+            'duration' => 45,
+            'price' => 80.00,
+            'active' => true,
+        ]);
+        $emp2_2->services()->attach($servico2_2->id);
+        $this->command->info("    ✅ {$servico2_2->name} → Vinculado a: {$emp2_2->name}");
+        
+        // Serviço 3: SEM funcionário (feito pelo profissional/dono)
+        $servico2_3 = Service::create([
+            'professional_id' => $professional2->id,
+            'name' => 'Harmonização Facial',
+            'description' => 'Preenchimento com ácido hialurônico (Dr. João)',
+            'duration' => 60,
+            'price' => 800.00,
+            'active' => true,
+        ]);
+        $this->command->info("    ✅ {$servico2_3->name} → SEM funcionário (Dr. João - profissional)");
+        
+        // RF05: Cadastro de Disponibilidade
+        $this->command->info('  ⏰ Criando disponibilidades (RF05)...');
+        
+        // Disponibilidade DO PROFISSIONAL
+        for ($day = 1; $day <= 5; $day++) {
+            Availability::create([
+                'professional_id' => $professional2->id,
+                'employee_id' => null,
+                'day_of_week' => $day,
+                'start_time' => '08:00:00',
+                'end_time' => '17:00:00',
+                'slot_duration' => 30,
+            ]);
         }
-
-        // Agendamentos futuros
-        for ($i = 1; $i <= 15; $i++) {
-            $date = now()->addDays($i);
-            if ($date->dayOfWeek !== 0 && $date->dayOfWeek !== 7) { // Não domingo
-                $service = $servicesList->random();
-                $startTime = $date->setTime(rand(9, 15), [0, 30][rand(0, 1)]);
-                
-                Appointment::create([
-                    'professional_id' => $professional->id,
-                    'service_id' => $service->id,
-                    'customer_id' => $createdCustomers[array_rand($createdCustomers)]->id,
-                    'start_time' => $startTime,
-                    'end_time' => $startTime->copy()->addMinutes($service->duration),
-                    'status' => ['pending', 'confirmed', 'confirmed'][rand(0, 2)],
-                ]);
-            }
-        }
-
-        // Criar métodos de pagamento
-        $paymentMethods = [
-            ['name' => 'Dinheiro', 'icon' => 'cash', 'active' => true, 'order' => 1],
-            ['name' => 'PIX', 'icon' => 'pix', 'active' => true, 'order' => 2],
-            ['name' => 'Cartão de Crédito', 'icon' => 'credit-card', 'active' => true, 'order' => 3],
-            ['name' => 'Cartão de Débito', 'icon' => 'debit-card', 'active' => true, 'order' => 4],
-            ['name' => 'Transferência Bancária', 'icon' => 'bank', 'active' => true, 'order' => 5],
-        ];
-
-        $createdPaymentMethods = [];
-        foreach ($paymentMethods as $method) {
-            $createdPaymentMethods[] = PaymentMethod::create(array_merge($method, [
-                'professional_id' => $professional->id,
-            ]));
-        }
-
-        // Criar categorias de transação
-        $categories = [
-            // Receitas
-            ['name' => 'Serviços Prestados', 'type' => 'income', 'color' => '#10B981', 'icon' => 'service', 'active' => true],
-            ['name' => 'Venda de Produtos', 'type' => 'income', 'color' => '#3B82F6', 'icon' => 'product', 'active' => true],
-            ['name' => 'Outras Receitas', 'type' => 'income', 'color' => '#8B5CF6', 'icon' => 'money', 'active' => true],
-            
-            // Despesas
-            ['name' => 'Aluguel', 'type' => 'expense', 'color' => '#EF4444', 'icon' => 'home', 'active' => true],
-            ['name' => 'Insumos e Produtos', 'type' => 'expense', 'color' => '#F59E0B', 'icon' => 'box', 'active' => true],
-            ['name' => 'Energia e Água', 'type' => 'expense', 'color' => '#EC4899', 'icon' => 'bolt', 'active' => true],
-            ['name' => 'Marketing', 'type' => 'expense', 'color' => '#6366F1', 'icon' => 'megaphone', 'active' => true],
-            ['name' => 'Outras Despesas', 'type' => 'expense', 'color' => '#64748B', 'icon' => 'receipt', 'active' => true],
-        ];
-
-        $createdCategories = [];
-        foreach ($categories as $category) {
-            $createdCategories[] = TransactionCategory::create(array_merge($category, [
-                'professional_id' => $professional->id,
-            ]));
-        }
-
-        // Criar algumas transações demo
-        $serviceCategory = collect($createdCategories)->firstWhere('name', 'Serviços Prestados');
-        $productCategory = collect($createdCategories)->firstWhere('name', 'Venda de Produtos');
-        $rentCategory = collect($createdCategories)->firstWhere('name', 'Aluguel');
-        $supplyCategory = collect($createdCategories)->firstWhere('name', 'Insumos e Produtos');
-
-        // Transações do mês atual
-        for ($i = 1; $i <= 20; $i++) {
-            $date = now()->startOfMonth()->addDays(rand(0, now()->day - 1));
-            
-            // 70% receitas, 30% despesas
-            if (rand(1, 10) <= 7) {
-                FinancialTransaction::create([
-                    'professional_id' => $professional->id,
-                    'type' => 'income',
-                    'category_id' => $serviceCategory->id,
-                    'amount' => [80, 120, 180, 450][rand(0, 3)],
-                    'description' => 'Pagamento de serviço',
-                    'payment_method_id' => $createdPaymentMethods[rand(0, count($createdPaymentMethods) - 1)]->id,
-                    'status' => 'completed',
-                    'transaction_date' => $date,
-                    'paid_at' => $date,
-                    'created_by' => $user->id,
-                ]);
-            } else {
-                FinancialTransaction::create([
-                    'professional_id' => $professional->id,
-                    'type' => 'expense',
-                    'category_id' => [$rentCategory->id, $supplyCategory->id][rand(0, 1)],
-                    'amount' => rand(50, 300),
-                    'description' => ['Compra de materiais', 'Pagamento de fornecedor'][rand(0, 1)],
-                    'payment_method_id' => $createdPaymentMethods[rand(0, count($createdPaymentMethods) - 1)]->id,
-                    'status' => 'completed',
-                    'transaction_date' => $date,
-                    'paid_at' => $date,
-                    'created_by' => $user->id,
-                ]);
-            }
-        }
-
-        $this->command->info('✅ Database seeded successfully!');
-        $this->command->info('📧 Email: admin@AzendaMe');
-        $this->command->info('🔑 Password: password');
-        $this->command->info('🔗 Professional URL: /beleza-da-ana');
-        $this->command->info('💰 Financial Module: Métodos de pagamento e categorias criados!');
+        $this->command->info("    ✅ Segunda a Sexta (08:00-17:00) → Profissional");
+        
+        // Disponibilidade ESPECÍFICA de Funcionário
+        Availability::create([
+            'professional_id' => $professional2->id,
+            'employee_id' => $emp2_1->id,
+            'day_of_week' => 6,
+            'start_time' => '08:00:00',
+            'end_time' => '12:00:00',
+            'slot_duration' => 30,
+        ]);
+        $this->command->info("    ✅ Sábado (08:00-12:00) → Funcionária: {$emp2_1->name}");
+        
+        // Cliente
+        $customer2_1 = Customer::create([
+            'professional_id' => $professional2->id,
+            'name' => 'Mariana Rodrigues',
+            'email' => 'mariana@email.com',
+            'phone' => '(11) 96666-1111',
+        ]);
+        
+        // RF06: Agendamento
+        $this->command->info('  📅 Criando agendamento exemplo (RF06)...');
+        
+        $appointment2 = Appointment::create([
+            'professional_id' => $professional2->id,
+            'service_id' => $servico2_1->id,
+            'employee_id' => $emp2_1->id,
+            'customer_id' => $customer2_1->id,
+            'start_time' => Carbon::now()->next('Tuesday')->setTime(10, 0),
+            'end_time' => Carbon::now()->next('Tuesday')->setTime(11, 30),
+            'status' => 'confirmed',
+            'notes' => 'Agendamento de teste para ' . $customer2_1->name,
+        ]);
+        $this->command->info("    ✅ Agendamento: {$servico2_1->name} com {$emp2_1->name}");
+        
+        // Métodos de pagamento
+        PaymentMethod::create(['professional_id' => $professional2->id, 'name' => 'Cartão', 'active' => true]);
+        PaymentMethod::create(['professional_id' => $professional2->id, 'name' => 'Transferência', 'active' => true]);
+        
+        // Categorias
+        TransactionCategory::create(['professional_id' => $professional2->id, 'name' => 'Consultas', 'type' => 'income', 'color' => '#059669']);
+        
+        // ============================================
+        // RESUMO
+        // ============================================
+        $this->command->newLine();
+        $this->command->info('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        $this->command->info('✅ BANCO DE DADOS POPULADO COM SUCESSO!');
+        $this->command->info('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        $this->command->newLine();
+        
+        $this->command->info('📊 RESUMO - Requisitos Funcionais Implementados:');
+        $this->command->newLine();
+        
+        $this->command->info('✅ RF01: Usuário ↔ Professional (1:1)');
+        $this->command->info('✅ RF02: Autenticação (login com email/senha)');
+        $this->command->info('✅ RF03: Funcionários (com Nome, Email, Telefone, CPF)');
+        $this->command->info('✅ RF04: Serviços (com/sem funcionário vinculado)');
+        $this->command->info('✅ RF05: Disponibilidade (funcionário OU profissional)');
+        $this->command->info('✅ RF06: Agendamento (serviço + funcionário/profissional + data/hora + cliente)');
+        $this->command->newLine();
+        
+        $this->command->info('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        $this->command->info('👤 USUÁRIO 1: Salão da Maria');
+        $this->command->info('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        $this->command->info('   📧 Email: maria@salao.com');
+        $this->command->info('   🔑 Senha: password');
+        $this->command->info('   🆔 User ID: ' . $user1->id);
+        $this->command->info('   🏢 Professional ID: ' . $professional1->id);
+        $this->command->info('   🔗 Página: /salao-da-maria');
+        $this->command->newLine();
+        $this->command->info('   Serviços:');
+        $this->command->info('   • Corte de Cabelo → Ana Souza (funcionária)');
+        $this->command->info('   • Manicure → Carla Santos (funcionária)');
+        $this->command->info('   • Escova Progressiva → Profissional (sem funcionário)');
+        $this->command->newLine();
+        
+        $this->command->info('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        $this->command->info('👤 USUÁRIO 2: Clínica Dr. João');
+        $this->command->info('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        $this->command->info('   📧 Email: joao@clinica.com');
+        $this->command->info('   🔑 Senha: password');
+        $this->command->info('   🆔 User ID: ' . $user2->id);
+        $this->command->info('   🏢 Professional ID: ' . $professional2->id);
+        $this->command->info('   🔗 Página: /clinica-dr-joao');
+        $this->command->newLine();
+        $this->command->info('   Serviços:');
+        $this->command->info('   • Limpeza de Pele → Dra. Fernanda (funcionária)');
+        $this->command->info('   • Design de Sobrancelhas → Rafael (funcionário)');
+        $this->command->info('   • Harmonização Facial → Dr. João (profissional)');
+        $this->command->newLine();
+        
+        $this->command->info('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        $this->command->info('🚀 COMO TESTAR:');
+        $this->command->info('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        $this->command->info('1. Acesse: /login');
+        $this->command->info('2. Faça login com maria@salao.com ou joao@clinica.com');
+        $this->command->info('3. Veja apenas SEUS cadastros no painel');
+        $this->command->info('4. Acesse as páginas públicas:');
+        $this->command->info('   • /salao-da-maria');
+        $this->command->info('   • /clinica-dr-joao');
+        $this->command->info('5. Teste o agendamento público (RF06)');
+        $this->command->newLine();
     }
 }

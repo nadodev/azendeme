@@ -52,7 +52,7 @@
 
         // Fetch availability for the month from API
         try {
-            const response = await fetch(`/${professionalSlug}/availability?month=${month}&year=${year}`);
+            const response = await fetch(`/api/${professionalSlug}/availability?month=${month}&year=${year}`);
             const availabilityData = await response.json();
             
             calendarDays.innerHTML = '';
@@ -132,7 +132,7 @@
         await fetchTimeSlots();
     }
 
-    // Atualiza seleção de serviços
+    // RF08: Atualiza seleção de serviços e filtra funcionários
     window.updateServiceSelection = function() {
         const checkboxes = document.querySelectorAll('.service-checkbox:checked');
         selectedServiceIds = Array.from(checkboxes).map(cb => cb.value);
@@ -142,15 +142,22 @@
         
         const summaryContent = document.getElementById('services-summary-content');
         const servicesSummary = document.getElementById('services-summary');
+        const employeeSelect = document.getElementById('employee-select');
+        const employeeSection = document.getElementById('employee-section');
         
         if (selectedServiceIds.length === 0) {
             servicesSummary.classList.add('hidden');
+            employeeSection.classList.add('hidden');
+            if (employeeSelect) employeeSelect.value = '';
             if (selectedDate) {
                 timeSlotsContainer.classList.add('hidden');
             }
+            // Chama setBookingState para atualizar calendário
+            if (typeof setBookingState === 'function') setBookingState();
             return;
         }
         
+        // Atualiza resumo
         summaryContent.innerHTML = '';
         checkboxes.forEach(cb => {
             const duration = parseInt(cb.dataset.duration);
@@ -169,12 +176,118 @@
         document.getElementById('total-price').textContent = totalPrice.toFixed(2).replace('.', ',');
         servicesSummary.classList.remove('hidden');
         
+        // RF08: Filtra funcionários pelos serviços selecionados
+        if (employeeSelect) {
+            let validEmployees = new Set();
+            let hasEmployees = false;
+            
+            checkboxes.forEach(cb => {
+                try {
+                    const employeeIds = JSON.parse(cb.getAttribute('data-employees') || '[]');
+                    if (employeeIds.length > 0) {
+                        hasEmployees = true;
+                        employeeIds.forEach(id => validEmployees.add(id));
+                    }
+                } catch (e) {
+                    console.error('Erro ao parsear employees:', e);
+                }
+            });
+
+            // Filtra opções
+            const options = Array.from(employeeSelect.querySelectorAll('option'));
+            const professionalOption = employeeSelect.querySelector('.professional-option');
+            
+            options.forEach(opt => {
+                if (!opt.value) { 
+                    opt.hidden = false;
+                    return;
+                }
+                
+                // Opção do profissional
+                if (opt.classList.contains('professional-option')) {
+                    // RF08: Mostra profissional APENAS se não houver funcionários
+                    opt.hidden = hasEmployees;
+                    return;
+                }
+                
+                // Opções de funcionários
+                const empId = parseInt(opt.getAttribute('data-employee-id'));
+                if (empId) {
+                    if (validEmployees.size > 0) {
+                        opt.hidden = !validEmployees.has(empId);
+                    } else {
+                        opt.hidden = false;
+                    }
+                }
+            });
+
+            // Se o selecionado ficou oculto, limpa
+            if (employeeSelect.selectedOptions.length && employeeSelect.selectedOptions[0].hidden) {
+                employeeSelect.value = '';
+                if (typeof onEmployeeChange === 'function') onEmployeeChange();
+            }
+
+            // RF08: Mostra seção de funcionário
+            employeeSection.classList.remove('hidden');
+        }
+        
         // Recarrega os horários se já tiver data selecionada
         if (selectedDate) {
             fetchTimeSlots();
         }
+        
+        // Atualiza estado do calendário
+        if (typeof setBookingState === 'function') setBookingState();
     };
 
+    // RF09: Quando muda funcionário/profissional
+    window.onEmployeeChange = function() {
+        // Se já houver uma data selecionada, recarrega os horários
+        const dateInput = document.getElementById('selected-date-value');
+        if (dateInput && dateInput.value) {
+            fetchTimeSlots();
+        }
+        setBookingState();
+    };
+
+    // RF09: Controla estado do calendário e formulário
+    window.setBookingState = function() {
+        const hasService = document.querySelectorAll('.service-checkbox:checked').length > 0;
+        const empSelect = document.getElementById('employee-select');
+        const employeeSection = document.getElementById('employee-section');
+        const isEmployeeSectionVisible = employeeSection && !employeeSection.classList.contains('hidden');
+        const hasEmployeeOrProfessional = empSelect && empSelect.value !== '';
+
+        const calendarOverlay = document.getElementById('calendar-overlay');
+        const timeContainer = document.getElementById('time-slots-container');
+        const selectedDateDisplay = document.getElementById('selected-date-display');
+
+        // RF09: Calendário só libera após selecionar serviço E (funcionário OU profissional)
+        const enableCalendar = hasService && isEmployeeSectionVisible && hasEmployeeOrProfessional;
+        
+        if (calendarOverlay) {
+            calendarOverlay.classList.toggle('hidden', enableCalendar);
+            
+            // Atualiza texto do overlay
+            if (!enableCalendar) {
+                if (!hasService) {
+                    calendarOverlay.textContent = 'Selecione um serviço para ver o calendário';
+                } else if (!hasEmployeeOrProfessional) {
+                    calendarOverlay.textContent = 'Selecione quem irá realizar o atendimento para ver o calendário';
+                }
+            }
+        }
+
+        // RF09: Se calendário bloqueado, limpa seleções
+        if (!enableCalendar) {
+            timeContainer.classList.add('hidden');
+            selectedDateDisplay.classList.add('hidden');
+            document.getElementById('selected-date-value').value = '';
+            document.getElementById('selected-time').value = '';
+        }
+    };
+
+    // RF09: Busca horários disponíveis
     async function fetchTimeSlots() {
         if (!selectedDate || selectedServiceIds.length === 0) {
             timeSlotsContainer.classList.add('hidden');
@@ -182,11 +295,24 @@
         }
 
         const dateStr = selectedDate.toISOString().split('T')[0];
+        const employeeSelect = document.getElementById('employee-select');
+        const employeeValue = employeeSelect ? employeeSelect.value : '';
         
-        // Usa o primeiro serviço selecionado para buscar slots
-        // A duração total será considerada no backend
+        // RF09: Constrói URL com parâmetros corretos
+        let url = `/api/${professionalSlug}/available-slots?date=${dateStr}&service_ids=${selectedServiceIds.join(',')}`;
+        
+        // Se selecionou um funcionário (não "professional"), adiciona o employee_id
+        if (employeeValue && employeeValue !== 'professional') {
+            url += `&employee_id=${employeeValue}`;
+        }
+        
+        // Se é profissional, adiciona flag
+        if (employeeValue === 'professional') {
+            url += `&is_professional=true`;
+        }
+        
         try {
-            const response = await fetch(`/${professionalSlug}/available-slots?date=${dateStr}&service_id=${selectedServiceIds[0]}`);
+            const response = await fetch(url);
             const slots = await response.json();
 
             timeSlotsDiv.innerHTML = '';
@@ -261,7 +387,7 @@
         }
 
         try {
-            const response = await fetch(`/${professionalSlug}/validate-promo`, {
+            const response = await fetch(`/api/${professionalSlug}/validate-promo`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -297,6 +423,7 @@
         bookingMessage.classList.add('hidden');
         bookingMessage.classList.remove('text-red-700', 'bg-red-50', 'border-red-200', 'text-green-700', 'bg-green-50', 'border-green-200');
 
+        // RF10: Validação de campos obrigatórios
         if (selectedServiceIds.length === 0 || !selectedDate || !selectedTime || !customerNameInput.value || !customerPhoneInput.value) {
             bookingMessage.textContent = 'Por favor, preencha todos os campos obrigatórios e selecione pelo menos um serviço, data e horário.';
             bookingMessage.classList.remove('hidden');
@@ -304,8 +431,33 @@
             return;
         }
 
-        const professionalSelect = document.getElementById('professional-select');
+        // RNF10: Validação de email
+        if (customerEmailInput.value) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(customerEmailInput.value)) {
+                bookingMessage.textContent = 'Por favor, insira um email válido.';
+                bookingMessage.classList.remove('hidden');
+                bookingMessage.classList.add('text-red-700', 'bg-red-50', 'border-red-200', 'p-4', 'rounded-xl', 'border-2');
+                return;
+            }
+        }
+
+        // RNF10: Validação de telefone (formato brasileiro básico)
+        const phoneRegex = /^[\d\s\(\)\-\+]+$/;
+        if (!phoneRegex.test(customerPhoneInput.value) || customerPhoneInput.value.length < 10) {
+            bookingMessage.textContent = 'Por favor, insira um telefone válido.';
+            bookingMessage.classList.remove('hidden');
+            bookingMessage.classList.add('text-red-700', 'bg-red-50', 'border-red-200', 'p-4', 'rounded-xl', 'border-2');
+            return;
+        }
+
+        const employeeSelect = document.getElementById('employee-select');
         const appliedPromoId = document.getElementById('applied-promo-id');
+        
+        // RF11: Determina se é profissional ou funcionário
+        const employeeValue = employeeSelect?.value;
+        const isProfessional = employeeValue === 'professional';
+        
         const formData = {
             service_ids: selectedServiceIds,
             date: selectedDateValueInput.value,
@@ -313,12 +465,13 @@
             name: customerNameInput.value,
             phone: customerPhoneInput.value,
             email: customerEmailInput.value || null,
-            professional_id: professionalSelect?.value || null,
+            employee_id: (isProfessional || !employeeValue) ? null : employeeValue,
+            is_professional: isProfessional,
             promotion_id: appliedPromoId?.value || null,
         };
 
         try {
-            const response = await fetch(`/${professionalSlug}/book`, {
+            const response = await fetch(`/api/${professionalSlug}/book`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -412,6 +565,11 @@
 
     // Initial render
     renderCalendar();
+    
+    // RF07: Estado inicial - calendário bloqueado
+    if (typeof setBookingState === 'function') {
+        setBookingState();
+    }
 
     // Active nav link on scroll
     const sections = document.querySelectorAll('section[id]');

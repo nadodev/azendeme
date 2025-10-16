@@ -541,7 +541,7 @@
             </div>
         </section>
 
-        @include('public.sections.booking', ['services' => $services, 'professional' => $professional])
+        @include('public.sections.booking', ['services' => $services, 'professional' => $professional, 'employees' => $employees])
         @include('public.sections.feedbacks', ['feedbacks' => $feedbacks])
         @include('public.sections.contact', ['professional' => $professional])
         @include('public.sections.footer', ['professional' => $professional])

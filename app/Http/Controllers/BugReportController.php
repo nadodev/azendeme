@@ -10,15 +10,21 @@ class BugReportController extends Controller
 {
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'subject' => 'required|string|max:255',
             'description' => 'required|string|min:10',
             'page_url' => 'nullable|url',
             'user_agent' => 'nullable|string',
-            'source' => 'required|in:landing,admin'
-        ], [
+            'source' => 'required|in:landing,admin',
+        ];
+
+        if (config('services.turnstile.enabled')) {
+            $rules['cf-turnstile-response'] = 'required|string';
+        }
+
+        $validator = Validator::make($request->all(), $rules, [
             'name.required' => 'O nome é obrigatório.',
             'email.required' => 'O e-mail é obrigatório.',
             'email.email' => 'Por favor, insira um e-mail válido.',
@@ -36,6 +42,23 @@ class BugReportController extends Controller
         }
 
         try {
+            if (config('services.turnstile.enabled')) {
+                $client = new \GuzzleHttp\Client(['timeout' => 5]);
+                $response = $client->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
+                    'form_params' => [
+                        'secret' => config('services.turnstile.secret_key'),
+                        'response' => $request->input('cf-turnstile-response'),
+                        'remoteip' => $request->ip(),
+                    ]
+                ]);
+                $body = json_decode((string) $response->getBody(), true);
+                if (!($body['success'] ?? false)) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Falha na verificação antispam.'
+                    ], 422);
+                }
+            }
             // Dados do relatório
             $bugData = [
                 'name' => $request->name,

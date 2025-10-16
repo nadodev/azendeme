@@ -23,8 +23,9 @@ class AgendaController extends Controller
         $status = $request->get('status');
         $serviceId = $request->get('service_id');
         $date = $request->get('date');
+        $employeeId = $request->get('employee_id');
 
-        $query = Appointment::with(['customer', 'service', 'appointmentServices.service', 'professional']);
+        $query = Appointment::with(['customer', 'service', 'appointmentServices.service', 'professional', 'employee']);
 
         if ($status) {
             $query->where('status', $status);
@@ -32,6 +33,10 @@ class AgendaController extends Controller
 
         if ($serviceId) {
             $query->where('service_id', $serviceId);
+        }
+
+        if ($employeeId) {
+            $query->where('employee_id', $employeeId);
         }
 
         if ($date) {
@@ -45,6 +50,7 @@ class AgendaController extends Controller
 
         $appointments = $query->orderBy('start_time')->where('professional_id', auth()->user()->id)->get();
         $services = Service::where('active', true)->get();
+        $employees = \App\Models\Employee::where('professional_id', auth()->user()->id)->where('active', true)->orderBy('name')->get();
 
         // Preparar eventos para o calendário
         $calendarEvents = $appointments->map(function($appointment) {
@@ -58,6 +64,7 @@ class AgendaController extends Controller
             $customerName = optional($appointment->customer)->name ?? 'Cliente';
             $customerPhone = optional($appointment->customer)->phone ?? '';
             $serviceName = optional($appointment->service)->name ?? 'Serviço';
+            $employeeName = optional($appointment->employee)->name ?? null;
             
             return [
                 'id' => $appointment->id,
@@ -71,12 +78,46 @@ class AgendaController extends Controller
                     'phone' => $customerPhone,
                     'service' => $serviceName,
                     'status' => $appointment->status,
+                    'employee' => $employeeName,
                     'appointmentId' => $appointment->id
                 ]
             ];
         });
 
-        return view('panel.agenda', compact('appointments', 'services', 'date', 'calendarEvents'));
+        return view('panel.agenda', compact('appointments', 'services', 'employees', 'date', 'calendarEvents'));
+    }
+
+    public function reschedule(Request $request, Appointment $appointment)
+    {
+        $request->validate([
+            'date' => 'required|date',
+        ]);
+
+        if ($appointment->professional_id !== auth()->user()->id) {
+            abort(403);
+        }
+
+        $newDate = Carbon::parse($request->input('date'));
+        $start = Carbon::parse($appointment->start_time);
+        $end = Carbon::parse($appointment->end_time);
+
+        $newStart = $newDate->copy()->setTimeFromTimeString($start->format('H:i:s'));
+        $newEnd = $newDate->copy()->setTimeFromTimeString($end->format('H:i:s'));
+
+        $hasConflict = Appointment::where('professional_id', $appointment->professional_id)
+            ->where('id', '!=', $appointment->id)
+            ->where('start_time', '<', $newEnd)
+            ->where('end_time', '>', $newStart)
+            ->exists();
+        if ($hasConflict) {
+            return response()->json(['message' => 'Conflito de horário. Escolha outro dia.'], 409);
+        }
+
+        $appointment->start_time = $newStart;
+        $appointment->end_time = $newEnd;
+        $appointment->save();
+
+        return response()->json(['success' => true]);
     }
 
     public function create()

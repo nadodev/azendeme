@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->appendToGroup('web', [\App\Http\Middleware\SetTenantFromAuth::class]);
         $middleware->alias([
             'plan.limits' => \App\Http\Middleware\EnforcePlanLimits::class,
+            'role' => \App\Http\Middleware\CheckRole::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

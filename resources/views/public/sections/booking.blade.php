@@ -19,7 +19,10 @@
                         </span>
                         Escolha a Data
                     </h4>
-                    <div id="calendar-container" class="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-lg">
+                    <div id="calendar-container" class="relative bg-white rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-lg">
+                        <div id="calendar-overlay" class="absolute inset-0 bg-white/70 backdrop-blur-sm rounded-xl lg:rounded-2xl flex items-center justify-center text-gray-500 text-sm hidden">
+                            Selecione o serviço e o funcionário para ver o calendário
+                        </div>
                         <div class="flex items-center justify-between mb-4 lg:mb-6">
                             <button type="button" id="prev-month" class="p-1.5 lg:p-2 hover:bg-gray-100 rounded-lg transition">
                                 <svg class="w-5 h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -70,6 +73,7 @@
                                             value="{{ $service->id }}" 
                                             data-duration="{{ $service->duration }}"
                                             data-price="{{ $service->price }}"
+                                            data-employees='{{ json_encode($service->employees->pluck("id")->toArray()) }}'
                                             class="service-checkbox mt-1 w-4 h-4 lg:w-5 lg:h-5 rounded border-gray-300 text-[var(--brand)] focus:ring-[var(--brand)] focus:ring-offset-0"
                                             onchange="updateServiceSelection()"
                                         >
@@ -102,18 +106,17 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-3">Profissional (Opcional)</label>
-                            <select id="professional-select" name="professional_id" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[var(--brand)] focus:ring-2 focus:ring-[var(--brand)]/20 transition-all">
-                                <option value="">Qualquer profissional disponível</option>
-                                @foreach($professionals as $prof)
-                                    <option value="{{ $prof->id }}">
-                                        {{ $prof->name }}@if($prof->specialty) - {{ $prof->specialty }}@endif
-                                    </option>
+                        <div id="employee-section" class="hidden">
+                            <label class="block text-sm font-bold text-gray-700 mb-3">Quem irá realizar o atendimento? *</label>
+                            <select id="employee-select" name="employee_id" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[var(--brand)] focus:ring-2 focus:ring-[var(--brand)]/20 transition-all" onchange="onEmployeeChange()">
+                                <option value="">Selecione o profissional/funcionário</option>
+                                <!-- Opção "Profissional" será adicionada dinamicamente se serviço não tiver funcionários -->
+                                <option value="professional" data-is-professional="true" class="professional-option hidden">{{ $professional->name ?? 'Profissional' }}</option>
+                                @foreach(($employees ?? []) as $emp)
+                                    <option value="{{ $emp->id }}" data-employee-id="{{ $emp->id }}">{{ $emp->name }}</option>
                                 @endforeach
                             </select>
-                            <p class="text-xs text-gray-500 mt-2">Se não selecionar, o agendamento será feito com qualquer profissional disponível</p>
+                            <p class="text-xs text-gray-500 mt-2">Escolha quem irá realizar o atendimento</p>
                         </div>
 
                         <div id="selected-date-display" class="hidden p-4 bg-[var(--brand)]/10 rounded-xl border-2 border-[var(--brand)]/20">
@@ -167,6 +170,13 @@
 
                         <div id="booking-message" class="hidden"></div>
 
+                        @if(config('services.turnstile.enabled'))
+                        <div>
+                            <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+                            <div class="cf-turnstile" data-sitekey="{{ config('services.turnstile.site_key') }}"></div>
+                        </div>
+                        @endif
+
                         <button type="submit" class="w-full py-4 rounded-xl text-white font-bold text-lg shadow-xl hover:shadow-2xl transition-all hover:scale-105" style="background: var(--brand)">
                             <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
@@ -179,6 +189,15 @@
         </div>
     </div>
 </section>
+
+<script>
+// Estado inicial: calendário e horários bloqueados até escolher serviço + funcionário
+document.addEventListener('DOMContentLoaded', () => {
+    setBookingState();
+});
+
+// As funções updateServiceSelection(), setBookingState() e onEmployeeChange() estão definidas em scripts.blade.php
+</script>
 
 <!-- Success Modal -->
 <div id="success-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">

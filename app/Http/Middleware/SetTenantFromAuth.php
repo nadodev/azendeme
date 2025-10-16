@@ -13,11 +13,12 @@ class SetTenantFromAuth
     {
         $user = $request->user();
         $tenantId = null;
+        
+        // Define tenant ID como professional->id (não user->id)
         if ($user && method_exists($user, 'professional') && $user->professional) {
-            $tenantId = $user->id;
-        } elseif ($user && isset($user->id)) {
-            $tenantId = $user->id;
+            $tenantId = $user->professional->id;
         }
+        
         Tenancy::setTenantId($tenantId);
         return $next($request);
     }

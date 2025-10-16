@@ -1,0 +1,382 @@
+
+  GET|HEAD        / ....................................................................................................... home
+  GET|HEAD        agendar/{token} ................................ quick-booking.public.show › QuickBookingPublicController@show
+  POST            agendar/{token} .............................. quick-booking.public.store › QuickBookingPublicController@store
+  GET|HEAD        ajuda ............................................................................................ help.center
+  POST            api/capture-email .......................................................................... api.capture-email
+  GET|HEAD        appointment/confirm/{token} .............................................................. appointment.confirm
+  GET|HEAD        bio/{slug} ............................................................. public.bio › PublicBioController@show
+  POST            bug-report ...................................................... bug-report.store › BugReportController@store
+  GET|HEAD        confirm-password .................................. password.confirm › Auth\ConfirmablePasswordController@show
+  POST            confirm-password .................................................... Auth\ConfirmablePasswordController@store
+  GET|HEAD        cookies ........................................................................................ legal.cookies
+  GET|HEAD        dashboard .......................................................................................... dashboard
+  POST            email/verification-notification ....... verification.send › Auth\EmailVerificationNotificationController@store
+  GET|HEAD        evento/confirmar/{token} ........................... event.confirm › Panel\EventConfirmationController@confirm
+  GET|HEAD        feedback/{token} ..................................................... feedback.show › FeedbackController@show
+  POST            feedback/{token} ................................................... feedback.store › FeedbackController@store
+  GET|HEAD        forgot-password ................................... password.request › Auth\PasswordResetLinkController@create
+  POST            forgot-password ...................................... password.email › Auth\PasswordResetLinkController@store
+  GET|HEAD        funcionalidades .............................................................................. funcionalidades
+  GET|HEAD        login ..................................................... login › Auth\AuthenticatedSessionController@create
+  POST            login .............................................................. Auth\AuthenticatedSessionController@store
+  POST            logout .................................................. logout › Auth\AuthenticatedSessionController@destroy
+  GET|HEAD        marketing .................................................................................... marketing.leads
+  GET|HEAD        panel ...................................................... panel.dashboard › Panel\DashboardController@index
+  GET|HEAD        panel/agenda ............................................... panel.agenda.index › Panel\AgendaController@index
+  POST            panel/agenda ............................................... panel.agenda.store › Panel\AgendaController@store
+  GET|HEAD        panel/agenda/create ...................................... panel.agenda.create › Panel\AgendaController@create
+  GET|HEAD        panel/agenda/{agenda} ........................................ panel.agenda.show › Panel\AgendaController@show
+  PUT|PATCH       panel/agenda/{agenda} .................................... panel.agenda.update › Panel\AgendaController@update
+  DELETE          panel/agenda/{agenda} .................................. panel.agenda.destroy › Panel\AgendaController@destroy
+  GET|HEAD        panel/agenda/{agenda}/edit ................................... panel.agenda.edit › Panel\AgendaController@edit
+  GET|HEAD        panel/agenda/{appointment}/customer-loyalty panel.agenda.customer-loyalty › Panel\AgendaController@getCustome…
+  POST            panel/agenda/{appointment}/mark-completed panel.agenda.mark-completed › Panel\AgendaController@markAsCompleted
+  POST            panel/agenda/{appointment}/reschedule ............ panel.agenda.reschedule › Panel\AgendaController@reschedule
+  POST            panel/agenda/{appointment}/update-status .... panel.agenda.update-status › Panel\AgendaController@updateStatus
+  POST            panel/agenda/{id}/generate-feedback panel.agenda.generate-feedback › Panel\AgendaController@generateFeedbackL…
+  GET|HEAD        panel/alertas ............................................... panel.alerts.index › Panel\AlertController@index
+  GET|HEAD        panel/alertas/api/alerts .............................. panel.alerts.api.get › Panel\AlertController@getAlerts
+  GET|HEAD        panel/alertas/api/stats .............................. panel.alerts.api.stats › Panel\AlertController@getStats
+  GET|HEAD        panel/alertas/configuracoes ........................... panel.alerts.settings › Panel\AlertController@settings
+  POST            panel/alertas/configuracoes .............. panel.alerts.settings.update › Panel\AlertController@updateSettings
+  POST            panel/alertas/marcar-todos-lidos ............ panel.alerts.mark-all-read › Panel\AlertController@markAllAsRead
+  POST            panel/alertas/{alert}/arquivar .......................... panel.alerts.archive › Panel\AlertController@archive
+  POST            panel/alertas/{alert}/marcar-lido .................. panel.alerts.mark-read › Panel\AlertController@markAsRead
+  GET|HEAD        panel/analytics ...................................... panel.analytics.index › Panel\AnalyticsController@index
+  GET|HEAD        panel/analytics/export ............................. panel.analytics.export › Panel\AnalyticsController@export
+  GET|HEAD        panel/blog ..................................................... panel.blog.index › Panel\BlogController@index
+  POST            panel/blog ..................................................... panel.blog.store › Panel\BlogController@store
+  POST            panel/blog/categories ....................... panel.blog.categories.store › Panel\BlogCategoryController@store
+  GET|HEAD        panel/blog/categories/create .............. panel.blog.categories.create › Panel\BlogCategoryController@create
+  GET|HEAD        panel/blog/categories/show .................. panel.blog.categories.index › Panel\BlogCategoryController@index
+  POST            panel/blog/categories/update-order panel.blog.categories.update-order › Panel\BlogCategoryController@updateOr…
+  PUT             panel/blog/categories/{id} ................ panel.blog.categories.update › Panel\BlogCategoryController@update
+  DELETE          panel/blog/categories/{id} .............. panel.blog.categories.destroy › Panel\BlogCategoryController@destroy
+  GET|HEAD        panel/blog/categories/{id}/edit ............... panel.blog.categories.edit › Panel\BlogCategoryController@edit
+  POST            panel/blog/comments/bulk-action ..... panel.blog.comments.bulk-action › Panel\BlogCommentController@bulkAction
+  GET|HEAD        panel/blog/comments/show ....................... panel.blog.comments.index › Panel\BlogCommentController@index
+  GET|HEAD        panel/blog/comments/{id} ......................... panel.blog.comments.show › Panel\BlogCommentController@show
+  DELETE          panel/blog/comments/{id} ................... panel.blog.comments.destroy › Panel\BlogCommentController@destroy
+  POST            panel/blog/comments/{id}/approve ........... panel.blog.comments.approve › Panel\BlogCommentController@approve
+  POST            panel/blog/comments/{id}/reject .............. panel.blog.comments.reject › Panel\BlogCommentController@reject
+  GET|HEAD        panel/blog/create ............................................ panel.blog.create › Panel\BlogController@create
+  POST            panel/blog/tags/create ................................. panel.blog.tags.store › Panel\BlogTagController@store
+  GET|HEAD        panel/blog/tags/show ................................... panel.blog.tags.index › Panel\BlogTagController@index
+  PUT             panel/blog/tags/update/{id} .......................... panel.blog.tags.update › Panel\BlogTagController@update
+  DELETE          panel/blog/tags/{id} ............................... panel.blog.tags.destroy › Panel\BlogTagController@destroy
+  GET|HEAD        panel/blog/{id} .................................................. panel.blog.show › Panel\BlogController@show
+  PUT             panel/blog/{id} .............................................. panel.blog.update › Panel\BlogController@update
+  DELETE          panel/blog/{id} ............................................ panel.blog.destroy › Panel\BlogController@destroy
+  GET|HEAD        panel/blog/{id}/edit ............................................. panel.blog.edit › Panel\BlogController@edit
+  POST            panel/blog/{id}/toggle-featured ............. panel.blog.toggle-featured › Panel\BlogController@toggleFeatured
+  POST            panel/blog/{id}/toggle-status ................... panel.blog.toggle-status › Panel\BlogController@toggleStatus
+  GET|HEAD        panel/clientes ......................................... panel.clientes.index › Panel\CustomerController@index
+  POST            panel/clientes ......................................... panel.clientes.store › Panel\CustomerController@store
+  GET|HEAD        panel/clientes/create ................................ panel.clientes.create › Panel\CustomerController@create
+  GET|HEAD        panel/clientes/{cliente} ................................. panel.clientes.show › Panel\CustomerController@show
+  PUT|PATCH       panel/clientes/{cliente} ............................. panel.clientes.update › Panel\CustomerController@update
+  DELETE          panel/clientes/{cliente} ........................... panel.clientes.destroy › Panel\CustomerController@destroy
+  GET|HEAD        panel/clientes/{cliente}/edit ............................ panel.clientes.edit › Panel\CustomerController@edit
+  GET|HEAD        panel/configuracoes ............................... panel.configuracoes.index › Panel\SettingsController@index
+  POST            panel/configuracoes ............................. panel.configuracoes.update › Panel\SettingsController@update
+  GET|HEAD        panel/dashboard/performance ......... panel.dashboard.performance › Panel\PerformanceDashboardController@index
+  GET|HEAD        panel/dashboard/performance/api/data panel.dashboard.performance.api.data › Panel\PerformanceDashboardControl…
+  GET|HEAD        panel/disponibilidade ....................... panel.disponibilidade.index › Panel\AvailabilityController@index
+  POST            panel/disponibilidade ....................... panel.disponibilidade.store › Panel\AvailabilityController@store
+  POST            panel/disponibilidade/blocked-dates panel.disponibilidade.blocked-dates.store › Panel\AvailabilityController@…
+  DELETE          panel/disponibilidade/blocked-dates/{blockedDate} panel.disponibilidade.blocked-dates.destroy › Panel\Availab…
+  GET|HEAD        panel/disponibilidade/create .............. panel.disponibilidade.create › Panel\AvailabilityController@create
+  GET|HEAD        panel/disponibilidade/{disponibilidade} ....... panel.disponibilidade.show › Panel\AvailabilityController@show
+  PUT|PATCH       panel/disponibilidade/{disponibilidade} ... panel.disponibilidade.update › Panel\AvailabilityController@update
+  DELETE          panel/disponibilidade/{disponibilidade} . panel.disponibilidade.destroy › Panel\AvailabilityController@destroy
+  GET|HEAD        panel/disponibilidade/{disponibilidade}/edit .. panel.disponibilidade.edit › Panel\AvailabilityController@edit
+  GET|HEAD        panel/email-marketing ..................... panel.email-marketing.index › Panel\EmailMarketingController@index
+  POST            panel/email-marketing ..................... panel.email-marketing.store › Panel\EmailMarketingController@store
+  POST            panel/email-marketing/api/preview-template panel.email-marketing.api.preview › Panel\EmailMarketingController…
+  POST            panel/email-marketing/api/recipients panel.email-marketing.api.recipients › Panel\EmailMarketingController@ge…
+  GET|HEAD        panel/email-marketing/criar ............. panel.email-marketing.create › Panel\EmailMarketingController@create
+  GET|HEAD        panel/email-marketing/templates ... panel.email-marketing.templates › Panel\EmailMarketingController@templates
+  POST            panel/email-marketing/templates panel.email-marketing.templates.store › Panel\EmailMarketingController@storeT…
+  GET|HEAD        panel/email-marketing/templates/criar panel.email-marketing.templates.create › Panel\EmailMarketingController…
+  GET|HEAD        panel/email-marketing/{emailCampaign} ....... panel.email-marketing.show › Panel\EmailMarketingController@show
+  PUT             panel/email-marketing/{emailCampaign} ... panel.email-marketing.update › Panel\EmailMarketingController@update
+  DELETE          panel/email-marketing/{emailCampaign} . panel.email-marketing.destroy › Panel\EmailMarketingController@destroy
+  POST            panel/email-marketing/{emailCampaign}/cancelar panel.email-marketing.cancel › Panel\EmailMarketingController@…
+  GET|HEAD        panel/email-marketing/{emailCampaign}/editar panel.email-marketing.edit › Panel\EmailMarketingController@edit
+  POST            panel/email-marketing/{emailCampaign}/enviar panel.email-marketing.send › Panel\EmailMarketingController@send
+  GET|HEAD        panel/eventos ............................................... panel.events.index › Panel\EventController@index
+  POST            panel/eventos ............................................... panel.events.store › Panel\EventController@store
+  GET|HEAD        panel/eventos/agenda ....................... panel.events.schedule.index › Panel\EventScheduleController@index
+  GET|HEAD        panel/eventos/agenda/eventos-data panel.events.schedule.events-for-date › Panel\EventScheduleController@getEv…
+  GET|HEAD        panel/eventos/analytics .................. panel.events.analytics.index › Panel\EventAnalyticsController@index
+  GET|HEAD        panel/eventos/bio ....................................... panel.events.bio.edit › Panel\BioPageController@edit
+  PUT             panel/eventos/bio ................................... panel.events.bio.update › Panel\BioPageController@update
+  GET|HEAD        panel/eventos/categorias-custos . panel.events.cost-categories.index › Panel\EventCostCategoryController@index
+  POST            panel/eventos/categorias-custos . panel.events.cost-categories.store › Panel\EventCostCategoryController@store
+  GET|HEAD        panel/eventos/categorias-custos/criar panel.events.cost-categories.create › Panel\EventCostCategoryController…
+  GET|HEAD        panel/eventos/categorias-custos/{costCategory} panel.events.cost-categories.show › Panel\EventCostCategoryCon…
+  PUT             panel/eventos/categorias-custos/{costCategory} panel.events.cost-categories.update › Panel\EventCostCategoryC…
+  DELETE          panel/eventos/categorias-custos/{costCategory} panel.events.cost-categories.destroy › Panel\EventCostCategory…
+  GET|HEAD        panel/eventos/categorias-custos/{costCategory}/editar panel.events.cost-categories.edit › Panel\EventCostCate…
+  GET|HEAD        panel/eventos/contratos ................... panel.events.contracts.index › Panel\EventContractController@index
+  GET|HEAD        panel/eventos/contratos/criar panel.events.contracts.select-event › Panel\EventContractController@selectEvent
+  GET|HEAD        panel/eventos/contratos/{contract} .......... panel.events.contracts.show › Panel\EventContractController@show
+  PUT             panel/eventos/contratos/{contract} ...... panel.events.contracts.update › Panel\EventContractController@update
+  DELETE          panel/eventos/contratos/{contract} .... panel.events.contracts.destroy › Panel\EventContractController@destroy
+  POST            panel/eventos/contratos/{contract}/assinar .. panel.events.contracts.sign › Panel\EventContractController@sign
+  GET|HEAD        panel/eventos/contratos/{contract}/editar ... panel.events.contracts.edit › Panel\EventContractController@edit
+  POST            panel/eventos/contratos/{contract}/enviar ... panel.events.contracts.send › Panel\EventContractController@send
+  GET|HEAD        panel/eventos/contratos/{contract}/pdf ........ panel.events.contracts.pdf › Panel\EventContractController@pdf
+  POST            panel/eventos/contratos/{event} ........... panel.events.contracts.store › Panel\EventContractController@store
+  GET|HEAD        panel/eventos/contratos/{event}/criar ... panel.events.contracts.create › Panel\EventContractController@create
+  GET|HEAD        panel/eventos/create ...................................... panel.events.create › Panel\EventController@create
+  GET|HEAD        panel/eventos/custos .............................. panel.events.costs.index › Panel\EventCostController@index
+  GET|HEAD        panel/eventos/custos/criar ........... panel.events.costs.select-event › Panel\EventCostController@selectEvent
+  GET|HEAD        panel/eventos/custos/{cost} ......................... panel.events.costs.show › Panel\EventCostController@show
+  PUT             panel/eventos/custos/{cost} ..................... panel.events.costs.update › Panel\EventCostController@update
+  DELETE          panel/eventos/custos/{cost} ................... panel.events.costs.destroy › Panel\EventCostController@destroy
+  GET|HEAD        panel/eventos/custos/{cost}/editar .................. panel.events.costs.edit › Panel\EventCostController@edit
+  POST            panel/eventos/custos/{cost}/marcar-pago .... panel.events.costs.mark-paid › Panel\EventCostController@markPaid
+  POST            panel/eventos/custos/{event} ...................... panel.events.costs.store › Panel\EventCostController@store
+  GET|HEAD        panel/eventos/custos/{event}/criar .............. panel.events.costs.create › Panel\EventCostController@create
+  DELETE          panel/eventos/employees/{employee} ....... panel.events.remove-employee › Panel\EventController@removeEmployee
+  GET|HEAD        panel/eventos/equipamentos ............... panel.events.equipment.index › Panel\EventEquipmentController@index
+  POST            panel/eventos/equipamentos ............... panel.events.equipment.store › Panel\EventEquipmentController@store
+  GET|HEAD        panel/eventos/equipamentos/create ...... panel.events.equipment.create › Panel\EventEquipmentController@create
+  GET|HEAD        panel/eventos/equipamentos/{equipment} ..... panel.events.equipment.show › Panel\EventEquipmentController@show
+  PUT             panel/eventos/equipamentos/{equipment} . panel.events.equipment.update › Panel\EventEquipmentController@update
+  DELETE          panel/eventos/equipamentos/{equipment} panel.events.equipment.destroy › Panel\EventEquipmentController@destroy
+  GET|HEAD        panel/eventos/equipamentos/{equipment}/edit panel.events.equipment.edit › Panel\EventEquipmentController@edit
+  POST            panel/eventos/equipamentos/{equipment}/toggle-status panel.events.equipment.toggle-status › Panel\EventEquipm…
+  GET|HEAD        panel/eventos/faturas ....................... panel.events.invoices.index › Panel\EventInvoiceController@index
+  POST            panel/eventos/faturas/os/{serviceOrder}/faturar panel.events.invoices.create-from-service-order › Panel\Event…
+  POST            panel/eventos/faturas/{event} ............... panel.events.invoices.store › Panel\EventInvoiceController@store
+  GET|HEAD        panel/eventos/faturas/{event}/criar ....... panel.events.invoices.create › Panel\EventInvoiceController@create
+  GET|HEAD        panel/eventos/faturas/{invoice} ............... panel.events.invoices.show › Panel\EventInvoiceController@show
+  PUT             panel/eventos/faturas/{invoice} ........... panel.events.invoices.update › Panel\EventInvoiceController@update
+  DELETE          panel/eventos/faturas/{invoice} ......... panel.events.invoices.destroy › Panel\EventInvoiceController@destroy
+  GET|HEAD        panel/eventos/faturas/{invoice}/editar ........ panel.events.invoices.edit › Panel\EventInvoiceController@edit
+  POST            panel/eventos/faturas/{invoice}/enviar panel.events.invoices.send › Panel\EventInvoiceController@sendToCustom…
+  POST            panel/eventos/faturas/{invoice}/pagar panel.events.invoices.mark-paid › Panel\EventInvoiceController@markAsPa…
+  GET|HEAD        panel/eventos/faturas/{invoice}/pdf ..... panel.events.invoices.pdf › Panel\EventInvoiceController@generatePdf
+  GET|HEAD        panel/eventos/notas-servico ........ panel.events.service-notes.index › Panel\EventServiceNoteController@index
+  POST            panel/eventos/notas-servico/{event} panel.events.service-notes.store › Panel\EventServiceNoteController@store
+  GET|HEAD        panel/eventos/notas-servico/{event}/criar panel.events.service-notes.create › Panel\EventServiceNoteControlle…
+  GET|HEAD        panel/eventos/notas-servico/{serviceNote} panel.events.service-notes.show › Panel\EventServiceNoteController@…
+  PUT             panel/eventos/notas-servico/{serviceNote} panel.events.service-notes.update › Panel\EventServiceNoteControlle…
+  DELETE          panel/eventos/notas-servico/{serviceNote} panel.events.service-notes.destroy › Panel\EventServiceNoteControll…
+  GET|HEAD        panel/eventos/notas-servico/{serviceNote}/editar panel.events.service-notes.edit › Panel\EventServiceNoteCont…
+  GET|HEAD        panel/eventos/notas-servico/{serviceNote}/pdf panel.events.service-notes.pdf › Panel\EventServiceNoteControll…
+  GET|HEAD        panel/eventos/orcamentos ...................... panel.events.budgets.index › Panel\EventBudgetController@index
+  GET|HEAD        panel/eventos/orcamentos/{budget} ............... panel.events.budgets.show › Panel\EventBudgetController@show
+  PUT             panel/eventos/orcamentos/{budget} ........... panel.events.budgets.update › Panel\EventBudgetController@update
+  DELETE          panel/eventos/orcamentos/{budget} ......... panel.events.budgets.destroy › Panel\EventBudgetController@destroy
+  POST            panel/eventos/orcamentos/{budget}/aprovar . panel.events.budgets.approve › Panel\EventBudgetController@approve
+  POST            panel/eventos/orcamentos/{budget}/criar-os panel.events.budgets.create-service-order › Panel\EventBudgetContr…
+  GET|HEAD        panel/eventos/orcamentos/{budget}/editar ........ panel.events.budgets.edit › Panel\EventBudgetController@edit
+  POST            panel/eventos/orcamentos/{budget}/enviar panel.events.budgets.send › Panel\EventBudgetController@sendToCustom…
+  POST            panel/eventos/orcamentos/{budget}/faturar panel.events.budgets.create-invoice › Panel\EventBudgetController@c…
+  GET|HEAD        panel/eventos/orcamentos/{budget}/pdf ..... panel.events.budgets.pdf › Panel\EventBudgetController@generatePdf
+  POST            panel/eventos/orcamentos/{budget}/rejeitar .. panel.events.budgets.reject › Panel\EventBudgetController@reject
+  POST            panel/eventos/orcamentos/{event} .............. panel.events.budgets.store › Panel\EventBudgetController@store
+  GET|HEAD        panel/eventos/orcamentos/{event}/criar ...... panel.events.budgets.create › Panel\EventBudgetController@create
+  GET|HEAD        panel/eventos/ordens-servico ..... panel.events.service-orders.index › Panel\EventServiceOrderController@index
+  GET|HEAD        panel/eventos/ordens-servico/criar panel.events.service-orders.select-event › Panel\EventServiceOrderControll…
+  POST            panel/eventos/ordens-servico/{event} panel.events.service-orders.store › Panel\EventServiceOrderController@st…
+  GET|HEAD        panel/eventos/ordens-servico/{event}/criar panel.events.service-orders.create › Panel\EventServiceOrderContro…
+  GET|HEAD        panel/eventos/ordens-servico/{serviceOrder} panel.events.service-orders.show › Panel\EventServiceOrderControl…
+  PUT             panel/eventos/ordens-servico/{serviceOrder} panel.events.service-orders.update › Panel\EventServiceOrderContr…
+  DELETE          panel/eventos/ordens-servico/{serviceOrder} panel.events.service-orders.destroy › Panel\EventServiceOrderCont…
+  POST            panel/eventos/ordens-servico/{serviceOrder}/cancelar panel.events.service-orders.cancel › Panel\EventServiceO…
+  POST            panel/eventos/ordens-servico/{serviceOrder}/concluir panel.events.service-orders.complete › Panel\EventServic…
+  GET|HEAD        panel/eventos/ordens-servico/{serviceOrder}/editar panel.events.service-orders.edit › Panel\EventServiceOrder…
+  POST            panel/eventos/ordens-servico/{serviceOrder}/iniciar panel.events.service-orders.start › Panel\EventServiceOrd…
+  GET|HEAD        panel/eventos/ordens-servico/{serviceOrder}/pdf panel.events.service-orders.pdf › Panel\EventServiceOrderCont…
+  GET|HEAD        panel/eventos/pagamentos .................... panel.events.payments.index › Panel\EventPaymentController@index
+  POST            panel/eventos/pagamentos/{event} ............ panel.events.payments.store › Panel\EventPaymentController@store
+  GET|HEAD        panel/eventos/pagamentos/{event}/criar .... panel.events.payments.create › Panel\EventPaymentController@create
+  GET|HEAD        panel/eventos/pagamentos/{payment} ............ panel.events.payments.show › Panel\EventPaymentController@show
+  PUT             panel/eventos/pagamentos/{payment} ........ panel.events.payments.update › Panel\EventPaymentController@update
+  DELETE          panel/eventos/pagamentos/{payment} ...... panel.events.payments.destroy › Panel\EventPaymentController@destroy
+  POST            panel/eventos/pagamentos/{payment}/cancelar panel.events.payments.cancel › Panel\EventPaymentController@cancel
+  POST            panel/eventos/pagamentos/{payment}/confirmar panel.events.payments.confirm › Panel\EventPaymentController@con…
+  GET|HEAD        panel/eventos/pagamentos/{payment}/editar ..... panel.events.payments.edit › Panel\EventPaymentController@edit
+  GET|HEAD        panel/eventos/propostas-comerciais panel.events.commercial-proposals.index › Panel\EventCommercialProposalCon…
+  GET|HEAD        panel/eventos/propostas-comerciais/{commercialProposal} panel.events.commercial-proposals.show › Panel\EventC…
+  PUT             panel/eventos/propostas-comerciais/{commercialProposal} panel.events.commercial-proposals.update › Panel\Even…
+  DELETE          panel/eventos/propostas-comerciais/{commercialProposal} panel.events.commercial-proposals.destroy › Panel\Eve…
+  POST            panel/eventos/propostas-comerciais/{commercialProposal}/aprovar panel.events.commercial-proposals.approve › P…
+  GET|HEAD        panel/eventos/propostas-comerciais/{commercialProposal}/editar panel.events.commercial-proposals.edit › Panel…
+  POST            panel/eventos/propostas-comerciais/{commercialProposal}/enviar panel.events.commercial-proposals.send › Panel…
+  GET|HEAD        panel/eventos/propostas-comerciais/{commercialProposal}/pdf panel.events.commercial-proposals.pdf › Panel\Eve…
+  POST            panel/eventos/propostas-comerciais/{commercialProposal}/rejeitar panel.events.commercial-proposals.reject › P…
+  POST            panel/eventos/propostas-comerciais/{event} panel.events.commercial-proposals.store › Panel\EventCommercialPro…
+  GET|HEAD        panel/eventos/propostas-comerciais/{event}/criar panel.events.commercial-proposals.create › Panel\EventCommer…
+  GET|HEAD        panel/eventos/recibos ....................... panel.events.receipts.index › Panel\EventReceiptController@index
+  GET|HEAD        panel/eventos/recibos/criar .... panel.events.receipts.select-event › Panel\EventReceiptController@selectEvent
+  POST            panel/eventos/recibos/{event} ............... panel.events.receipts.store › Panel\EventReceiptController@store
+  GET|HEAD        panel/eventos/recibos/{event}/criar ....... panel.events.receipts.create › Panel\EventReceiptController@create
+  GET|HEAD        panel/eventos/recibos/{receipt} ............... panel.events.receipts.show › Panel\EventReceiptController@show
+  PUT             panel/eventos/recibos/{receipt} ........... panel.events.receipts.update › Panel\EventReceiptController@update
+  DELETE          panel/eventos/recibos/{receipt} ......... panel.events.receipts.destroy › Panel\EventReceiptController@destroy
+  GET|HEAD        panel/eventos/recibos/{receipt}/editar ........ panel.events.receipts.edit › Panel\EventReceiptController@edit
+  POST            panel/eventos/recibos/{receipt}/emitir ...... panel.events.receipts.issue › Panel\EventReceiptController@issue
+  POST            panel/eventos/recibos/{receipt}/marcar-pago panel.events.receipts.mark-as-paid › Panel\EventReceiptController…
+  GET|HEAD        panel/eventos/recibos/{receipt}/pdf ............. panel.events.receipts.pdf › Panel\EventReceiptController@pdf
+  GET|HEAD        panel/eventos/relatorios ...................... panel.events.reports.index › Panel\EventReportController@index
+  GET|HEAD        panel/eventos/relatorios/equipamentos . panel.events.reports.equipment › Panel\EventReportController@equipment
+  GET|HEAD        panel/eventos/relatorios/financeiro ... panel.events.reports.financial › Panel\EventReportController@financial
+  GET|HEAD        panel/eventos/relatorios/metodos-pagamento panel.events.reports.payment-methods › Panel\EventReportController…
+  GET|HEAD        panel/eventos/relatorios/tipos-eventos panel.events.reports.event-types › Panel\EventReportController@eventTy…
+  DELETE          panel/eventos/services/{service} ........... panel.events.remove-service › Panel\EventController@removeService
+  GET|HEAD        panel/eventos/{event} ......................................... panel.events.show › Panel\EventController@show
+  PUT|PATCH       panel/eventos/{event} ..................................... panel.events.update › Panel\EventController@update
+  DELETE          panel/eventos/{event} ................................... panel.events.destroy › Panel\EventController@destroy
+  POST            panel/eventos/{event}/add-employee ............. panel.events.add-employee › Panel\EventController@addEmployee
+  POST            panel/eventos/{event}/add-service ................ panel.events.add-service › Panel\EventController@addService
+  GET|HEAD        panel/eventos/{event}/edit .................................... panel.events.edit › Panel\EventController@edit
+  GET|HEAD        panel/feedbacks ............................. panel.feedbacks.index › Panel\FeedbackManagementController@index
+  DELETE          panel/feedbacks/{id} .................... panel.feedbacks.destroy › Panel\FeedbackManagementController@destroy
+  POST            panel/feedbacks/{id}/approve ............ panel.feedbacks.approve › Panel\FeedbackManagementController@approve
+  POST            panel/feedbacks/{id}/toggle-visibility panel.feedbacks.toggle-visibility › Panel\FeedbackManagementController…
+  GET|HEAD        panel/fila-espera ...................................... panel.waitlist.index › Panel\WaitlistController@index
+  POST            panel/fila-espera ...................................... panel.waitlist.store › Panel\WaitlistController@store
+  GET|HEAD        panel/fila-espera/novo ............................... panel.waitlist.create › Panel\WaitlistController@create
+  DELETE          panel/fila-espera/{id} ............................. panel.waitlist.destroy › Panel\WaitlistController@destroy
+  POST            panel/fila-espera/{id}/converter ................... panel.waitlist.convert › Panel\WaitlistController@convert
+  POST            panel/fila-espera/{id}/notificar ..................... panel.waitlist.notify › Panel\WaitlistController@notify
+  GET|HEAD        panel/financeiro ............................ panel.financeiro.dashboard › Panel\FinancialController@dashboard
+  GET|HEAD        panel/financeiro/caixa ....................... panel.financeiro.caixa › Panel\FinancialController@cashRegister
+  POST            panel/financeiro/caixa/abrir ........ panel.financeiro.caixa.open › Panel\FinancialController@openCashRegister
+  POST            panel/financeiro/caixa/{id}/fechar panel.financeiro.caixa.close › Panel\FinancialController@closeCashRegister
+  GET|HEAD        panel/financeiro/periodos .................. panel.financeiro.periodos › Panel\FinancialController@cashPeriods
+  POST            panel/financeiro/periodos/abrir .... panel.financeiro.periodos.open › Panel\FinancialController@openCashPeriod
+  POST            panel/financeiro/periodos/{id}/fechar panel.financeiro.periodos.close › Panel\FinancialController@closeCashPe…
+  GET|HEAD        panel/financeiro/periodos/{id}/relatorio panel.financeiro.periodos.report › Panel\FinancialController@viewCas…
+  GET|HEAD        panel/financeiro/transacoes ............. panel.financeiro.transacoes › Panel\FinancialController@transactions
+  POST            panel/financeiro/transacoes ... panel.financeiro.transacoes.store › Panel\FinancialController@storeTransaction
+  GET|HEAD        panel/financeiro/transacoes/nova panel.financeiro.transacoes.create › Panel\FinancialController@createTransac…
+  POST            panel/financeiro/transacoes/{id}/gerar-recibo panel.financeiro.transacoes.generate-receipt › Panel\FinancialC…
+  GET|HEAD        panel/financeiro/transacoes/{id}/recibo panel.financeiro.transacoes.view-receipt › Panel\FinancialController@…
+  GET|HEAD        panel/funcionarios .................................... panel.employees.index › Panel\EmployeeController@index
+  POST            panel/funcionarios .................................... panel.employees.store › Panel\EmployeeController@store
+  PUT             panel/funcionarios/{employee} ....................... panel.employees.update › Panel\EmployeeController@update
+  DELETE          panel/funcionarios/{employee} ..................... panel.employees.destroy › Panel\EmployeeController@destroy
+  GET|HEAD        panel/galeria ............................................ panel.galeria.index › Panel\GalleryController@index
+  POST            panel/galeria ............................................ panel.galeria.store › Panel\GalleryController@store
+  GET|HEAD        panel/galeria/create ................................... panel.galeria.create › Panel\GalleryController@create
+  GET|HEAD        panel/galeria/{galerium} ................................... panel.galeria.show › Panel\GalleryController@show
+  PUT|PATCH       panel/galeria/{galerium} ............................... panel.galeria.update › Panel\GalleryController@update
+  DELETE          panel/galeria/{galerium} ............................. panel.galeria.destroy › Panel\GalleryController@destroy
+  GET|HEAD        panel/galeria/{galerium}/edit .............................. panel.galeria.edit › Panel\GalleryController@edit
+  GET|HEAD        panel/links-rapidos ........................... panel.quick-booking.index › Panel\QuickBookingController@index
+  POST            panel/links-rapidos ........................... panel.quick-booking.store › Panel\QuickBookingController@store
+  GET|HEAD        panel/links-rapidos/novo .................... panel.quick-booking.create › Panel\QuickBookingController@create
+  PUT             panel/links-rapidos/{id} .................... panel.quick-booking.update › Panel\QuickBookingController@update
+  DELETE          panel/links-rapidos/{id} .................. panel.quick-booking.destroy › Panel\QuickBookingController@destroy
+  GET|HEAD        panel/links-rapidos/{id}/editar ................. panel.quick-booking.edit › Panel\QuickBookingController@edit
+  POST            panel/links-rapidos/{id}/toggle ....... panel.quick-booking.toggle › Panel\QuickBookingController@toggleActive
+  GET|HEAD        panel/logs-atividade ........................... panel.activity-logs.index › Panel\ActivityLogController@index
+  GET|HEAD        panel/logs-atividade/api/stats .............. panel.activity-logs.stats › Panel\ActivityLogController@getStats
+  GET|HEAD        panel/logs-atividade/export/csv .............. panel.activity-logs.export › Panel\ActivityLogController@export
+  GET|HEAD        panel/logs-atividade/{activityLog} ............... panel.activity-logs.show › Panel\ActivityLogController@show
+  GET|HEAD        panel/loyalty ............................................ panel.loyalty.index › Panel\LoyaltyController@index
+  GET|HEAD        panel/loyalty/customers/{id}/points ... panel.loyalty.customer-points › Panel\LoyaltyController@customerPoints
+  POST            panel/loyalty/customers/{id}/points ....... panel.loyalty.manual-points › Panel\LoyaltyController@manualPoints
+  PUT             panel/loyalty/program ................... panel.loyalty.update-program › Panel\LoyaltyController@updateProgram
+  POST            panel/loyalty/rewards ....................... panel.loyalty.store-reward › Panel\LoyaltyController@storeReward
+  GET|HEAD        panel/loyalty/rewards/create .............. panel.loyalty.create-reward › Panel\LoyaltyController@createReward
+  PUT             panel/loyalty/rewards/{id} ................ panel.loyalty.update-reward › Panel\LoyaltyController@updateReward
+  DELETE          panel/loyalty/rewards/{id} .............. panel.loyalty.destroy-reward › Panel\LoyaltyController@destroyReward
+  GET|HEAD        panel/loyalty/rewards/{id}/edit ............... panel.loyalty.edit-reward › Panel\LoyaltyController@editReward
+  GET|HEAD        panel/onboarding ....................................... panel.onboarding.get › Panel\OnboardingController@get
+  PUT             panel/onboarding ................................. panel.onboarding.update › Panel\OnboardingController@update
+  GET|HEAD        panel/perfil ................................................................................... panel.profile
+  PUT             panel/perfil ........................................... panel.profile.update › Panel\ProfileController@update
+  GET|HEAD        panel/perfil/editar ........................................ panel.profile.edit › Panel\ProfileController@edit
+  PUT             panel/perfil/senha ........................... panel.profile.password › Panel\ProfileController@updatePassword
+  GET|HEAD        panel/personalizar-template ............ panel.template.customize › Panel\SettingsController@customizeTemplate
+  POST            panel/personalizar-template .................. panel.template.update › Panel\SettingsController@updateTemplate
+  GET|HEAD        panel/planos .................................................. panel.plans.index › Panel\PlanController@index
+  PUT             panel/planos ................................................ panel.plans.update › Panel\PlanController@update
+  POST            panel/planos/billing-portal .......... panel.plans.billing-portal › Panel\PlanCheckoutController@billingPortal
+  POST            panel/planos/checkout ........................... panel.plans.checkout › Panel\PlanCheckoutController@checkout
+  GET|HEAD        panel/professionals ........................... panel.professionals.index › Panel\ProfessionalController@index
+  POST            panel/professionals ........................... panel.professionals.store › Panel\ProfessionalController@store
+  GET|HEAD        panel/professionals/create .................. panel.professionals.create › Panel\ProfessionalController@create
+  PUT|PATCH       panel/professionals/{professional} .......... panel.professionals.update › Panel\ProfessionalController@update
+  DELETE          panel/professionals/{professional} ........ panel.professionals.destroy › Panel\ProfessionalController@destroy
+  GET|HEAD        panel/professionals/{professional}/edit ......... panel.professionals.edit › Panel\ProfessionalController@edit
+  GET|HEAD        panel/promotions .................................... panel.promotions.index › Panel\PromotionController@index
+  POST            panel/promotions .................................... panel.promotions.store › Panel\PromotionController@store
+  GET|HEAD        panel/promotions/create ........................... panel.promotions.create › Panel\PromotionController@create
+  GET|HEAD        panel/promotions/segments ..................... panel.promotions.segments › Panel\PromotionController@segments
+  PUT             panel/promotions/{id} ............................. panel.promotions.update › Panel\PromotionController@update
+  DELETE          panel/promotions/{id} ........................... panel.promotions.destroy › Panel\PromotionController@destroy
+  GET|HEAD        panel/promotions/{id}/edit ............................ panel.promotions.edit › Panel\PromotionController@edit
+  GET|HEAD        panel/relatorios ....................................... panel.relatorios.index › Panel\ReportController@index
+  GET|HEAD        panel/relatorios/financeiro .... panel.reports.financial.dashboard › Panel\FinancialReportController@dashboard
+  GET|HEAD        panel/relatorios/financeiro/api/dashboard panel.reports.financial.api.dashboard › Panel\FinancialReportContro…
+  GET|HEAD        panel/relatorios/financeiro/exportar . panel.reports.financial.export › Panel\FinancialReportController@export
+  GET|HEAD        panel/relatorios/financeiro/metodos-pagamento panel.reports.financial.payment-methods › Panel\FinancialReport…
+  GET|HEAD        panel/relatorios/financeiro/receita-mensal panel.reports.financial.monthly-revenue › Panel\FinancialReportCon…
+  GET|HEAD        panel/relatorios/financeiro/receita-por-servico panel.reports.financial.revenue-by-service › Panel\FinancialR…
+  GET|HEAD        panel/relatorios/servicos ...... panel.reports.services.dashboard › Panel\ServiceAnalyticsController@dashboard
+  GET|HEAD        panel/relatorios/servicos/api/analytics panel.reports.services.api.analytics › Panel\ServiceAnalyticsControll…
+  GET|HEAD        panel/relatorios/servicos/clientes-frequentes panel.reports.services.top-customers › Panel\ServiceAnalyticsCo…
+  GET|HEAD        panel/relatorios/servicos/mais-agendados panel.reports.services.most-booked › Panel\ServiceAnalyticsControlle…
+  GET|HEAD        panel/relatorios/servicos/taxa-comparecimento panel.reports.services.attendance-rate › Panel\ServiceAnalytics…
+  GET|HEAD        panel/seo ........................................................ panel.seo.index › Panel\SeoController@index
+  POST            panel/seo/bulk-update ................................. panel.seo.bulk-update › Panel\SeoController@bulkUpdate
+  PUT             panel/seo/{pageType} ........................................... panel.seo.update › Panel\SeoController@update
+  GET|HEAD        panel/seo/{pageType}/edit .......................................... panel.seo.edit › Panel\SeoController@edit
+  GET|HEAD        panel/servicos .......................................... panel.servicos.index › Panel\ServiceController@index
+  POST            panel/servicos .......................................... panel.servicos.store › Panel\ServiceController@store
+  GET|HEAD        panel/servicos/create ................................. panel.servicos.create › Panel\ServiceController@create
+  GET|HEAD        panel/servicos/{servico} .................................. panel.servicos.show › Panel\ServiceController@show
+  PUT|PATCH       panel/servicos/{servico} .............................. panel.servicos.update › Panel\ServiceController@update
+  DELETE          panel/servicos/{servico} ............................ panel.servicos.destroy › Panel\ServiceController@destroy
+  GET|HEAD        panel/servicos/{servico}/edit ............................. panel.servicos.edit › Panel\ServiceController@edit
+  GET|HEAD        panel/social ............................................... panel.social.index › Panel\SocialController@index
+  POST            panel/social ............................................... panel.social.store › Panel\SocialController@store
+  PUT             panel/social/bio/update ........................... panel.social.update-bio › Panel\SocialController@updateBio
+  PUT             panel/social/{id} ........................................ panel.social.update › Panel\SocialController@update
+  DELETE          panel/social/{id} ...................................... panel.social.destroy › Panel\SocialController@destroy
+  PUT             password .................................................... password.update › Auth\PasswordController@update
+  GET|HEAD        privacidade .................................................................................... legal.privacy
+  GET|HEAD        profile ................................................................ profile.edit › ProfileController@edit
+  PATCH           profile ............................................................ profile.update › ProfileController@update
+  DELETE          profile .......................................................... profile.destroy › ProfileController@destroy
+  GET|HEAD        register ..................................................... register › Auth\RegisteredUserController@create
+  POST            register ................................................................. Auth\RegisteredUserController@store
+  GET|HEAD        registrar ........................................... tenant.register › Auth\TenantRegisterController@showForm
+  POST            registrar ........................................ tenant.register.store › Auth\TenantRegisterController@store
+  POST            reset-password ............................................. password.store › Auth\NewPasswordController@store
+  GET|HEAD        reset-password/{token} .................................... password.reset › Auth\NewPasswordController@create
+  GET|HEAD        sobre .................................................................................................. sobre
+  GET|HEAD        storage/{path} ................................................................................. storage.local
+  POST            stripe/webhook ............................................... stripe.webhook › WebhookController@handleStripe
+  GET|HEAD        templates/barber ............................................................................ templates.barber
+  GET|HEAD        templates/clinic ............................................................................ templates.clinic
+  GET|HEAD        templates/salon .............................................................................. templates.salon
+  GET|HEAD        templates/tattoo ............................................................................ templates.tattoo
+  GET|HEAD        termos ........................................................................................... legal.terms
+  GET|HEAD        up ........................................................................................................... 
+  GET|HEAD        verify-email .................................... verification.notice › Auth\EmailVerificationPromptController
+  GET|HEAD        verify-email/{id}/{hash} .................................... verification.verify › Auth\VerifyEmailController
+  POST            webhook/stripe ........................................... stripe.webhook.alt › WebhookController@handleStripe
+  GET|HEAD        {professional_slug}/blog ............................................. blog.index › PublicBlogController@index
+  GET|HEAD        {professional_slug}/blog/categoria/{category_slug} ............. blog.category › PublicBlogController@category
+  GET|HEAD        {professional_slug}/blog/tag/{tag_slug} .................................. blog.tag › PublicBlogController@tag
+  GET|HEAD        {professional_slug}/blog/{post_slug} ................................... blog.show › PublicBlogController@show
+  POST            {professional_slug}/blog/{post_slug}/comentario ....... blog.comment.store › PublicBlogController@storeComment
+  GET|HEAD        {slug} ................................................................... public.show › PublicController@show
+  GET|HEAD        {slug}/availability .............................. public.availability › PublicController@getMonthAvailability
+  GET|HEAD        {slug}/available-slots ..................................... public.slots › PublicController@getAvailableSlots
+  POST            {slug}/book .............................................................. public.book › PublicController@book
+  POST            {slug}/check-loyalty .................................... public.check-loyalty › PublicController@checkLoyalty
+  POST            {slug}/validate-promo ................................. public.validate-promo › PublicController@validatePromo
+
+                                                                                                            Showing [378] routes
+

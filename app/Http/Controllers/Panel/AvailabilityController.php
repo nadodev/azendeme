@@ -103,12 +103,15 @@ class AvailabilityController extends Controller
             'start_time' => 'required|date_format:H:i',
             'end_time' => 'required|date_format:H:i|after:start_time',
             'slot_duration' => 'required|integer|min:1',
+            'employee_id' => 'nullable|exists:employees,id',
         ]);
+
 
         $disponibilidade->update([
             'day_of_week' => $validated['day_of_week'],
             'start_time' => $validated['start_time'],
             'end_time' => $validated['end_time'],
+            'employee_id' => $validated['employee_id'] ?? null,
             'slot_duration' => $validated['slot_duration'],
         ]);
 

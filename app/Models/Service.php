@@ -13,7 +13,7 @@ class Service extends Model
 
     protected $fillable = [
         'professional_id',
-        'assigned_professional_id',
+        'assigned_employer_id',
         'name',
         'description',
         'duration',
@@ -37,13 +37,18 @@ class Service extends Model
         return $this->hasMany(Appointment::class);
     }
 
-    public function assignedProfessional(): BelongsTo
+    public function assignedEmployer(): BelongsTo
     {
-        return $this->belongsTo(Professional::class, 'assigned_professional_id');
+        return $this->belongsTo(Employee::class, 'assigned_employer_id');
     }
 
     public function appointmentServices(): HasMany
     {
         return $this->hasMany(AppointmentService::class);
+    }
+
+    public function employees()
+    {
+        return $this->belongsToMany(Employee::class, 'employee_service');
     }
 }

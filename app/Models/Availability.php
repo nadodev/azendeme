@@ -14,6 +14,7 @@ class Availability extends Model
         'professional_id',
         'day_of_week',
         'start_time',
+        'employee_id',
         'end_time',
         'slot_duration',
     ];
@@ -21,5 +22,10 @@ class Availability extends Model
     public function professional(): BelongsTo
     {
         return $this->belongsTo(Professional::class);
+    }
+
+    public function employee(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class);
     }
 }

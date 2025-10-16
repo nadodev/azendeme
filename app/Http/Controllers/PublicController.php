@@ -8,11 +8,13 @@ use App\Models\BlockedDate;
 use App\Models\Customer;
 use App\Models\Gallery;
 use App\Models\Professional;
+use App\Models\Employee;
 use App\Models\Service;
 use App\Helpers\TemplateColors;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Support\Tenancy;
 
 class PublicController extends Controller
 {
@@ -20,28 +22,47 @@ class PublicController extends Controller
 
     public function show($slug)
     {
-        $professional = Professional::where('slug', $slug)->firstOrFail();
-     
-        $services = Service::where('professional_id', $professional->id)
+        $professional = Professional::withoutGlobalScopes()->where('slug', $slug)->with('user')->firstOrFail();
+        
+        // Define o tenant como este professional para todas as queries seguintes
+        // Isso faz com que o trait BelongsToTenant filtre automaticamente por professional_id
+        Tenancy::setTenantId($professional->id);
+        
+        $user = $professional->user;
+
+        // Carregar serviços ativos com seus funcionários (via pivot employee_service)
+        // NÃO precisa filtrar por professional_id - o tenancy faz isso automaticamente
+        $services = Service::with(['employees' => function ($q) {
+                $q->where('active', true)
+                  ->where('show_in_booking', true);
+            }])
             ->where('active', true)
+            ->orderBy('name')
             ->get();
-        $gallery = Gallery::where('professional_id', $professional->id)
-            ->with('album')
+
+        // Buscar employees ativos vinculados a serviços
+        // NÃO precisa filtrar por professional_id - o tenancy faz isso automaticamente
+        $employees = Employee::where('active', true)
+            ->where('show_in_booking', true)
+            ->whereHas('services', function ($q) {
+                $q->where('active', true);
+            })
+            ->orderBy('name')
+            ->get();
+
+        // Gallery - tenancy filtra automaticamente
+        $gallery = Gallery::with('album')
             ->orderBy('album_id')
             ->orderBy('order')
             ->get();
         
-        // Buscar todos os profissionais disponíveis para seleção no agendamento
-        $professionals = Professional::orderBy('user_id', 'desc')
-            ->orderBy('name')
-            ->where('user_id', $professional->id)
-            ->get();
+        // Removido: seleção de outros profissionais não se aplica na página pública
+        $professionals = collect();
 
         
-        // Buscar feedbacks públicos
+        // Buscar feedbacks públicos - tenancy filtra automaticamente
         try {
-            $feedbacks = \App\Models\Feedback::where('professional_id', $this->professionalId)
-                ->where('visible_public', true)
+            $feedbacks = \App\Models\Feedback::where('visible_public', true)
                 ->where('approved', true)
                 ->with(['customer', 'service'])
                 ->orderBy('created_at', 'desc')
@@ -71,34 +92,37 @@ class PublicController extends Controller
             $templateView = 'public.templates.clinic';
         }
 
-$user = User::where('id', $professional->user_id)->firstOrFail();
+        // Verificar limites do plano
         $isPlan = $user->isFree();
         $planLimits = $user->planLimits();
 
-        $appointments = Appointment::where('professional_id', $professional->id)->get();
+        // Appointments - tenancy filtra automaticamente
+        $appointments = Appointment::all();
 
         $appointmentsCount = $appointments->count();
         $appointmentsLimit = $planLimits['appointments_per_month'];
 
         $isPlanOver = $appointmentsCount >= $appointmentsLimit;
 
-        return view($templateView, compact('professional', 'services', 'gallery', 'settings', 'feedbacks', 'professionals', 'isPlan', 'planLimits', 'appointmentsCount', 'appointmentsLimit', 'isPlanOver'));
+        return view($templateView, compact('professional', 'services', 'employees', 'gallery', 'settings', 'feedbacks', 'professionals', 'isPlan', 'planLimits', 'appointmentsCount', 'appointmentsLimit', 'isPlanOver'));
     }
 
     public function getMonthAvailability(Request $request, $slug)
     {
-        $professional = Professional::where('slug', $slug)->firstOrFail();
+        $professional = Professional::withoutGlobalScopes()->where('slug', $slug)->firstOrFail();
+        Tenancy::setTenantId($professional->id);
+
         
         $month = $request->get('month', now()->month);
         $year = $request->get('year', now()->year);
         
-        // Pega todos os dias da semana que o profissional trabalha
-        $availabilities = Availability::where('professional_id', $professional->id)->get();
+        // Pega todos os dias da semana que o profissional trabalha - tenancy filtra automaticamente
+        $availabilities = Availability::all();
+
         $workingDays = $availabilities->pluck('day_of_week')->toArray();
         
-        // Pega datas bloqueadas
-        $blockedDates = BlockedDate::where('professional_id', $professional->id)
-            ->whereMonth('blocked_date', $month)
+        // Pega datas bloqueadas - tenancy filtra automaticamente
+        $blockedDates = BlockedDate::whereMonth('blocked_date', $month)
             ->whereYear('blocked_date', $year)
             ->pluck('blocked_date')
             ->toArray();
@@ -129,36 +153,70 @@ $user = User::where('id', $professional->user_id)->firstOrFail();
 
     public function getAvailableSlots(Request $request, $slug)
     {
-        $professional = Professional::where('slug', $slug)->firstOrFail();
+        $professional = Professional::withoutGlobalScopes()->where('slug', $slug)->firstOrFail();
         
+        Tenancy::setTenantId($professional->id);
+
         $date = Carbon::parse($request->get('date'));
         $serviceId = $request->get('service_id');
+        $serviceIds = $request->get('service_ids', []);
+        $employeeId = $request->get('employee_id');
+        $isProfessional = $request->get('is_professional') === 'true';
         
-        $service = Service::findOrFail($serviceId);
-        $requestedDuration = (int) $request->get('duration');
-        $duration = $requestedDuration > 0 ? $requestedDuration : (int) $service->duration;
+        // Converte service_ids para array se for string ou usa service_id
+        if (!is_array($serviceIds)) {
+            if ($serviceIds) {
+                // Se service_ids é uma string (ex: "1"), converte para array
+                $serviceIds = [$serviceIds];
+            } elseif ($serviceId) {
+                // Se não tem service_ids mas tem service_id, usa ele
+                $serviceIds = [$serviceId];
+            } else {
+                $serviceIds = [];
+            }
+        }
+        
+        // RF09: Calcula duração total
+        if (!empty($serviceIds)) {
+            $servicesSel = Service::whereIn('id', $serviceIds)->get();
+            $duration = (int) $servicesSel->sum('duration');
+        } else {
+            $service = Service::findOrFail($serviceId);
+            $requestedDuration = (int) $request->get('duration');
+            $duration = $requestedDuration > 0 ? $requestedDuration : (int) $service->duration;
+        }
         $dayOfWeek = $date->dayOfWeek;
 
         // Verifica se a data está bloqueada
-        $isBlocked = BlockedDate::where('professional_id', $professional->id)
-            ->where('blocked_date', $date->format('Y-m-d'))
-            ->exists();
-
+        $isBlocked = BlockedDate::where('blocked_date', $date->format('Y-m-d'))->exists();
         if ($isBlocked) {
-            return response()->json(['slots' => []]);
+            return response()->json([]);
         }
 
-        // Busca disponibilidade para o dia da semana
-        $availability = Availability::where('professional_id', $professional->id)
-            ->where('day_of_week', $dayOfWeek)
-            ->first();
-
+        // RF09: Busca disponibilidade
+        $availability = null;
+        
+        if ($employeeId && !$isProfessional) {
+            // Disponibilidade específica do funcionário ou geral
+            $availability = Availability::where('day_of_week', $dayOfWeek)
+                ->where(function($q) use ($employeeId) {
+                    $q->where('employee_id', $employeeId)
+                      ->orWhereNull('employee_id');
+                })
+                ->orderByRaw('employee_id IS NOT NULL DESC')
+                ->first();
+        } else {
+            // Disponibilidade geral do profissional
+            $availability = Availability::where('day_of_week', $dayOfWeek)
+                ->whereNull('employee_id')
+                ->first();
+        }
             
         if (!$availability) {
-            return response()->json(['slots' => []]);
+            return response()->json([]);
         }
 
-        // Gera slots baseado na disponibilidade
+        // RF09: Gera slots disponíveis
         $slots = [];
         $currentTime = Carbon::parse($availability->start_time);
         $endTime = Carbon::parse($availability->end_time);
@@ -168,15 +226,25 @@ $user = User::where('id', $professional->user_id)->firstOrFail();
             $slotEnd = $currentTime->copy()->addMinutes($duration);
 
             if ($slotEnd->lte($endTime)) {
-                // Cria o datetime completo para verificação
                 $slotDateTime = Carbon::parse($date->format('Y-m-d') . ' ' . $slotStart->format('H:i:s'));
                 $slotEndDateTime = $slotDateTime->copy()->addMinutes($duration);
                 
-                // Verifica se há conflito com algum agendamento existente
-                $hasConflict = Appointment::where('professional_id', $professional->id)
-                    ->where('start_time', '<', $slotEndDateTime)
-                    ->where('end_time', '>', $slotDateTime)
-                    ->exists();
+                // RNF09: Verifica conflito de agendamento
+                $conflictQuery = Appointment::where('start_time', '<', $slotEndDateTime)
+                    ->where('end_time', '>', $slotDateTime);
+                    
+                if ($employeeId && !$isProfessional) {
+                    // Verifica conflito para funcionário específico ou sem funcionário
+                    $conflictQuery->where(function($q) use ($employeeId) {
+                        $q->where('employee_id', $employeeId)
+                          ->orWhereNull('employee_id');
+                    });
+                } else {
+                    // Verifica conflito para profissional (agendamentos sem funcionário)
+                    $conflictQuery->whereNull('employee_id');
+                }
+                
+                $hasConflict = $conflictQuery->exists();
 
                 if (!$hasConflict) {
                     $slots[] = $slotStart->format('H:i');
@@ -191,9 +259,11 @@ $user = User::where('id', $professional->user_id)->firstOrFail();
 
     public function book(Request $request, $slug)
     {
-        $professional = Professional::where('slug', $slug)->firstOrFail();
+        $professional = Professional::withoutGlobalScopes()->where('slug', $slug)->firstOrFail();
+        Tenancy::setTenantId($professional->id);
 
-        $validated = $request->validate([
+        // RF11: Regras de validação
+        $rules = [
             'service_id' => 'nullable|exists:services,id',
             'service_ids' => 'nullable|array',
             'service_ids.*' => 'exists:services,id',
@@ -202,14 +272,38 @@ $user = User::where('id', $professional->user_id)->firstOrFail();
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
             'email' => 'nullable|email|max:255',
-            'professional_id' => 'nullable|exists:professionals,id',
-        ]);
+            'employee_id' => 'nullable|exists:employees,id',
+            'is_professional' => 'nullable|boolean',
+        ];
+        if (config('services.turnstile.enabled')) {
+            $rules['cf-turnstile-response'] = 'required|string';
+        }
+        $validated = $request->validate($rules);
+        // Turnstile verify if enabled
+        if (config('services.turnstile.enabled')) {
+            try {
+                $client = new \GuzzleHttp\Client(['timeout' => 5]);
+                $resp = $client->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
+                    'form_params' => [
+                        'secret' => config('services.turnstile.secret_key'),
+                        'response' => $request->input('cf-turnstile-response'),
+                        'remoteip' => $request->ip(),
+                    ]
+                ]);
+                $body = json_decode((string) $resp->getBody(), true);
+                if (!($body['success'] ?? false)) {
+                    return response()->json(['success' => false, 'message' => 'Falha na verificação. Tente novamente.'], 422);
+                }
+            } catch (\Throwable $e) {
+                \Log::warning('Turnstile verify error (booking)', ['error' => $e->getMessage()]);
+                return response()->json(['success' => false, 'message' => 'Falha na verificação. Tente novamente.'], 422);
+            }
+        }
 
       
-        // Busca ou cria o cliente
+        // Busca ou cria o cliente - tenancy adiciona professional_id automaticamente
         $customer = Customer::firstOrCreate(
             [
-                'professional_id' => $professional->id,
                 'phone' => $validated['phone'],
             ],
             [
@@ -238,8 +332,8 @@ $user = User::where('id', $professional->user_id)->firstOrFail();
         $baseEnd = $baseStart->copy()->addMinutes($totalDuration);
 
         // Impede conflito: se já existir agendamento que comece antes do fim e termine após o início
-        $hasConflict = Appointment::where('professional_id', $this->professionalId)
-            ->where('start_time', '<', $baseEnd)
+        // Tenancy filtra automaticamente por professional_id
+        $hasConflict = Appointment::where('start_time', '<', $baseEnd)
             ->where('end_time', '>', $baseStart)
             ->exists();
         if ($hasConflict) {
@@ -252,20 +346,26 @@ $user = User::where('id', $professional->user_id)->firstOrFail();
         $startTime = $baseStart;
         $endTime = $baseEnd;
 
+        // RF11: Determina se é profissional ou funcionário
+        $isProfessional = $validated['is_professional'] ?? false;
+        $employeeId = null;
+        
+        if (!$isProfessional && isset($validated['employee_id'])) {
+            $employeeId = $validated['employee_id'];
+        }
+        
         $appointment = Appointment::create([
-            'professional_id' => $this->professionalId,
+            'professional_id' => $professional->id,
             'service_id' => $serviceIds[0], // Serviço principal
+            'employee_id' => $employeeId,
             'customer_id' => $customer->id,
             'start_time' => $startTime,
-            'name' => $validated['name'],
-            'phone' => $validated['phone'],
-            'email' => $validated['email'],
             'end_time' => $endTime,
             'status' => 'pending',
             'has_multiple_services' => $hasMultiple,
             'total_price' => $totalPrice,
             'total_duration' => $totalDuration,
-            'notes' => 'Agendado via Bio — Nome: ' . ($validated['name'] ?? '') . ' | Telefone: ' . ($validated['phone'] ?? '') . ' | E-mail: ' . ($validated['email'] ?? ''),
+            'notes' => 'Agendado via página pública — Atendimento: ' . ($isProfessional ? $professional->name : ($employeeId ? 'Funcionário ID: ' . $employeeId : 'Não especificado')),
         ]);
 
       
@@ -277,7 +377,7 @@ $user = User::where('id', $professional->user_id)->firstOrFail();
                     'service_id' => $service->id,
                     'price' => $service->price,
                     'duration' => $service->duration,
-                    'assigned_professional_id' => $service->assigned_professional_id,
+                    'assigned_employer_id' => $service->assigned_employer_id ?? null,
                 ]);
             }
         }
@@ -293,10 +393,10 @@ $user = User::where('id', $professional->user_id)->firstOrFail();
     {
         $code = strtoupper($request->input('code'));
         
-        $professional = Professional::where('slug', $slug)->firstOrFail();
+        $professional = Professional::withoutGlobalScopes()->where('slug', $slug)->firstOrFail();
+        Tenancy::setTenantId($professional->id);
         
         $promotion = \App\Models\Promotion::where('promo_code', $code)
-            ->where('professional_id', $this->professionalId)
             ->where('active', true)
             ->where('valid_from', '<=', now())
             ->where('valid_until', '>=', now())
@@ -322,7 +422,7 @@ $user = User::where('id', $professional->user_id)->firstOrFail();
         if ($promotion->discount_percentage) {
             $discountText = $promotion->discount_percentage . '% OFF';
         } elseif ($promotion->discount_fixed) {
-            $discountText = 'R$ ' . number_format($promotion->discount_fixed, 2, ',', '.') . ' OFF';
+            $discountText = 'R$ ' . number_format((float) $promotion->discount_fixed, 2, ',', '.') . ' OFF';
         } elseif ($promotion->bonus_points) {
             $discountText = '+' . $promotion->bonus_points . ' pontos de bônus';
         } else {
@@ -341,11 +441,11 @@ $user = User::where('id', $professional->user_id)->firstOrFail();
 
     public function checkLoyalty(Request $request, $slug)
     {
-        $professional = Professional::where('slug', $slug)->firstOrFail();
+        $professional = Professional::withoutGlobalScopes()->where('slug', $slug)->firstOrFail();
+        Tenancy::setTenantId($professional->id);
         
-        // Busca cliente por telefone ou email
-        $customer = Customer::where('professional_id', $this->professionalId)
-            ->where(function($q) use ($request) {
+        // Busca cliente por telefone ou email (tenancy filtra automaticamente)
+        $customer = Customer::where(function($q) use ($request) {
                 if ($request->input('phone')) {
                     $q->where('phone', $request->input('phone'));
                 }
@@ -362,9 +462,8 @@ $user = User::where('id', $professional->user_id)->firstOrFail();
             ]);
         }
         
-        // Busca pontos de fidelidade
-        $loyaltyPoints = \App\Models\LoyaltyPoint::where('professional_id', $this->professionalId)
-            ->where('customer_id', $customer->id)
+        // Busca pontos de fidelidade (tenancy filtra automaticamente)
+        $loyaltyPoints = \App\Models\LoyaltyPoint::where('customer_id', $customer->id)
             ->first();
         
         if (!$loyaltyPoints || $loyaltyPoints->points <= 0) {
@@ -374,9 +473,8 @@ $user = User::where('id', $professional->user_id)->firstOrFail();
             ]);
         }
         
-        // Busca recompensas ativas
-        $rewards = \App\Models\LoyaltyReward::where('professional_id', $this->professionalId)
-            ->where('active', true)
+        // Busca recompensas ativas (tenancy filtra automaticamente)
+        $rewards = \App\Models\LoyaltyReward::where('active', true)
             ->where(function($q) {
                 $q->whereNull('valid_until')
                   ->orWhere('valid_until', '>=', now());

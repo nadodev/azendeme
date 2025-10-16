@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Queue\SerializesModels;
 
 class AppointmentConfirmed extends Mailable
@@ -60,6 +61,32 @@ class AppointmentConfirmed extends Mailable
      */
     public function attachments(): array
     {
-        return [];
+        $appt = $this->appointment;
+        $dtStart = \Carbon\Carbon::parse($appt->start_time)->utc()->format('Ymd\THis\Z');
+        $dtEnd = \Carbon\Carbon::parse($appt->end_time)->utc()->format('Ymd\THis\Z');
+        $uid = 'apt-' . $appt->id . '@azendeme';
+        $summary = 'Agendamento: ' . ($appt->service->name ?? 'Serviço');
+        $description = 'Cliente: ' . ($appt->customer->name ?? '-') . "\n" . 'Telefone: ' . ($appt->customer->phone ?? '-');
+        $location = $appt->professional->business_name ?? 'Agendamento';
+
+        $ics = "BEGIN:VCALENDAR\r\n" .
+               "VERSION:2.0\r\n" .
+               "CALSCALE:GREGORIAN\r\n" .
+               "METHOD:PUBLISH\r\n" .
+               "BEGIN:VEVENT\r\n" .
+               "UID:$uid\r\n" .
+               "DTSTAMP:$dtStart\r\n" .
+               "DTSTART:$dtStart\r\n" .
+               "DTEND:$dtEnd\r\n" .
+               "SUMMARY:" . addslashes($summary) . "\r\n" .
+               "DESCRIPTION:" . addslashes(str_replace(["\r","\n"],' ', $description)) . "\r\n" .
+               "LOCATION:" . addslashes($location) . "\r\n" .
+               "END:VEVENT\r\n" .
+               "END:VCALENDAR\r\n";
+
+        return [
+            Attachment::fromData(fn() => $ics, 'agendamento.ics')
+                ->withMime('text/calendar; charset=UTF-8; method=PUBLISH')
+        ];
     }
 }

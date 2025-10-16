@@ -57,6 +57,13 @@
                               placeholder="Descreva detalhadamente o problema encontrado, incluindo passos para reproduzir..."></textarea>
                 </div>
 
+                @if(config('services.turnstile.enabled'))
+                <div>
+                    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+                    <div class="cf-turnstile" data-sitekey="{{ config('services.turnstile.site_key') }}"></div>
+                </div>
+                @endif
+
                 <!-- Loading/Status -->
                 <div id="bugReportStatus" class="hidden">
                     <div class="flex items-center gap-2 text-sm">

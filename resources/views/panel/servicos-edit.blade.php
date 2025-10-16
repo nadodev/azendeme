@@ -47,15 +47,31 @@
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Profissional Responsável</label>
-                    <select name="assigned_professional_id" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                    <select name="assigned_employer_id" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
                         <option value="">Qualquer profissional disponível</option>
-                        @foreach($professionals as $professional)
-                            <option value="{{ $professional->id }}" {{ old('assigned_professional_id', $servico->assigned_professional_id) == $professional->id ? 'selected' : '' }}>
-                                {{ $professional->name }}@if($professional->specialty) - {{ $professional->specialty }}@endif
+                        @foreach($employees as $professional)
+                            <option value="{{ $professional->id }}" {{ old('assigned_employer_id', $servico->assigned_employer_id) == $professional->id ? 'selected' : '' }}>
+                                {{ $professional->name }}
                             </option>
                         @endforeach
                     </select>
                     <p class="text-xs text-gray-500 mt-1">Deixe vazio para permitir que qualquer profissional realize este serviço</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Funcionários que executam este serviço</label>
+                    <div class="grid sm:grid-cols-2 gap-2">
+                        @php
+                            $selected = old('employee_ids', $servico->employees->pluck('id')->toArray());
+                        @endphp
+                        @foreach(($employees ?? []) as $emp)
+                            <label class="flex items-center gap-2 text-sm">
+                                <input type="checkbox" name="employee_ids[]" value="{{ $emp->id }}" class="rounded border-gray-300" {{ in_array($emp->id, $selected) ? 'checked' : '' }} />
+                                <span>{{ $emp->name }}</span>
+                            </label>
+                        @endforeach
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Selecione os funcionários que podem atender este serviço.</p>
                 </div>
 
                 <div>

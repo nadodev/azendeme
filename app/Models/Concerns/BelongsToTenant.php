@@ -11,6 +11,7 @@ trait BelongsToTenant
     {
         static::addGlobalScope('tenant', function (Builder $builder) {
             $tenantId = Tenancy::tenantId();
+
             if ($tenantId) {
                 $builder->where($builder->getModel()->getTable() . '.professional_id', $tenantId);
             }

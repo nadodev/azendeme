@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\BugReportController;
+use App\Http\Controllers\Panel\OnboardingController;
 use App\Http\Controllers\Panel\ActivityLogController;
 use App\Http\Controllers\Panel\AgendaController;
+use App\Http\Controllers\Panel\EmployeeController;
 use App\Http\Controllers\Panel\AlertController;
 use App\Http\Controllers\Panel\AvailabilityController;
 use App\Http\Controllers\Panel\BlogController;
@@ -115,6 +117,18 @@ Route::get('/dashboard', function () {
 
 // Perfil do usuário
 Route::middleware('auth')->group(function () {
+    // Reschedule via drag-and-drop
+    Route::post('/panel/agenda/{appointment}/reschedule', [AgendaController::class, 'reschedule'])
+        ->name('panel.agenda.reschedule');
+    // Onboarding (AJAX)
+    Route::get('/panel/onboarding', [OnboardingController::class, 'get'])->name('panel.onboarding.get');
+    Route::put('/panel/onboarding', [OnboardingController::class, 'update'])->name('panel.onboarding.update');
+
+    // Funcionários
+    Route::get('/panel/funcionarios', [EmployeeController::class, 'index'])->name('panel.employees.index');
+    Route::post('/panel/funcionarios', [EmployeeController::class, 'store'])->name('panel.employees.store');
+    Route::put('/panel/funcionarios/{employee}', [EmployeeController::class, 'update'])->name('panel.employees.update');
+    Route::delete('/panel/funcionarios/{employee}', [EmployeeController::class, 'destroy'])->name('panel.employees.destroy');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -581,23 +595,35 @@ Route::get('/feedback/{token}', [App\Http\Controllers\FeedbackController::class,
 Route::post('/feedback/{token}', [App\Http\Controllers\FeedbackController::class, 'store'])->name('feedback.store');
 
 // Página pública de Bio (antes da rota dinâmica do perfil)
-Route::get('/bio/{slug}', [App\Http\Controllers\PublicBioController::class, 'show'])->name('public.bio');
+// ========================================================================
+// ROTAS ESPECÍFICAS COM {slug} - DEVEM VIR ANTES DA ROTA GENÉRICA /{slug}
+// ========================================================================
 
-// Página pública do profissional (DEVE SER A ÚLTIMA rota pois é dinâmica)
-// Constraint: aceita apenas letras, números, hífens e underscores
-// IMPORTANTE: Rotas com parâmetros adicionais DEVEM vir ANTES da rota genérica /{slug}
-Route::get('/{slug}/availability', [PublicController::class, 'getMonthAvailability'])
-    ->where('slug', '[a-zA-Z0-9\-_]+')
-    ->name('public.availability');
-Route::get('/{slug}/available-slots', [PublicController::class, 'getAvailableSlots'])
-    ->where('slug', '[a-zA-Z0-9\-_]+')
-    ->name('public.slots');
-Route::post('/{slug}/validate-promo', [PublicController::class, 'validatePromo'])
-    ->where('slug', '[a-zA-Z0-9\-_]+')
-    ->name('public.validate-promo');
-Route::post('/{slug}/check-loyalty', [PublicController::class, 'checkLoyalty'])
-    ->where('slug', '[a-zA-Z0-9\-_]+')
-    ->name('public.check-loyalty');
+// API Endpoints para agendamento público
+Route::prefix('api')->group(function() {
+    Route::get('/{slug}/availability', [PublicController::class, 'getMonthAvailability'])
+        ->where('slug', '[a-zA-Z0-9\-_]+')
+        ->name('public.availability');
+        
+    Route::get('/{slug}/available-slots', [PublicController::class, 'getAvailableSlots'])
+        ->where('slug', '[a-zA-Z0-9\-_]+')
+        ->name('public.slots');
+        
+    Route::post('/{slug}/book', [PublicController::class, 'book'])
+        ->where('slug', '[a-zA-Z0-9\-_]+')
+        ->name('public.book');
+        
+    Route::post('/{slug}/validate-promo', [PublicController::class, 'validatePromo'])
+        ->where('slug', '[a-zA-Z0-9\-_]+')
+        ->name('public.validate-promo');
+        
+    Route::post('/{slug}/check-loyalty', [PublicController::class, 'checkLoyalty'])
+        ->where('slug', '[a-zA-Z0-9\-_]+')
+        ->name('public.check-loyalty');
+});
+
+// Bio Link (rota pública)
+Route::get('/bio/{slug}', [App\Http\Controllers\PublicBioController::class, 'show'])->name('public.bio');
 Route::post('/bug-report', [BugReportController::class, 'store'])->name('bug-report.store');
 
 // Confirmação de agendamento
@@ -622,16 +648,24 @@ Route::get('/appointment/confirm/{token}', function ($token) {
     ]);
 })->name('appointment.confirm');
 
-Route::post('/{slug}/book', [PublicController::class, 'book'])
-    ->where('slug', '[a-zA-Z0-9\-_]+')
-    ->name('public.book');
-// Blog Público (específico por profissional) - deve vir por último
-Route::get('{professional_slug}/blog', [PublicBlogController::class, 'index'])->name('blog.index');
-Route::get('{professional_slug}/blog/{post_slug}', [PublicBlogController::class, 'show'])->name('blog.show');
-Route::get('{professional_slug}/blog/categoria/{category_slug}', [PublicBlogController::class, 'category'])->name('blog.category');
-Route::get('{professional_slug}/blog/tag/{tag_slug}', [PublicBlogController::class, 'tag'])->name('blog.tag');
-Route::post('{professional_slug}/blog/{post_slug}/comentario', [PublicBlogController::class, 'storeComment'])->name('blog.comment.store');
+// Blog Público (específico por profissional)
+Route::get('/{professional_slug}/blog', [PublicBlogController::class, 'index'])
+    ->where('professional_slug', '[a-zA-Z0-9\-_]+')
+    ->name('blog.index');
+Route::get('/{professional_slug}/blog/{post_slug}', [PublicBlogController::class, 'show'])
+    ->where('professional_slug', '[a-zA-Z0-9\-_]+')
+    ->name('blog.show');
+Route::get('/{professional_slug}/blog/categoria/{category_slug}', [PublicBlogController::class, 'category'])
+    ->where('professional_slug', '[a-zA-Z0-9\-_]+')
+    ->name('blog.category');
+Route::get('/{professional_slug}/blog/tag/{tag_slug}', [PublicBlogController::class, 'tag'])
+    ->where('professional_slug', '[a-zA-Z0-9\-_]+')
+    ->name('blog.tag');
+Route::post('/{professional_slug}/blog/{post_slug}/comentario', [PublicBlogController::class, 'storeComment'])
+    ->where('professional_slug', '[a-zA-Z0-9\-_]+')
+    ->name('blog.comment.store');
 
+// Rota genérica (DEVE SER A ÚLTIMA) - Captura apenas slugs simples (sem barras)
 Route::get('/{slug}', [PublicController::class, 'show'])
     ->where('slug', '[a-zA-Z0-9\-_]+')
     ->name('public.show');
