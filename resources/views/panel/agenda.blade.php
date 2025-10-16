@@ -101,7 +101,7 @@
     <form method="GET" class="flex flex-wrap gap-3">
         <input type="date" name="date" value="{{ $date }}" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
         
-        <select name="service_id" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+        <select name="service_id" class="px-8 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
             <option value="">Todos os serviços</option>
             @foreach($services as $service)
                 <option value="{{ $service->id }}" {{ request('service_id') == $service->id ? 'selected' : '' }}>
@@ -229,21 +229,27 @@
     </div>
 
     <!-- Calendário Customizado -->
-    <div id="custom-calendar" class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+    <div id="custom-calendar" class="bg-white rounded-xl border border-gray-200 overflow-hidden">
         <!-- Cabeçalho dos dias da semana -->
-        <div class="grid grid-cols-7 bg-gray-50 border-b border-gray-200">
-            <div class="p-3 text-center text-sm font-semibold text-gray-600 border-r border-gray-200">Dom</div>
-            <div class="p-3 text-center text-sm font-semibold text-gray-600 border-r border-gray-200">Seg</div>
-            <div class="p-3 text-center text-sm font-semibold text-gray-600 border-r border-gray-200">Ter</div>
-            <div class="p-3 text-center text-sm font-semibold text-gray-600 border-r border-gray-200">Qua</div>
-            <div class="p-3 text-center text-sm font-semibold text-gray-600 border-r border-gray-200">Qui</div>
-            <div class="p-3 text-center text-sm font-semibold text-gray-600 border-r border-gray-200">Sex</div>
-            <div class="p-3 text-center text-sm font-semibold text-gray-600">Sáb</div>
+        <div class="sticky top-0 z-10">
+            <div class="grid grid-cols-7 bg-gradient-to-r from-purple-50 via-gray-50 to-blue-50 border-b border-gray-200">
+                <div class="p-3 text-center text-xs sm:text-sm font-semibold text-gray-700 border-r border-gray-200">Dom</div>
+                <div class="p-3 text-center text-xs sm:text-sm font-semibold text-gray-700 border-r border-gray-200">Seg</div>
+                <div class="p-3 text-center text-xs sm:text-sm font-semibold text-gray-700 border-r border-gray-200">Ter</div>
+                <div class="p-3 text-center text-xs sm:text-sm font-semibold text-gray-700 border-r border-gray-200">Qua</div>
+                <div class="p-3 text-center text-xs sm:text-sm font-semibold text-gray-700 border-r border-gray-200">Qui</div>
+                <div class="p-3 text-center text-xs sm:text-sm font-semibold text-gray-700 border-r border-gray-200">Sex</div>
+                <div class="p-3 text-center text-xs sm:text-sm font-semibold text-gray-700">Sáb</div>
+            </div>
         </div>
         
-        <!-- Grid do calendário -->
-        <div id="calendar-grid" class="grid grid-cols-7">
-            <!-- Dias serão inseridos aqui via JavaScript -->
+        <!-- Grid do calendário (com rolagem horizontal no mobile) -->
+        <div class="overflow-x-auto">
+            <div class="min-w-[980px]">
+                <div id="calendar-grid" class="grid grid-cols-7">
+                    <!-- Dias serão inseridos aqui via JavaScript -->
+                </div>
+            </div>
         </div>
     </div>
 
@@ -445,19 +451,27 @@
         min-height: 120px;
         border-right: 1px solid #e5e7eb;
         border-bottom: 1px solid #e5e7eb;
-        padding: 8px;
+        padding: 10px;
         position: relative;
         background: white;
-        transition: background-color 0.2s;
+        transition: background-color 0.2s, box-shadow 0.2s, transform 0.08s ease-in-out;
+        outline: none;
     }
     
     .calendar-day:hover {
         background-color: #f9fafb;
+        box-shadow: inset 0 0 0 1px #e5e7eb;
     }
     
     .calendar-day.today {
-        background-color: #fef3c7;
-        border: 2px solid #f59e0b;
+        background: linear-gradient(180deg, #fff7ed 0%, #fffbeb 100%);
+        box-shadow: inset 0 0 0 2px #f59e0b;
+    }
+
+    .calendar-day.selected {
+        background: linear-gradient(180deg, #eef2ff 0%, #f5f3ff 100%);
+        box-shadow: inset 0 0 0 2px #6366f1, 0 2px 6px rgba(99,102,241,0.2);
+        transform: translateY(-1px);
     }
     
     .calendar-day.other-month {
@@ -466,9 +480,21 @@
     }
     
     .calendar-day-number {
-        font-weight: 600;
-        margin-bottom: 4px;
-        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 6px;
+        font-size: 13px;
+        color: #111827;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .calendar-day-number .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 9999px;
+        background: #d1d5db;
+        display: inline-block;
     }
     
     .appointment-item {
@@ -479,8 +505,8 @@
         font-size: 11px;
         cursor: pointer;
         border-left: 3px solid;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        transition: all 0.2s;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+        transition: all 0.15s ease;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -579,8 +605,8 @@
     /* Responsividade */
     @media (max-width: 768px) {
         .calendar-day {
-            min-height: 80px;
-            padding: 4px;
+            min-height: 74px;
+            padding: 6px;
         }
         
         .appointment-item {
@@ -607,8 +633,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Dados dos agendamentos
     const appointments = @json($calendarEvents);
     const currentDate = new Date();
-    let currentMonth = currentDate.getMonth();
-    let currentYear = currentDate.getFullYear();
+    let selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+    let currentMonth = selectedDate.getMonth();
+    let currentYear = selectedDate.getFullYear();
     let currentView = 'month';
     
     // Mapeamento de status para cores
@@ -642,7 +669,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Função para renderizar um dia
+    // Função para renderizar um dia (célula)
     function renderDay(date, isCurrentMonth = true) {
         const dayNumber = date.getDate();
         const isToday = date.toDateString() === new Date().toDateString();
@@ -684,9 +711,17 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
+        const countBadge = dayAppointments.length > 0
+            ? `<span class="ml-2 inline-flex items-center justify-center px-1.5 min-w-[1.25rem] h-5 rounded-full text-[10px] font-bold text-white"
+                 style="background: linear-gradient(90deg,#6366f1,#8b5cf6);">${dayAppointments.length}</span>`
+            : '';
+
         return `
-            <div class="${dayClass}">
-                <div class="calendar-day-number">${dayNumber}</div>
+            <div class="${dayClass}" tabindex="0" role="button" aria-label="Dia ${dayNumber}" onclick="selectCalendarDay(this)">
+                <div class="calendar-day-number">
+                    <span>${dayNumber}</span>
+                    ${countBadge}
+                </div>
                 <div class="appointments-container">
                     ${appointmentsHtml}
                 </div>
@@ -694,95 +729,142 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
     }
     
-    // Função para renderizar o calendário
-    function renderCalendar() {
+    // Renderizações por visão
+    function renderMonth() {
         const calendarGrid = document.getElementById('calendar-grid');
         const currentMonthEl = document.getElementById('current-month');
-        
-        // Atualizar título do mês
         const monthNames = [
             'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
             'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
         ];
         currentMonthEl.textContent = `${monthNames[currentMonth]} ${currentYear}`;
-        
-        // Limpar grid
+        calendarGrid.style.gridTemplateColumns = 'repeat(7, minmax(0, 1fr))';
         calendarGrid.innerHTML = '';
-        
-        // Primeiro dia do mês
         const firstDay = new Date(currentYear, currentMonth, 1);
         const lastDay = new Date(currentYear, currentMonth + 1, 0);
-        
-        // Dia da semana do primeiro dia (0 = domingo)
         const firstDayWeekday = firstDay.getDay();
-        
-        // Adicionar dias do mês anterior
-        const prevMonth = new Date(currentYear, currentMonth - 1, 0);
+        const prevMonth = new Date(currentYear, currentMonth, 0);
         for (let i = firstDayWeekday - 1; i >= 0; i--) {
             const day = new Date(prevMonth.getFullYear(), prevMonth.getMonth(), prevMonth.getDate() - i);
             calendarGrid.innerHTML += renderDay(day, false);
         }
-        
-        // Adicionar dias do mês atual
         for (let day = 1; day <= lastDay.getDate(); day++) {
             const date = new Date(currentYear, currentMonth, day);
             calendarGrid.innerHTML += renderDay(date, true);
         }
-        
-        // Adicionar dias do próximo mês para completar a grade
         const totalCells = calendarGrid.children.length;
-        const remainingCells = 42 - totalCells; // 6 semanas * 7 dias
+        const remainingCells = 42 - totalCells;
         const nextMonth = new Date(currentYear, currentMonth + 1, 1);
-        
         for (let day = 1; day <= remainingCells; day++) {
             const date = new Date(nextMonth.getFullYear(), nextMonth.getMonth(), day);
             calendarGrid.innerHTML += renderDay(date, false);
         }
     }
+
+    function startOfWeek(date) {
+        const d = new Date(date);
+        const day = d.getDay(); // 0-6
+        const diff = d.getDate() - day; // domingo como início
+        return new Date(d.getFullYear(), d.getMonth(), diff);
+    }
+
+    function renderWeek() {
+        const calendarGrid = document.getElementById('calendar-grid');
+        const currentMonthEl = document.getElementById('current-month');
+        const start = startOfWeek(selectedDate);
+        const end = new Date(start);
+        end.setDate(start.getDate() + 6);
+        calendarGrid.style.gridTemplateColumns = 'repeat(7, minmax(0, 1fr))';
+        calendarGrid.innerHTML = '';
+        for (let i = 0; i < 7; i++) {
+            const date = new Date(start);
+            date.setDate(start.getDate() + i);
+            const inCurrentMonth = date.getMonth() === currentMonth && date.getFullYear() === currentYear;
+            calendarGrid.innerHTML += renderDay(date, inCurrentMonth);
+        }
+        const options = { day: '2-digit', month: 'short' };
+        currentMonthEl.textContent = `${start.toLocaleDateString('pt-BR', options)} — ${end.toLocaleDateString('pt-BR', options)} ${end.getFullYear()}`;
+    }
+
+    function renderDayView() {
+        const calendarGrid = document.getElementById('calendar-grid');
+        const currentMonthEl = document.getElementById('current-month');
+        calendarGrid.style.gridTemplateColumns = 'repeat(1, minmax(0, 1fr))';
+        calendarGrid.innerHTML = renderDay(selectedDate, true);
+        const options = { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' };
+        currentMonthEl.textContent = selectedDate.toLocaleDateString('pt-BR', options);
+    }
+
+    function renderCalendar() {
+        if (currentView === 'month') return renderMonth();
+        if (currentView === 'week') return renderWeek();
+        return renderDayView();
+    }
     
     // Event listeners
     document.getElementById('prev-month').addEventListener('click', () => {
-        currentMonth--;
-        if (currentMonth < 0) {
-            currentMonth = 11;
-            currentYear--;
+        if (currentView === 'month') {
+            currentMonth--;
+            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+            selectedDate = new Date(currentYear, currentMonth, 1);
+        } else if (currentView === 'week') {
+            selectedDate.setDate(selectedDate.getDate() - 7);
+            currentMonth = selectedDate.getMonth();
+            currentYear = selectedDate.getFullYear();
+        } else {
+            selectedDate.setDate(selectedDate.getDate() - 1);
+            currentMonth = selectedDate.getMonth();
+            currentYear = selectedDate.getFullYear();
         }
         renderCalendar();
     });
     
     document.getElementById('next-month').addEventListener('click', () => {
-        currentMonth++;
-        if (currentMonth > 11) {
-            currentMonth = 0;
-            currentYear++;
+        if (currentView === 'month') {
+            currentMonth++;
+            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+            selectedDate = new Date(currentYear, currentMonth, 1);
+        } else if (currentView === 'week') {
+            selectedDate.setDate(selectedDate.getDate() + 7);
+            currentMonth = selectedDate.getMonth();
+            currentYear = selectedDate.getFullYear();
+        } else {
+            selectedDate.setDate(selectedDate.getDate() + 1);
+            currentMonth = selectedDate.getMonth();
+            currentYear = selectedDate.getFullYear();
         }
         renderCalendar();
     });
     
     document.getElementById('today-btn').addEventListener('click', () => {
         const today = new Date();
-        currentMonth = today.getMonth();
-        currentYear = today.getFullYear();
+        selectedDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        currentMonth = selectedDate.getMonth();
+        currentYear = selectedDate.getFullYear();
         renderCalendar();
     });
     
     // Botões de visualização
     document.getElementById('view-month').addEventListener('click', () => {
         currentView = 'month';
+        // alinhar selectedDate ao primeiro dia do mês
+        selectedDate = new Date(currentYear, currentMonth, 1);
         updateViewButtons();
         renderCalendar();
     });
     
     document.getElementById('view-week').addEventListener('click', () => {
         currentView = 'week';
+        // manter selectedDate, central para a semana
         updateViewButtons();
-        // TODO: Implementar visualização semanal
+        renderCalendar();
     });
     
     document.getElementById('view-day').addEventListener('click', () => {
         currentView = 'day';
+        // manter selectedDate no dia atual
         updateViewButtons();
-        // TODO: Implementar visualização diária
+        renderCalendar();
     });
     
     function updateViewButtons() {
@@ -980,6 +1062,44 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Inicializar calendário
     renderCalendar();
+
+    // Seleção visual de dia no calendário
+    window.selectCalendarDay = function(el) {
+        document.querySelectorAll('#calendar-grid .calendar-day.selected').forEach(d => d.classList.remove('selected'));
+        el.classList.add('selected');
+    };
+
+    // Gestos de swipe para trocar mês no mobile
+    (function enableSwipeNavigation() {
+        const container = document.getElementById('custom-calendar');
+        if (!container) return;
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let touchStartY = 0;
+
+        container.addEventListener('touchstart', (e) => {
+            const t = e.changedTouches[0];
+            touchStartX = t.clientX;
+            touchStartY = t.clientY;
+        }, { passive: true });
+
+        container.addEventListener('touchend', (e) => {
+            const t = e.changedTouches[0];
+            touchEndX = t.clientX;
+            const dx = touchEndX - touchStartX;
+            const dy = Math.abs(t.clientY - touchStartY);
+            // Ignorar rolagem vertical predominante
+            if (dy > Math.abs(dx)) return;
+            // Threshold para swipe
+            if (dx > 60) {
+                // swipe right -> mês anterior
+                document.getElementById('prev-month').click();
+            } else if (dx < -60) {
+                // swipe left -> próximo mês
+                document.getElementById('next-month').click();
+            }
+        }, { passive: true });
+    })();
 });
 
 // Modal de Pagamento - Funções globais
